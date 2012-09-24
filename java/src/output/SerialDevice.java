@@ -10,7 +10,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
 
-public class SerialConnection {
+public class SerialDevice {
 
 	SerialPort serialPort;
 
@@ -20,7 +20,7 @@ public class SerialConnection {
 	private int TIMEOUT = 2000;
 	private int BAUD; // = 115200;
 	
-	public SerialConnection(String port, int baud){
+	public SerialDevice(String port, int baud){
 		BAUD = baud;
 		PORT = port;
 	}
@@ -71,7 +71,7 @@ public class SerialConnection {
 	}
 
 	public void send(String str) throws InterruptedException, IOException{
-		Thread.sleep(0, 200000); //0.5ms
+		//Thread.sleep(0, 200000); //0.5ms
 		output.write(str.getBytes());
 		output.flush();
 	}
