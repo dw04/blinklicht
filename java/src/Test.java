@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 import modules.led.Fade;
+import modules.led.Random;
 
 import output.SerialDevice;
 import output.SerialLEDDevice;
@@ -17,12 +18,16 @@ public class Test {
 		try {
 			SerialLEDDevice led = new SerialLEDDevice("/dev/tty.usbserial-A8008EGb", 115200, SerialLEDDevice.Code.D_CODE);
 			
-			Fade fade = new Fade(led,5000);
-			Thread t1 = new Thread(fade);
+			//Fade fade = new Fade(led,5000);
+			//Thread t1 = new Thread(fade);
+			
+			Random r = new Random(led, 2000);
+			Thread t1 = new Thread(r);
 			t1.start();
 			
 			Thread.sleep(20000);
-			fade.stop(); //noch unschön evt Fade direkt als thread o.ä. t1.stop würde gehen davon wird aber abgeraten
+			//fade.stop(); //noch unschön evt Fade direkt als thread o.ä. t1.stop würde gehen davon wird aber abgeraten
+			r.stop();
 			
 			led.close();
 			
