@@ -2,22 +2,29 @@ package modules;
 
 import output.LEDOutput;
 
-public abstract class LEDModule {
+public abstract class LEDModule implements Module {
+	protected LEDOutput output;
+	protected boolean stop;
+	protected boolean pause;
+	
+	public LEDModule(LEDOutput output){
+		this.output = output;
+		stop = false;
+		pause = false;
+	}
+	
+	@Override
+	public void stop() {
+		stop = true;
+	}
 
-	
-	protected boolean STOP;
-	protected LEDOutput out;
-	
-	public LEDModule(LEDOutput out){
-		this.out = out;
-		STOP = false;
+	@Override
+	public void resume() {
+		pause=false;
 	}
-	
-	public void stop(){
-		STOP = true;
-	}
-	
-	public  void pause(){
-		
+
+	@Override
+	public void pause() {
+		pause=true;
 	}
 }

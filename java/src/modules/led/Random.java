@@ -20,9 +20,9 @@ public class Random extends LEDModule implements Runnable{
 	@Override
 	public void run() {
 		try {
-			while(!STOP){		
+			while(!stop){		
 				//System.out.println((int)Math.random()*254);
-					out.sendRGB((int)(Math.random()*254.), (int)(Math.random()*254.), (int)(Math.random()*254.));
+					output.sendRGB((int)(Math.random()*254.), (int)(Math.random()*254.), (int)(Math.random()*254.));
 					Thread.sleep(interval);
 			}
 		} catch (InterruptedException e) {

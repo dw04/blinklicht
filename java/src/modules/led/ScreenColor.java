@@ -11,9 +11,10 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
 import output.LEDOutput;
+import modules.LEDModule;
 import modules.Module;
 
-public class ScreenColor implements Runnable, Module {
+public class ScreenColor extends LEDModule implements Runnable {
 
 	private LEDOutput output;
 	private boolean stop;
@@ -41,10 +42,8 @@ public class ScreenColor implements Runnable, Module {
 	 *            refresh. default is 100.
 	 */
 	public ScreenColor(LEDOutput output, int refreshInterval) {
-		this.output = output;
+		super(output);
 		this.refreshInterval = refreshInterval;
-		stop = false;
-		pause = false;
 	}
 
 	@Override
@@ -87,20 +86,5 @@ public class ScreenColor implements Runnable, Module {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void stop() {
-		stop = true;
-	}
-
-	@Override
-	public void resume() {
-		pause = false;
-	}
-
-	@Override
-	public void pause() {
-		pause = true;
 	}
 }

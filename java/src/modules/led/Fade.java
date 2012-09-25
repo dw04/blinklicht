@@ -15,7 +15,7 @@ public class Fade extends LEDModule implements Runnable{
 	 * @param fadeinterval time to fade up in milliseconds
 	 */
 	public Fade(LEDOutput out, int fadeinterval){
-		this.out = out;
+		super(out);
 		this.fadeInterval = fadeinterval;
 		stop = false;
 		pause = false;
@@ -45,22 +45,4 @@ public class Fade extends LEDModule implements Runnable{
 			e.printStackTrace();
 		}
 	}
-
-
-	@Override
-	public void stop() {
-		stop = true;
-		
-	}
-
-	@Override
-	public void resume() {
-		pause=false;
-	}
-
-	@Override
-	public void pause() {
-		pause=true;
-	}
-
 }

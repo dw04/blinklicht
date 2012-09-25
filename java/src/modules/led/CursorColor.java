@@ -8,13 +8,11 @@ import java.awt.PointerInfo;
 import java.awt.Robot;
 
 import output.LEDOutput;
+import modules.LEDModule;
 import modules.Module;
 
-public class CursorColor implements Runnable, Module {
+public class CursorColor extends LEDModule implements Runnable {
 
-	private LEDOutput output;
-	private boolean stop;
-	private boolean pause;
 	private int refreshInterval;
 	
 	/**
@@ -39,10 +37,8 @@ public class CursorColor implements Runnable, Module {
 	 *            refresh. default is 50.
 	 */
 	public CursorColor(LEDOutput output, int refreshInterval) {
-		this.output = output;
+		super(output);
 		this.refreshInterval = refreshInterval;
-		stop = false;
-		pause = false;
 	}
 
 	@Override
@@ -68,21 +64,6 @@ public class CursorColor implements Runnable, Module {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void stop() {
-		stop = true;
-	}
-
-	@Override
-	public void resume() {
-		pause=false;
-	}
-
-	@Override
-	public void pause() {
-		pause=true;
 	}
 
 }
