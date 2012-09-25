@@ -1,4 +1,7 @@
+import gnu.io.CommPortIdentifier;
+
 import java.io.IOException;
+import java.util.Enumeration;
 
 import modules.led.Fade;
 
@@ -7,22 +10,40 @@ import output.SerialLEDDevice;
 
 public class Test {
 
-	/**
-	 * @param args
-	 */
+	private static final String PORT_NAMES[] = { 
+		"/dev/ttyUSB0", // Linux
+		"/dev/tty.usbserial-A8008EGb", // Mac OS X
+		"COM3" // Windows
+	};
+	
 	public static void main(String[] args) {
-		
-		
-		
+		//determine the port to use
+		String port = null;
+		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
+		while (portEnum.hasMoreElements()) {
+			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+			for (String portName : PORT_NAMES) {
+				if (currPortId.getName().equals(portName)) {
+					port = portName;
+					break;
+				}
+			}
+		}
+		if (port == null) {
+			System.out.println("Could not find COM port.");
+			return;
+		}
+
 		try {
-			SerialLEDDevice led = new SerialLEDDevice("/dev/tty.usbserial-A8008EGb", 115200, SerialLEDDevice.Code.D_CODE);
+			//TODO: automatically determine code version
+			SerialLEDDevice led = new SerialLEDDevice(port, 115200, SerialLEDDevice.Code.T_CODE);
 			
-			Fade fade = new Fade(led,5000);
+			Fade fade = new Fade(led,1000);
 			Thread t1 = new Thread(fade);
 			t1.start();
 			
 			Thread.sleep(20000);
-			fade.stop(); //noch unschšn evt Fade direkt als thread o.Š. t1.stop wŸrde gehen davon wird aber abgeraten
+			fade.stop(); //noch unschï¿½n evt Fade direkt als thread o.ï¿½. t1.stop wï¿½rde gehen davon wird aber abgeraten
 			
 			led.close();
 			
