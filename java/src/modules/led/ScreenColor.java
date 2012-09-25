@@ -16,9 +16,6 @@ import modules.Module;
 
 public class ScreenColor extends LEDModule implements Runnable {
 
-	private LEDOutput output;
-	private boolean stop;
-	private boolean pause;
 	private int refreshInterval;
 
 	/**

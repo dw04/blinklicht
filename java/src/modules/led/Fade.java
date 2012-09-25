@@ -4,9 +4,6 @@ import modules.*;
 
 public class Fade extends LEDModule implements Runnable{
 
-	private LEDOutput out;
-	private boolean stop;
-	private boolean pause;
 	private int fadeInterval; // in milliseconds
 	
 	/**
@@ -30,12 +27,12 @@ public class Fade extends LEDModule implements Runnable{
 				else{
 					for(int i = 0; i <= 254; i++){
 						if(stop) break;
-						out.sendRGB(i, i, i);
+						output.sendRGB(i, i, i);
 						Thread.sleep(fadeInterval/255);
 					}
 					for(int i = 254; i >= 0; i--){
 						if(stop) break;
-						out.sendRGB(i, i, i);		
+						output.sendRGB(i, i, i);		
 						Thread.sleep(fadeInterval/255);			
 					}
 				}
