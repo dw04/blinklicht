@@ -3,6 +3,7 @@ import gnu.io.CommPortIdentifier;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import modules.led.CursorColor;
 import modules.led.Fade;
 
 import output.SerialDevice;
@@ -39,13 +40,21 @@ public class Test {
 			SerialLEDDevice led = new SerialLEDDevice(port, 115200, SerialLEDDevice.Code.T_CODE);
 			
 			Fade fade = new Fade(led,1000);
-			Thread t1 = new Thread(fade);
-			t1.start();
+			System.out.println("run module Fade for 5 seconds");
+			new Thread(fade).start();
+			Thread.sleep(5000);
+			fade.stop();
+			System.out.println("module Fade done");
 			
-			Thread.sleep(20000);
-			fade.stop(); //noch unsch�n evt Fade direkt als thread o.�. t1.stop w�rde gehen davon wird aber abgeraten
+			CursorColor cursor = new CursorColor(led);
+			System.out.println("run module CursorColor for 20 seconds, move your cursor arround!");
+			new Thread(cursor).start();
+			Thread.sleep(20000); //run module CursorColor for 20 seconds
+			fade.stop();
+			System.out.println("module CursorColor done");
 			
 			led.close();
+			System.out.println("connection closed, test complete");
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

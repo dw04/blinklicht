@@ -10,7 +10,7 @@ import java.awt.Robot;
 import output.LEDOutput;
 import modules.Module;
 
-public class CursorColor implements Module {
+public class CursorColor implements Runnable, Module {
 
 	private LEDOutput output;
 	private boolean stop;
@@ -24,7 +24,7 @@ public class CursorColor implements Module {
 	 * @param output
 	 *            The object to send the output to.
 	 */
-	CursorColor(LEDOutput output) {
+	public CursorColor(LEDOutput output) {
 		this(output, 50);
 	}
 	
@@ -38,7 +38,7 @@ public class CursorColor implements Module {
 	 *            How many milliseconds the thread should wait before the next
 	 *            refresh. default is 50.
 	 */
-	CursorColor(LEDOutput output, int refreshInterval) {
+	public CursorColor(LEDOutput output, int refreshInterval) {
 		this.output = output;
 		this.refreshInterval = refreshInterval;
 		stop = false;
