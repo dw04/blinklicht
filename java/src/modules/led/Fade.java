@@ -5,8 +5,9 @@ import modules.*;
 public class Fade implements Runnable, Module{
 
 	private LEDOutput out;
-	private boolean STOP;
-	private int fadeinterval; // in milliseconds
+	private boolean stop;
+	private boolean pause;
+	private int fadeInterval; // in milliseconds
 	
 	/**
 	 * 
@@ -15,25 +16,29 @@ public class Fade implements Runnable, Module{
 	 */
 	public Fade(LEDOutput out, int fadeinterval){
 		this.out = out;
-		this.fadeinterval = fadeinterval;
-		STOP = false;
+		this.fadeInterval = fadeinterval;
+		stop = false;
+		pause = false;
 	}
 	
 	@Override
 	public void run() {
 		try {
-			while(!STOP){
-				for(int i = 0; i <= 254; i++){
-					if(STOP) break;
-					out.sendRGB(i, i, i);
-					Thread.sleep(fadeinterval/255);
+			while(!stop){
+				if(pause)
+					Thread.sleep(fadeInterval);
+				else{
+					for(int i = 0; i <= 254; i++){
+						if(stop) break;
+						out.sendRGB(i, i, i);
+						Thread.sleep(fadeInterval/255);
+					}
+					for(int i = 254; i >= 0; i--){
+						if(stop) break;
+						out.sendRGB(i, i, i);		
+						Thread.sleep(fadeInterval/255);			
+					}
 				}
-				for(int i = 254; i >= 0; i--){
-					if(STOP) break;
-					out.sendRGB(i, i, i);		
-					Thread.sleep(fadeinterval/255);			
-				}
-				if(STOP) break;
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -44,14 +49,18 @@ public class Fade implements Runnable, Module{
 
 	@Override
 	public void stop() {
-		STOP = true;
+		stop = true;
 		
 	}
 
 	@Override
+	public void resume() {
+		pause=false;
+	}
+
+	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
+		pause=true;
 	}
 
 }
