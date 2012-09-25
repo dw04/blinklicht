@@ -2,7 +2,7 @@ package modules.led;
 import output.LEDOutput;
 import modules.*;
 
-public class Fade implements Runnable, Module{
+public class Fade extends LEDModule implements Runnable{
 
 	private LEDOutput out;
 	private boolean stop;

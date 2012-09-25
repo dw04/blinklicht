@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import modules.led.CursorColor;
 import modules.led.Fade;
 import modules.led.ScreenColor;
+import modules.led.Random;
 
 import output.SerialDevice;
 import output.SerialLEDDevice;
@@ -39,21 +40,21 @@ public class Test {
 		try {
 			//TODO: automatically determine code version/SerialLEDdevice capabilities
 			SerialLEDDevice led = new SerialLEDDevice(port, 115200, SerialLEDDevice.Code.T_CODE);
-			
+
 			Fade fade = new Fade(led,1000);
 			System.out.println("run module Fade for 5 seconds");
 			new Thread(fade).start();
 			Thread.sleep(5000);
 			fade.stop();
 			System.out.println("module Fade done");
-			
+
 			CursorColor cursorColor = new CursorColor(led);
 			System.out.println("run module CursorColor for 10 seconds, move your cursor arround!");
 			new Thread(cursorColor).start();
 			Thread.sleep(10000);
 			cursorColor.stop();
 			System.out.println("module CursorColor done");
-			
+
 			ScreenColor screenColor = new ScreenColor(led);
 			System.out.println("run module ScreenColor for 10 seconds, move windows on your screen arround!");
 			new Thread(screenColor).start();
