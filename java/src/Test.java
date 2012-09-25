@@ -47,6 +47,13 @@ public class Test {
 			Thread.sleep(5000);
 			fade.stop();
 			System.out.println("module Fade done");
+			
+			Random random = new Random(led,100);
+			System.out.println("run module Random for 10 seconds");
+			new Thread(random).start();
+			Thread.sleep(10000);
+			random.stop();
+			System.out.println("module Random done");
 
 			CursorColor cursorColor = new CursorColor(led);
 			System.out.println("run module CursorColor for 10 seconds, move your cursor arround!");
