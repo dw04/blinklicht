@@ -35,7 +35,16 @@ public class SerialLEDDevice extends SerialDevice implements LEDOutput{
 		
 		}
 		else if(codeType == Code.T_CODE){
-			
+			try {
+				super.send(r+","+g+","+b+".");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //TODO: check if rgb values are in valid range
+		
 		}
 		
 	}
