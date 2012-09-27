@@ -24,7 +24,7 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Test.testClientInput();
+	//	Test.testClientInput();
 		
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectDevices();
