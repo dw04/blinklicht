@@ -45,7 +45,7 @@ public class SerialDevice {
 		}
 
 		if (portId == null) {
-			System.out.println("NO SERIAL PORTS AVAILABLE!");
+			System.out.println("SERIAL DEVICE " + PORT + " NOT FOUND!" );
 			return;
 		}
 

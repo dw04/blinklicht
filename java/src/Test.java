@@ -1,5 +1,7 @@
 import gnu.io.CommPortIdentifier;
 
+import input.ClientInput;
+
 import java.io.IOException;
 import java.util.Enumeration;
 
@@ -8,6 +10,7 @@ import modules.led.Fade;
 import modules.led.ScreenColor;
 import modules.led.Random;
 
+import output.ConnectionManager;
 import output.SerialDevice;
 import output.SerialLEDDevice;
 
@@ -20,6 +23,13 @@ public class Test {
 	};
 	
 	public static void main(String[] args) {
+		
+		Test.testClientInput();
+		
+		ConnectionManager conManager = new ConnectionManager();
+		conManager.connectDevices();
+		
+		
 		//determine the port to use
 		String port = null;
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -99,4 +109,9 @@ public class Test {
 		
 	}
 
+	
+	public static void testClientInput(){
+		
+		new Thread(new ClientInput()).start();
+	}
 }
