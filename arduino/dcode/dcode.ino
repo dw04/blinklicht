@@ -20,7 +20,7 @@ void setup() {
   //mode = 2;
   Serial.begin(115200);
   attachInterrupt(0, pressed, FALLING);
-  Serial.println("ARDUINO-LED-1-DCODE"); //HARDWARETYPE-FUNCTION-NUMBEROFDIFFERENTLEDOUTPUTS-CODETYPE
+  Serial.print("LED-1-DCODE"); //FUNCTION-NUMBEROFDIFFERENTLEDOUTPUTS-CODETYPE
 }
 
 
