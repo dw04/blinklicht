@@ -11,11 +11,23 @@ public class SerialLEDDevice extends SerialDevice implements LEDOutput{
 	
 	Code codeType;
 	
+	public SerialLEDDevice(SerialDevice sp, Code c){
+		super(sp.PORT,sp.BAUD);
+		this.input = sp.input;
+		this.output = sp.output;
+		this.codeType = c;
+		this.serialPort = sp.serialPort;
+		this.TIMEOUT = sp.TIMEOUT;
+	}
 	
 	public SerialLEDDevice(String port, int baud, Code c) throws InterruptedException{
 		super(port,baud);
 		super.connect();
 		
+		this.codeType = c;
+	}
+	
+	public void setCodeType(Code c){
 		this.codeType = c;
 	}
 	

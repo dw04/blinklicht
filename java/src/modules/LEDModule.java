@@ -15,6 +15,13 @@ public abstract class LEDModule implements Module {
 	
 	@Override
 	public void stop() {
+		output.sendRGB(0, 0, 0);
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		stop = true;
 	}
 

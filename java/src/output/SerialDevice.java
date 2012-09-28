@@ -10,15 +10,16 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
 
-public class SerialDevice {
+public class SerialDevice implements Device{
 
 	SerialPort serialPort;
 
-	private String PORT; //"/dev/tty.usbserial-A8008EGb"
+	 String PORT; //"/dev/tty.usbserial-A8008EGb"
 
-	private OutputStream output;
-	private int TIMEOUT = 2000;
-	private int BAUD; // = 115200;
+	 OutputStream output;
+	 InputStream input;
+	 int TIMEOUT = 2000;
+	 int BAUD; // = 115200;
 	
 	public SerialDevice(String port, int baud){
 		BAUD = baud;
@@ -31,7 +32,7 @@ public class SerialDevice {
 		}
 	}
 
-	public void connect() throws InterruptedException {
+	public String connect() throws InterruptedException {
 		CommPortIdentifier portId = null;
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
@@ -46,7 +47,7 @@ public class SerialDevice {
 
 		if (portId == null) {
 			System.out.println("SERIAL DEVICE " + PORT + " NOT FOUND!" );
-			return;
+			return "";
 		}
 
 		try {
@@ -62,12 +63,26 @@ public class SerialDevice {
 
 			// open the streams	
 			output = serialPort.getOutputStream();
+			input = serialPort.getInputStream();
+			
+			long currentTime = System.currentTimeMillis();
+			byte data[] = null;
+			while ((System.currentTimeMillis() - currentTime)<2000) { //wait 2seconds
+				if(input.available() > 0){
+					data = new byte[input.available()];
+					input.read(data, 0, input.available());
+				}
+			}
 
+			return new String(data);
+			
 		} catch (Exception e) {
-			System.err.println(e.toString());
+			//System.err.println(e.toString());
 		}
 		
-		Thread.sleep(1500);
+		
+		
+		return "";	
 	}
 
 	public void send(String str) throws InterruptedException, IOException{
