@@ -29,7 +29,7 @@ public class Test {
 	//	Test.testClientInput();
 		
 		ConnectionManager conManager = new ConnectionManager();
-		conManager.connectDevices();
+		conManager.connectSerialDevices();
 		System.out.println("number of connected devices: " + conManager.getLEDOutputList().size());
 		
 		for(LEDOutput ledOut: conManager.getLEDOutputList()){

@@ -22,7 +22,22 @@ public class ConnectionManager {
 		allDevices = new LinkedList<Device>();
 	}
 
-	public boolean connectDevices() {
+	/**
+	 * Connects all devices and creates the socket connection
+	 * @return
+	 */
+	public boolean createConnections(){
+		//connect SerialDevices
+		connectSerialDevices();
+		//create Socket
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @return returns true if at least one device is connected 
+	 */
+	public boolean connectSerialDevices() {
 		boolean success = false;
 
 		// determine the port to use
@@ -51,7 +66,8 @@ public class ConnectionManager {
 			}
 		}
 		
-		return success;
+		
+		return (allDevices.size()>0);
 	}
 	
 	/**
