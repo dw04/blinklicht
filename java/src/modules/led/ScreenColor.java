@@ -1,5 +1,7 @@
 package modules.led;
 
+import io.LEDOutput;
+
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -10,7 +12,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
-import output.LEDOutput;
 import modules.LEDModule;
 import modules.Module;
 

@@ -1,5 +1,5 @@
 package modules.led;
-import output.LEDOutput;
+import io.LEDOutput;
 import modules.*;
 
 public class Fade extends LEDModule implements Runnable{

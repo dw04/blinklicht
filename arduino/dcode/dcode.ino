@@ -17,6 +17,11 @@ void setup() {
   pinMode(10, OUTPUT);   
   pinMode(11, OUTPUT);    
   pinMode(2, INPUT);
+  
+  analogWrite(9, 0); //blau
+  analogWrite(10, 0);  //grün
+  analogWrite(11, 0);  //rot
+  
   //mode = 2;
   Serial.begin(115200);
   attachInterrupt(0, pressed, FALLING);

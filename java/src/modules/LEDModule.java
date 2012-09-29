@@ -1,6 +1,6 @@
 package modules;
 
-import output.LEDOutput;
+import io.LEDOutput;
 
 public abstract class LEDModule implements Module {
 	protected LEDOutput output;

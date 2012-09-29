@@ -1,6 +1,11 @@
 import gnu.io.CommPortIdentifier;
 
-import input.ClientInput;
+
+import io.ClientInput;
+import io.ConnectionManager;
+import io.LEDOutput;
+import io.SerialDevice;
+import io.SerialLEDDevice;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -10,10 +15,6 @@ import modules.led.Fade;
 import modules.led.ScreenColor;
 import modules.led.Random;
 
-import output.ConnectionManager;
-import output.LEDOutput;
-import output.SerialDevice;
-import output.SerialLEDDevice;
 
 public class Test {
 

@@ -1,5 +1,7 @@
 package modules.led;
 
+import io.LEDOutput;
+
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -7,7 +9,6 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.Robot;
 
-import output.LEDOutput;
 import modules.LEDModule;
 import modules.Module;
 

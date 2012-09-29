@@ -1,6 +1,6 @@
 package modules.led;
 
-import output.LEDOutput;
+import io.LEDOutput;
 import modules.LEDModule;
 
 public class Random extends LEDModule implements Runnable{

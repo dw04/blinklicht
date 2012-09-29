@@ -1,4 +1,4 @@
-package output;
+package io;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;

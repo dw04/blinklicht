@@ -1,5 +1,7 @@
 package modules.led;
 
+import io.LEDOutput;
+
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -8,7 +10,6 @@ import java.awt.Robot;
 
 import modules.LEDModule;
 
-import output.LEDOutput;
 
 public class ConstantColor extends LEDModule implements Runnable {
 	
