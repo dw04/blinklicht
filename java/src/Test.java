@@ -26,23 +26,23 @@ public class Test {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-	//	Test.testClientInput();
+		Test.testClientInput();
 		
-		ConnectionManager conManager = new ConnectionManager();
-		conManager.connectSerialDevices();
-		System.out.println("number of connected devices: " + conManager.getLEDOutputList().size());
-		
-		for(LEDOutput ledOut: conManager.getLEDOutputList()){
-			Fade fade = new Fade(ledOut, 1000);
-			new Thread(fade).start();
-			Thread.sleep(7000);
-			fade.stop();
-		}
-		
-		Thread.sleep(5000);
-		
-		conManager.closeAll();
-		Thread.sleep(5000);
+//		ConnectionManager conManager = new ConnectionManager();
+//		conManager.connectSerialDevices();
+//		System.out.println("number of connected devices: " + conManager.getLEDOutputList().size());
+//		
+//		for(LEDOutput ledOut: conManager.getLEDOutputList()){
+//			Fade fade = new Fade(ledOut, 1000);
+//			new Thread(fade).start();
+//			Thread.sleep(7000);
+//			fade.stop();
+//		}
+//		
+//		Thread.sleep(5000);
+//		
+//		conManager.closeAll();
+//		Thread.sleep(5000);
 		
 		
 //		//determine the port to use
