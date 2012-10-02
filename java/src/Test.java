@@ -39,9 +39,11 @@ public class Test {
 			fade.stop();
 		}
 		
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		
 		conManager.closeAll();
+		Thread.sleep(5000);
+		
 		
 //		//determine the port to use
 //		String port = null;

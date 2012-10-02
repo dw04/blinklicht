@@ -18,7 +18,7 @@ void setup() {
   pinMode(11, OUTPUT);    
   pinMode(2, INPUT);
   
-  analogWrite(9, 0); //blau
+  analogWrite(9, 255); //blau
   analogWrite(10, 0);  //grün
   analogWrite(11, 0);  //rot
   
