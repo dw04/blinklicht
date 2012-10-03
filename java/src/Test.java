@@ -27,7 +27,7 @@ public class Test {
 	public static void main(String[] args) throws InterruptedException {
 		
 		Test.testClientInput();
-		
+
 //		ConnectionManager conManager = new ConnectionManager();
 //		conManager.connectSerialDevices();
 //		System.out.println("number of connected devices: " + conManager.getLEDOutputList().size());

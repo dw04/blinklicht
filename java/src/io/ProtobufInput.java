@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import main.TaskManager;
+
 import clientcommands.Commands;
 import clientcommands.Commands.Command;
 
@@ -37,6 +39,7 @@ class Connection implements Runnable{
 				if(socket.getInputStream().available() > 0){
 					CodedInputStream inStream = CodedInputStream.newInstance(socket.getInputStream());
 					Command in = Command.parseFrom(inStream); 
+					TaskManager.addCommand(in);
 					System.out.println(in.getAction() + " " + in.getModule());
 					socket.close();
 					break;
