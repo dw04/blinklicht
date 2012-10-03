@@ -1,7 +1,7 @@
 import gnu.io.CommPortIdentifier;
 
 
-import io.ClientInput;
+import io.ProtobufInput;
 import io.ConnectionManager;
 import io.LEDOutput;
 import io.SerialDevice;
@@ -127,6 +127,6 @@ public class Test {
 	
 	public static void testClientInput(){
 		
-		new Thread(new ClientInput()).start();
+		new Thread(new ProtobufInput()).start();
 	}
 }

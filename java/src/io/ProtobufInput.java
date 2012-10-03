@@ -58,14 +58,14 @@ class Connection implements Runnable{
  * @author danielwilbers
  *
  */
-public class ClientInput implements Runnable{
+public class ProtobufInput implements Runnable{
 
 	private int maximumConnections = 3;
 	private int currentConnections = 0;
 	private ServerSocket server;
 	
 	
-	public  ClientInput(){
+	public  ProtobufInput(){
 		try {
 			server = new ServerSocket(1811);
 		} catch (IOException e) {
