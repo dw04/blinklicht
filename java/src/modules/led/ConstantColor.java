@@ -24,7 +24,7 @@ public class ConstantColor extends LEDModule implements Runnable {
 	 *            The object to send the output to.
 	 */
 	public ConstantColor(LEDOutput output) {
-		this(output, 255, 255, 255);
+		this(output, 254, 254, 254);
 	}
 
 	/**

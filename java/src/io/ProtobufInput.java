@@ -39,8 +39,8 @@ class Connection implements Runnable{
 				if(socket.getInputStream().available() > 0){
 					CodedInputStream inStream = CodedInputStream.newInstance(socket.getInputStream());
 					Command in = Command.parseFrom(inStream); 
-					TaskManager.addCommand(in);
-					System.out.println("Protobuf input: " + in.getAction() + " " + in.getModule());
+					TaskManager.executeCommand(in);
+					//System.out.println("Protobuf input: " + in.getAction() + " " + in.getModule());
 					socket.close();
 					break;
 				}
