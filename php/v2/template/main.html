@@ -1,0 +1,80 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>blinklicht</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" href="themes/red.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<style type="text/css">
+	div.ui-slider {
+		/*width:80%;*/
+	}
+	#slider-r 
+		color: white;
+		background-color:red;
+	}
+	#control-r .ui-btn-active {
+		background: none !important;
+		background-color: red !important;
+	}
+	#slider-g {
+		color: white;
+		background-color: green;
+	}
+	#control-g .ui-btn-active {
+		background: none !important;
+		background-color: green !important;
+	}
+	#slider-b {
+		color: white;
+		background-color: blue;
+	}
+	#control-b .ui-btn-active {
+		background: none !important;
+		background-color: blue !important;
+	}
+	#headercenter {
+		text-align: center;
+	}
+	</style>
+</head> 
+<body> 
+
+<div data-role="page" id="home">
+	<div data-role="header">
+		<a href="?page=home"<%nav1active%> data-role="button" data-icon="home" data-iconpos="left">home</a>
+		<div id="headercenter">
+			<div data-role="controlgroup" data-type="horizontal" data-mini="true" data-inline="true">
+				<a href="index.html" data-role="button">all</a>
+				<a href="index.html" data-role="button">1</a>
+				<a href="index.html" data-role="button">2</a>
+			</div>
+		</div>
+		<a href="?page=settings"<%nav0active%> data-role="button" data-mini="true" data-icon="gear" data-iconpos="right">settings</a>
+
+		<div data-role="navbar">
+			<ul>
+				<li><a href="?page=constant"<%nav2active%>>constant</a></li>
+				<li><a href="?page=fade"<%nav3active%>>fade</a></li>
+				<li><a href="?page=random"<%nav4active%>>jump</a></li>
+				<li><a href="?page=mouse"<%nav5active%>>mouse</a></li>
+				<li><a href="?page=off"<%nav6active%>>off</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div data-role="content" data-theme="c">
+		<%content%>
+	</div>
+
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar" data-iconpos="top">
+			<ul><li><a href="#" data-role="button" data-icon="check">set</a></li></ul>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

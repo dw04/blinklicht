@@ -1,0 +1,19 @@
+message Command {	
+	enum Module{
+		NONE = 1;
+		CONSTANT= 2;
+		CURSOR= 3;
+		FADE = 4;
+		RANDOM = 5;
+		SCREEN= 6;
+	}
+	optional Module module = 1;
+	enum Action{
+		START = 1;
+		STOP = 2;
+		PAUSE = 3;
+		RESUME = 4;
+	}
+	optional Action action = 2;
+}
+
