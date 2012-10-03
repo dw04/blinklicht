@@ -30,14 +30,16 @@ class Connection implements Runnable{
 	
 	@Override
 	public void run() {
-		BufferedReader  fromClient;
 		
 		try {
 	
 			while(socket.isConnected()){
-				if(socket.getInputStream().available()>0){
-					Command in = Command.parseFrom(socket.getInputStream()); 
+				if(socket.getInputStream().available() > 0){
+					CodedInputStream inStream = CodedInputStream.newInstance(socket.getInputStream());
+					Command in = Command.parseFrom(inStream); 
 					System.out.println(in.getAction() + " " + in.getModule());
+					socket.close();
+					break;
 				}
 			}
 		
