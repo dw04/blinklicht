@@ -23,6 +23,7 @@ public class TaskManager {
 	
 	public static void addCommand(Command c){
 		jobs.add(c);
+		System.out.println("added job: " + c.getAction() + " " + c.getModule());
 	}
 
 }

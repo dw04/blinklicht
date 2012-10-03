@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 	
 		ConnectionManager conManager = new ConnectionManager();
-		conManager.connectSerialDevices();
+		conManager.createConnections();
 		
 		TaskManager taskManager = new TaskManager(conManager);
 		

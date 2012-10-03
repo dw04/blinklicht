@@ -40,7 +40,7 @@ class Connection implements Runnable{
 					CodedInputStream inStream = CodedInputStream.newInstance(socket.getInputStream());
 					Command in = Command.parseFrom(inStream); 
 					TaskManager.addCommand(in);
-					System.out.println(in.getAction() + " " + in.getModule());
+					System.out.println("Protobuf input: " + in.getAction() + " " + in.getModule());
 					socket.close();
 					break;
 				}

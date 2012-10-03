@@ -12,6 +12,9 @@ import java.util.LinkedList;
 
 public class ConnectionManager {
 
+	
+	
+	
 	LinkedList<LEDOutput> ledOutputList;
 	private LinkedList<Device> allDevices;
 
@@ -29,7 +32,11 @@ public class ConnectionManager {
 	public boolean createConnections(){
 		//connect SerialDevices
 		connectSerialDevices();
-		//create Socket
+		
+		//create ProtobufInputSocket
+		new Thread(new ProtobufInput()).start();
+		
+		
 		return false;
 	}
 	
