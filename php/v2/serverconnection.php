@@ -4,7 +4,7 @@
 */
  
 require_once('protocolbuf/message/pb_message.php');
-require_once('protocolbuf/clientcommands/pb_proto_commands.php');
+require_once('protocolbuf/protobuf/pb_proto_commands.php');
 
 class ServerConnection
 {
