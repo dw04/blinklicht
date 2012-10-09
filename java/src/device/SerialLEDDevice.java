@@ -1,8 +1,9 @@
-package io;
+package device;
 
 import java.io.IOException;
 
-public class SerialLEDDevice extends SerialDevice implements LEDOutput{
+
+public class SerialLEDDevice extends SerialDevice implements OutputRGB{
 
 	public enum Code{
 		D_CODE,

@@ -1,6 +1,5 @@
 package modules.led;
 
-import io.LEDOutput;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -8,10 +7,12 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 
-import modules.LEDModule;
+import device.OutputRGB;
+
+import modules.ModuleLED;
 
 
-public class ConstantColor extends LEDModule implements Runnable {
+public class ConstantColor extends ModuleLED implements Runnable {
 	
 	int red;
 	int green;
@@ -23,7 +24,7 @@ public class ConstantColor extends LEDModule implements Runnable {
 	 * @param output
 	 *            The object to send the output to.
 	 */
-	public ConstantColor(LEDOutput output) {
+	public ConstantColor(OutputRGB output) {
 		this(output, 254, 254, 254);
 	}
 
@@ -39,7 +40,7 @@ public class ConstantColor extends LEDModule implements Runnable {
 	 * @param blue
 	 *            the value of the blue color component. range: [0-255]
 	 */
-	public ConstantColor(LEDOutput output, int red, int green, int blue) {
+	public ConstantColor(OutputRGB output, int red, int green, int blue) {
 		super(output);
 		this.red = red;
 		this.green = green;

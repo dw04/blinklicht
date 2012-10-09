@@ -1,6 +1,6 @@
-package io;
+package device;
 
-public interface LEDOutput {
+public interface OutputRGB {
 
 	public void sendRGB(int r, int b, int g);
 	

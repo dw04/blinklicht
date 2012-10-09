@@ -3,12 +3,13 @@ import gnu.io.CommPortIdentifier;
 
 import io.ProtobufInput;
 import io.ConnectionManager;
-import io.LEDOutput;
-import io.SerialDevice;
-import io.SerialLEDDevice;
 
 import java.io.IOException;
 import java.util.Enumeration;
+
+import device.OutputRGB;
+import device.SerialDevice;
+import device.SerialLEDDevice;
 
 import modules.led.CursorColor;
 import modules.led.Fade;

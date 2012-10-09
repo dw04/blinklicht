@@ -1,4 +1,5 @@
-package io;
+package device;
+
 
 public class SerialRadioDevice extends SerialDevice {
 

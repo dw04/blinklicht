@@ -1,9 +1,10 @@
 package main;
 import io.ConnectionManager;
-import io.LEDOutput;
 
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import device.OutputRGB;
 
 import protobuf.Commands;
 import protobuf.Commands.Command;
@@ -27,7 +28,7 @@ public class TaskManager {
 	
 	public TaskManager(ConnectionManager con){
 		conManager = con; 
-		for(LEDOutput out :conManager.getLEDOutputList()){
+		for(OutputRGB out :conManager.getLEDOutputList()){
 			None n = new None(out);
 			n.run();
 		}
@@ -40,7 +41,7 @@ public class TaskManager {
 		
 		//choose device  //TODO:currently only first device is used
 		if(conManager.getLEDOutputList().size() > 0){
-			LEDOutput out = conManager.getLEDOutputList().getFirst();
+			OutputRGB out = conManager.getLEDOutputList().getFirst();
 			
 			//choose action
 			if(c.getAction() == Command.Action.START){

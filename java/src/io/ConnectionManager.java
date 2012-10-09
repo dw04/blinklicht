@@ -10,18 +10,23 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
+import device.Device;
+import device.OutputRGB;
+import device.SerialDevice;
+import device.SerialLEDDevice;
+
 public class ConnectionManager {
 
 	
 	
 	
-	LinkedList<LEDOutput> ledOutputList;
+	LinkedList<OutputRGB> ledOutputList;
 	private LinkedList<Device> allDevices;
 
 	private static final int DATA_RATE = 115200;
 
 	public ConnectionManager() {
-		ledOutputList = new LinkedList<LEDOutput>();
+		ledOutputList = new LinkedList<OutputRGB>();
 		allDevices = new LinkedList<Device>();
 	}
 
@@ -100,12 +105,12 @@ public class ConnectionManager {
 	}
 
 	
-	public LinkedList<LEDOutput> getLEDOutputList() {
+	public LinkedList<OutputRGB> getLEDOutputList() {
 		return ledOutputList;
 	}
 
 	public void setSerialLEDDeviceList(
-			LinkedList<LEDOutput> serialLEDOutputList) {
+			LinkedList<OutputRGB> serialLEDOutputList) {
 		this.ledOutputList = serialLEDOutputList;
 	}
 

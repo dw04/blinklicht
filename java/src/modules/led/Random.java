@@ -1,9 +1,9 @@
 package modules.led;
 
-import io.LEDOutput;
-import modules.LEDModule;
+import device.OutputRGB;
+import modules.ModuleLED;
 
-public class Random extends LEDModule implements Runnable{
+public class Random extends ModuleLED implements Runnable{
 
 	private int interval;
 	
@@ -12,7 +12,7 @@ public class Random extends LEDModule implements Runnable{
 	 * @param out
 	 * @param interval interval of color in ms
 	 */
-	public Random(LEDOutput out, int interval){
+	public Random(OutputRGB out, int interval){
 		super(out);
 		this.interval = interval;
 	}

@@ -1,6 +1,5 @@
 package modules.led;
 
-import io.LEDOutput;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -12,10 +11,12 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
-import modules.LEDModule;
+import device.OutputRGB;
+
+import modules.ModuleLED;
 import modules.Module;
 
-public class ScreenColor extends LEDModule implements Runnable {
+public class ScreenColor extends ModuleLED implements Runnable {
 
 	private int refreshInterval;
 
@@ -26,7 +27,7 @@ public class ScreenColor extends LEDModule implements Runnable {
 	 * @param output
 	 *            The object to send the output to.
 	 */
-	public ScreenColor(LEDOutput output) {
+	public ScreenColor(OutputRGB output) {
 		this(output, 100);
 	}
 
@@ -39,7 +40,7 @@ public class ScreenColor extends LEDModule implements Runnable {
 	 *            How many milliseconds the thread should wait before the next
 	 *            refresh. default is 100.
 	 */
-	public ScreenColor(LEDOutput output, int refreshInterval) {
+	public ScreenColor(OutputRGB output, int refreshInterval) {
 		super(output);
 		this.refreshInterval = refreshInterval;
 	}
