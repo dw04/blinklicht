@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 import device.OutputRGB;
-import device.SerialDevice;
-import device.SerialLEDDevice;
+import device.Device;
+import device.DeviceLED;
 
 import modules.led.CursorColor;
 import modules.led.Fade;

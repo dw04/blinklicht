@@ -11,7 +11,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
 
-public class SerialDevice implements Device{
+public class Device{
 
 	SerialPort serialPort;
 
@@ -22,7 +22,7 @@ public class SerialDevice implements Device{
 	 int TIMEOUT = 2000;
 	 int BAUD; // = 115200;
 	
-	public SerialDevice(String port, int baud){
+	public Device(String port, int baud){
 		BAUD = baud;
 		PORT = port;
 	}

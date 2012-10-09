@@ -3,7 +3,7 @@ package device;
 import java.io.IOException;
 
 
-public class SerialLEDDevice extends SerialDevice implements OutputRGB{
+public class DeviceLED extends Device implements OutputRGB{
 
 	public enum Code{
 		D_CODE,
@@ -12,7 +12,7 @@ public class SerialLEDDevice extends SerialDevice implements OutputRGB{
 	
 	Code codeType;
 	
-	public SerialLEDDevice(SerialDevice sp, Code c){
+	public DeviceLED(Device sp, Code c){
 		super(sp.PORT,sp.BAUD);
 		this.input = sp.input;
 		this.output = sp.output;
@@ -21,7 +21,7 @@ public class SerialLEDDevice extends SerialDevice implements OutputRGB{
 		this.TIMEOUT = sp.TIMEOUT;
 	}
 	
-	public SerialLEDDevice(String port, int baud, Code c) throws InterruptedException{
+	public DeviceLED(String port, int baud, Code c) throws InterruptedException{
 		super(port,baud);
 		super.connect();
 		

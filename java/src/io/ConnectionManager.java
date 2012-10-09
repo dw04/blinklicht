@@ -10,10 +10,9 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
-import device.Device;
 import device.OutputRGB;
-import device.SerialDevice;
-import device.SerialLEDDevice;
+import device.Device;
+import device.DeviceLED;
 
 public class ConnectionManager {
 
@@ -57,7 +56,7 @@ public class ConnectionManager {
 			System.out.print(currPortId.getName()+" ... ");
 			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
 				System.out.println("try connect.");
-				SerialDevice sd = new SerialDevice(currPortId.getName(),DATA_RATE);
+				Device sd = new Device(currPortId.getName(),DATA_RATE);
 				String s;
 				try {
 					s = sd.connect();
@@ -87,10 +86,10 @@ public class ConnectionManager {
 	 * @param sp
 	 * @throws IOException
 	 */
-	private boolean parseInput(String str, SerialDevice sp) throws IOException{
+	private boolean parseInput(String str, Device sp) throws IOException{
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
-			SerialLEDDevice led = new SerialLEDDevice(sp,SerialLEDDevice.Code.D_CODE);
+			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.D_CODE);
 			ledOutputList.add(led);
 			allDevices.add(led);
 			return true;
