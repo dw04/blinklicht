@@ -18,3 +18,6 @@ jQuery - under MIT licence
 
 jQTouch - under MIT licence
  see http://www.jqtouch.com/
+
+ rxtx - under lgpl
+  see http://rxtx.qbang.org/

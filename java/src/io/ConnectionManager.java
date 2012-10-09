@@ -31,13 +31,8 @@ public class ConnectionManager {
 	 */
 	public boolean createConnections(){
 		//connect SerialDevices
-		connectSerialDevices();
-		
-		//create ProtobufInputSocket
-		new Thread(new ProtobufInput()).start();
-		
-		
-		return false;
+	
+		return connectSerialDevices();
 	}
 	
 	/**
@@ -53,13 +48,15 @@ public class ConnectionManager {
 		SerialPort serialPort;
 		int timeout = 2000;
 		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();		
-			if (currPortId.getName().contains("tty")) {
+			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();	
+			System.out.print(currPortId.getName()+" ... ");
+			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
+				System.out.println("try connect.");
 				SerialDevice sd = new SerialDevice(currPortId.getName(),DATA_RATE);
 				String s;
 				try {
 					s = sd.connect();
-					if(!s.isEmpty()) {
+					if(s != null && !s.isEmpty()) {
 						if(!parseInput(s,sd)){
 							sd.close();
 						}
@@ -71,8 +68,10 @@ public class ConnectionManager {
 				}
 				
 			}
+			else{
+				System.out.println("skipped.");
+			}
 		}
-		
 		
 		return (allDevices.size()>0);
 	}
@@ -84,6 +83,7 @@ public class ConnectionManager {
 	 * @throws IOException
 	 */
 	private boolean parseInput(String str, SerialDevice sp) throws IOException{
+		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
 			SerialLEDDevice led = new SerialLEDDevice(sp,SerialLEDDevice.Code.D_CODE);
 			ledOutputList.add(led);
@@ -93,12 +93,13 @@ public class ConnectionManager {
 		return false;
 	}
 
-	public void closeAll(){
+	public void closeAllDevices(){
 		for(Device sd : allDevices){
 			sd.close();
 		}
 	}
 
+	
 	public LinkedList<LEDOutput> getLEDOutputList() {
 		return ledOutputList;
 	}

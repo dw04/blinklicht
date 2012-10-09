@@ -25,6 +25,7 @@ void setup() {
   //mode = 2;
   Serial.begin(115200);
   attachInterrupt(0, pressed, FALLING);
+  delay(1000);
   Serial.print("LED-1-DCODE"); //FUNCTION-NUMBEROFDIFFERENTLEDOUTPUTS-CODETYPE
 }
 

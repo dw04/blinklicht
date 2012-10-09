@@ -5,10 +5,11 @@ import io.LEDOutput;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import protobuf.Commands;
+import protobuf.Commands.Command;
+
 import modules.Module;
 import modules.led.*;
-import clientcommands.Commands;
-import clientcommands.Commands.Command;
 
 /**
  * This class is responsible for starting and stopping modules

@@ -10,10 +10,11 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import protobuf.Commands;
+import protobuf.Commands.Command;
+
 import main.TaskManager;
 
-import clientcommands.Commands;
-import clientcommands.Commands.Command;
 
 import com.google.protobuf.*;
 

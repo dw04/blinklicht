@@ -1,4 +1,4 @@
-message Command {	
+message Command {
 	enum Module{
 		NONE = 1;
 		CONSTANT= 2;
@@ -15,5 +15,11 @@ message Command {
 		RESUME = 4;
 	}
 	optional Action action = 2;
+	optional int32 interval = 3;
+	message Color {
+		optional int32 red = 1;
+		optional int32 green = 2;
+		optional int32 blue = 3;
+	}
 }
 

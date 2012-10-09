@@ -66,18 +66,27 @@ public class SerialDevice implements Device{
 			input = serialPort.getInputStream();
 			
 			long currentTime = System.currentTimeMillis();
-			byte data[] = null;
-			while ((System.currentTimeMillis() - currentTime)<2000) { //wait 2seconds
+			byte indata[] = new byte[0];
+			String data = "";
+			System.out.println("   waiting for input... ");
+			while ((System.currentTimeMillis() - currentTime)<5000) { //wait 2seconds
 				if(input.available() > 0){
-					data = new byte[input.available()];
-					input.read(data, 0, input.available());
+					indata = new byte[input.available()];
+					input.read(indata, 0, input.available());
+					data += new String(indata);
 				}
 			}
-
-			return new String(data);
+			
+			if(data.length() > 0) {
+				return data;
+			}
+			else{
+				return null;
+			}
 			
 		} catch (Exception e) {
-			//System.err.println(e.toString());
+			System.err.print(portId.getName() + ": ");
+			System.err.println(e.toString());
 		}
 		
 		
