@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
+import device.DeviceCode;
 import device.LEDcolor;
 import device.OutputLED;
 import device.OutputOutlet;
@@ -92,13 +93,13 @@ public class ConnectionManager {
 	private boolean parseInput(String str, Device sp) throws IOException{
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
-			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.D_CODE);
+			DeviceLED led = new DeviceLED(sp,DeviceCode.D_CODE);
 			outputLEDList.add(new OutputLED(led, 1, LEDcolor.RGB));
 			allDevices.add(led);
 			return true;
 		}else if(str.contains("TCODE")){
 			System.out.println("   found TCODE device");
-			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.T_CODE);
+			DeviceLED led = new DeviceLED(sp,DeviceCode.T_CODE);
 			allDevices.add(led);
 			String[] outputs=str.split("-")[1].split(";");
 			for(String output : outputs){

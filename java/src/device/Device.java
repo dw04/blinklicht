@@ -102,6 +102,7 @@ public class Device{
 	}
 
 	public void send(String str) throws InterruptedException, IOException{
+		System.out.println("sending:"+str);
 		//Thread.sleep(0, 200000); //0.5ms
 		output.write(str.getBytes());
 		output.flush();
