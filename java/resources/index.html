@@ -2,6 +2,7 @@
 <html> 
 <head> 
 	<title>blinklicht</title> 
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
@@ -53,12 +54,12 @@
 
 <div data-role="page" id="home">
 	<div data-role="header">
-		<div data-role="navbar" data-iconpos="left">
+		<div data-role="navbar" data-iconpos="top">
 			<ul>
 				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star">All</a></li>
 				<li><a onClick="$('#effectlist').toggle();$('#outputlist').hide();" data-role="button" data-icon="grid"><span id="effectbutton">Constant</span></a></li>
-				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">settings</a></li>
-				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">refresh</a></li>
+				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">Settings</a></li>
+				<li><a onClick="window.location.reload();" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">Refresh</a></li>
 			</ul>
 		</div>
 
@@ -88,25 +89,28 @@
 				<div id="control-r"><input type="range" name="slider" id="slider-r" value="100" min="0" max="255" data-highlight="true" /></div>
 				<div id="control-g"><input type="range" name="slider" id="slider-g" value="100" min="0" max="255" data-highlight="true" /></div>
 				<div id="control-b"><input type="range" name="slider" id="slider-b" value="100" min="0" max="255" data-highlight="true" /></div>
-				<div id="control-d"><input type="range" name="slider" id="slider-d" value="100" min="0" max="255" data-highlight="false" /></div>
+				<div id="control-d"><input type="range" name="slider" id="slider-d" value="255" min="0" max="255" data-highlight="false" /></div>
 			</form>
-		</div>
-	</div>
-
-	<div data-role="footer" data-position="fixed">
-		<div data-role="navbar" data-iconpos="top">
-			<ul><li><a href="#" data-role="button" data-icon="check">set</a></li></ul>
 		</div>
 	</div>
 </div>
 
 	<script type="text/javascript">
+	function hideAddressBar(){
+		if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
+			document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
+	}
+	if(navigator.userAgent.match(/Android/i)){
+		window.addEventListener("load",function(){hideAddressBar();});
+		window.addEventListener("orientationchange",function(){hideAddressBar();});
+	}
+	
 	function updateColor(){
 		var r=$('#slider-r').val();
 		var g=$('#slider-g').val();
 		var b=$('#slider-b').val();
 
-		$.get("http://localhost:8003/action/constant?id=1&r="+r+"&g="+g+"&b="+b);
+		$.get("/action/constant?id=1&r="+r+"&g="+g+"&b="+b);
 	}
 	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-r" ).bind("change", function(event, ui) { updateColor(); });
