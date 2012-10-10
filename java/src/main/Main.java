@@ -13,16 +13,16 @@ public class Main {
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectSerialDevices();
-		System.out.println("...finished." + " result:  leddevices: " + conManager.getOutputLEDList().size());
+		System.out.println("...finished." + " result: RGBdevices: "+conManager.getOutputLEDList().size()+" LEDdevices: "+conManager.getOutputLEDList().size());
 		
 		if(conManager.getOutputLEDList().size()>0){
-			System.out.println("Starting protobuf socket...");
+			System.out.print("Starting protobuf socket...");
 			new Thread(new ProtobufInput()).start();
-			System.out.println("...finished.");
+			System.out.println("finished.");
 			
-			System.out.println("Creating TaskManager...");
+			System.out.print("Creating TaskManager...");
 			TaskManager taskManager = new TaskManager(conManager);
-			System.out.println("...finished.");
+			System.out.println("finished.");
 		}
 		
 		

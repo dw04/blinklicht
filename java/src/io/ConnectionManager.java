@@ -52,16 +52,12 @@ public class ConnectionManager {
 	 * @return returns true if at least one device is connected 
 	 */
 	public boolean connectSerialDevices() {
-		// determine the port to use
-		String port = null;
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
-		SerialPort serialPort;
-		int timeout = 2000;
 		while (portEnum.hasMoreElements()) {
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();	
-			System.out.print(currPortId.getName()+" ... ");
+			System.out.print(currPortId.getName()+": ");
 			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
-				System.out.println("try connect.");
+				System.out.println("try connect...");
 				Device sd = new Device(currPortId.getName(),DATA_RATE);
 				String s;
 				try {
@@ -100,6 +96,7 @@ public class ConnectionManager {
 			allDevices.add(led);
 			return true;
 		}else if(str.startsWith("TCODE")){
+			System.out.println("   found TCODE device");
 			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.T_CODE);
 			allDevices.add(led);
 			String[] outputs=str.split("-")[1].split(";");
