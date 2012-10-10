@@ -71,15 +71,13 @@ public class WebServer {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			String path = exchange.getRequestURI().toASCIIString();
-			System.out.print("new req: " + path + " -> ");
-			// InputStream is = exchange.getRequestBody();
-			// is.read();
+			//System.out.print("new req: " + path + " -> ");
 			String response;
 			if (path.startsWith("/action")){
 				String module="constant";
 				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
 					module=path.split("\\/")[2].split("\\?")[0];
-				System.out.println("module: "+module);
+				//System.out.println("module: "+module);
 				String[] params=new String[]{};
 				if(path.split("\\?").length>1)
 					params=path.split("\\?")[1].split("&");
@@ -91,7 +89,6 @@ public class WebServer {
 				response = "stopping server";
 				stopServer = true;
 			} else{
-				
 				StringBuilder text = new StringBuilder();
 			    String nl = System.getProperty("line.separator");
 			    Scanner scanner = new Scanner(new FileInputStream("resources/index.html"), "UTF-8");
@@ -102,7 +99,10 @@ public class WebServer {
 			    finally{
 			    	scanner.close();
 			    }
-				response = text.toString();
+				response = text.toString()
+						.replaceAll("<%currentR%>", ((Integer)conManager.getOutputLED(1).getR()).toString())
+						.replaceAll("<%currentG%>", ((Integer)conManager.getOutputLED(1).getG()).toString())
+						.replaceAll("<%currentB%>", ((Integer)conManager.getOutputLED(1).getB()).toString());
 			}
 			exchange.sendResponseHeaders(200, response.length());
 			OutputStream os = exchange.getResponseBody();

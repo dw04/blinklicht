@@ -7,6 +7,9 @@ public class OutputLED {
 	private DeviceLED device;
 	private int id;
 	LEDcolor color;
+	private int r;
+	private int g;
+	private int b;
 	
 	public int getID(){
 		return id;
@@ -16,10 +19,25 @@ public class OutputLED {
 		return color;
 	}
 	
+	public int getR(){
+		return r;
+	}
+	
+	public int getG(){
+		return g;
+	}
+	
+	public int getB(){
+		return b;
+	}
+	
 	public OutputLED(DeviceLED device, int id, LEDcolor color) {
 		this.device=device;
 		this.id=id;
 		this.color=color;
+		r=255;
+		g=255;
+		b=255;
 	}
 	
 	private static String toHex(int in){
@@ -34,6 +52,9 @@ public class OutputLED {
 	}
 	
 	public void sendRGB(int r, int g, int b) {
+		this.r=r;
+		this.g=g;
+		this.b=b;
 		try {
 			if (device.getCodeType() == DeviceCode.D_CODE) {
 				device.send("R" + r);
