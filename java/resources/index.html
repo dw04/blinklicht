@@ -109,8 +109,8 @@
 		var r=$('#slider-r').val();
 		var g=$('#slider-g').val();
 		var b=$('#slider-b').val();
-
-		$.get("/action/constant?id=1&r="+r+"&g="+g+"&b="+b);
+		var d=$('#slider-d').val();
+		$.get("/action/constant?id=0&r="+r+"&g="+g+"&b="+b+"&d="+d);
 	}
 	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-r" ).bind("change", function(event, ui) { updateColor(); });

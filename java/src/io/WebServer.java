@@ -25,6 +25,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import device.LEDcolor;
+import device.OutputLED;
+
 public class WebServer {
 	ConnectionManager conManager;
 	HttpServer server;
@@ -35,6 +38,7 @@ public class WebServer {
 		int r=0;
 		int g=0;
 		int b=0;
+		int d=0;
 		for(String param : params){
 			String[] parts = param.split("=");
 			if(parts.length==2){
@@ -46,9 +50,21 @@ public class WebServer {
 					g=Integer.parseInt(parts[1]);
 				if(parts[0].equals("b"))
 					b=Integer.parseInt(parts[1]);
+				if(parts[0].equals("d"))
+					d=Integer.parseInt(parts[1]);
 			}
 		}
-		conManager.getOutputLED(id).sendRGB(r, g, b);
+		if(id==0){
+			for(OutputLED output : conManager.getOutputLEDList()){
+				if(output.getColor()==LEDcolor.RGB){
+					output.sendRGB(r, g, b);
+				}else if(output.getColor()==LEDcolor.WHITE){
+					output.sendRGB(d, 0, 0);
+				}
+			}
+		}else{
+			conManager.getOutputLED(id).sendRGB(r, g, b);
+		}
 	}
 	
 	class Handler implements HttpHandler {
@@ -75,6 +91,7 @@ public class WebServer {
 				response = "stopping server";
 				stopServer = true;
 			} else{
+				
 				StringBuilder text = new StringBuilder();
 			    String nl = System.getProperty("line.separator");
 			    Scanner scanner = new Scanner(new FileInputStream("resources/index.html"), "UTF-8");

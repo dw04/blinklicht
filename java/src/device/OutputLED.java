@@ -50,5 +50,4 @@ public class OutputLED {
 			e.printStackTrace();
 		} // TODO: check if rgb values are in valid range
 	}
-		
 }
