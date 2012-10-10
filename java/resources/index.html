@@ -106,7 +106,7 @@
 		var g=$('#slider-g').val();
 		var b=$('#slider-b').val();
 
-		$.get("http://localhost:8003/action/constant?id=1&r="+r+"&g="+g+"&b="+b, function(data) {alert('Load was performed.');});
+		$.get("http://localhost:8003/action/constant?id=1&r="+r+"&g="+g+"&b="+b);
 	}
 	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-r" ).bind("change", function(event, ui) { updateColor(); });

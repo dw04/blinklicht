@@ -3,6 +3,7 @@ package io;
 import java.io.IOException;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -11,10 +12,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;
@@ -28,15 +31,15 @@ public class WebServer {
 	boolean stopServer = false;
 
 	private void actionConstant(String[] params){
-		int d=0;
+		int id=0;
 		int r=0;
 		int g=0;
 		int b=0;
 		for(String param : params){
 			String[] parts = param.split("=");
 			if(parts.length==2){
-				if(parts[0].equals("d"))
-					d=Integer.parseInt(parts[1]);
+				if(parts[0].equals("id"))
+					id=Integer.parseInt(parts[1]);
 				if(parts[0].equals("r"))
 					r=Integer.parseInt(parts[1]);
 				if(parts[0].equals("g"))
@@ -45,7 +48,7 @@ public class WebServer {
 					b=Integer.parseInt(parts[1]);
 			}
 		}
-		conManager.getOutputLED(d).sendRGB(r, g, b);
+		conManager.getOutputLED(id).sendRGB(r, g, b);
 	}
 	
 	class Handler implements HttpHandler {
@@ -71,8 +74,19 @@ public class WebServer {
 			else if (path.startsWith("/stop")) {
 				response = "stopping server";
 				stopServer = true;
-			} else
-				response = "main page";
+			} else{
+				StringBuilder text = new StringBuilder();
+			    String nl = System.getProperty("line.separator");
+			    Scanner scanner = new Scanner(new FileInputStream("resources/index.html"), "UTF-8");
+			    try {
+			    	while (scanner.hasNextLine())
+			    		text.append(scanner.nextLine() + nl);
+			    }
+			    finally{
+			    	scanner.close();
+			    }
+				response = text.toString();
+			}
 			exchange.sendResponseHeaders(200, response.length());
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
