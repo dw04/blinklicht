@@ -23,19 +23,51 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class WebServer {
+	ConnectionManager conManager;
 	HttpServer server;
 	boolean stopServer = false;
 
+	private void actionConstant(String[] params){
+		int d=0;
+		int r=0;
+		int g=0;
+		int b=0;
+		for(String param : params){
+			String[] parts = param.split("=");
+			if(parts.length==2){
+				if(parts[0].equals("d"))
+					d=Integer.parseInt(parts[1]);
+				if(parts[0].equals("r"))
+					r=Integer.parseInt(parts[1]);
+				if(parts[0].equals("g"))
+					g=Integer.parseInt(parts[1]);
+				if(parts[0].equals("b"))
+					b=Integer.parseInt(parts[1]);
+			}
+		}
+		conManager.getOutputLED(d).sendRGB(r, g, b);
+	}
+	
 	class Handler implements HttpHandler {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			String path = exchange.getRequestURI().toASCIIString();
-			System.out.println("new req: " + path);
+			System.out.print("new req: " + path + " -> ");
 			// InputStream is = exchange.getRequestBody();
 			// is.read();
 			String response;
-			if (path.startsWith("/action"))
+			if (path.startsWith("/action")){
+				String module="constant";
+				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
+					module=path.split("\\/")[2].split("\\?")[0];
+				System.out.println("module: "+module);
+				String[] params=new String[]{};
+				if(path.split("\\?").length>1)
+					params=path.split("\\?")[1].split("&");
+				if(module.equals("constant"))
+					actionConstant(params);
 				response = "ok";
+			}
 			else if (path.startsWith("/stop")) {
 				response = "stopping server";
 				stopServer = true;
@@ -48,7 +80,8 @@ public class WebServer {
 		}
 	}
 
-	public void start(int port) {
+	public void start(int port, ConnectionManager conManager) {
+		this.conManager=conManager;
 		try {
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 			server.createContext("/", new Handler());

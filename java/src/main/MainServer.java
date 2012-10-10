@@ -16,12 +16,12 @@ public class MainServer {
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectSerialDevices();
-		System.out.println("...finished." + " result: RGBdevices: "+conManager.getOutputLEDList().size()+" LEDdevices: "+conManager.getOutputLEDList().size());
+		System.out.println("...finished." + " result: LEDdevices: "+conManager.getOutputLEDList().size());
 		
 		if(conManager.getOutputLEDList().size()>0){
 			WebServer ws = new WebServer();
-			ws.start(8003);
-			
+			ws.start(8003, conManager);
+			/*
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try {
 				while(true){
@@ -48,7 +48,7 @@ public class MainServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			conManager.closeAllDevices();
+			conManager.closeAllDevices();*/
 		}
 	}
 }
