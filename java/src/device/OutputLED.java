@@ -2,15 +2,25 @@ package device;
 
 public class OutputLED {
 
-	DeviceLED device;
-	int id;
+	private DeviceLED device;
+	private int id;
+	LEDcolor color;
 	
-	public OutputLED(DeviceLED device, int id) {
-		this.device=device;
-		this.id=id;
+	public int getID(){
+		return id;
 	}
 	
-	public void sendValue(int x){
+	public OutputLED(DeviceLED device, int id, LEDcolor color) {
+		this.device=device;
+		this.id=id;
+		this.color=color;
+	}
+	
+	public void sendWhite(int x){
+		
+	}
+	
+	public void sendRGB(int r, int b, int g){
 		
 	}
 		

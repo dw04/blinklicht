@@ -4,7 +4,7 @@ import io.ConnectionManager;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import device.OutputRGB;
+import device.OutputLED;
 
 import protobuf.Commands;
 import protobuf.Commands.Command;
@@ -28,7 +28,7 @@ public class TaskManager {
 	
 	public TaskManager(ConnectionManager con){
 		conManager = con; 
-		for(OutputRGB out :conManager.getOutputRGBList()){
+		for(OutputLED out :conManager.getOutputLEDList()){
 			None n = new None(out);
 			n.run();
 		}
@@ -40,8 +40,8 @@ public class TaskManager {
 		System.out.println("execute command: " + c.getAction() + " " + c.getModule());
 		
 		//choose device  //TODO:currently only first device is used
-		if(conManager.getOutputRGBList().size() > 0){
-			OutputRGB out = conManager.getOutputRGBList().getFirst();
+		if(conManager.getOutputLEDList().size() > 0){
+			OutputLED out = conManager.getOutputLEDList().getFirst();
 			
 			//choose action
 			if(c.getAction() == Command.Action.START){

@@ -1,6 +1,5 @@
 package modules.led;
 
-
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -8,7 +7,7 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.Robot;
 
-import device.OutputRGB;
+import device.OutputLED;
 
 import modules.ModuleLED;
 import modules.Module;
@@ -24,7 +23,7 @@ public class TopLeftColor extends ModuleLED implements Runnable {
 	 * @param output
 	 *            The object to send the output to.
 	 */
-	public TopLeftColor(OutputRGB output) {
+	public TopLeftColor(OutputLED output) {
 		this(output, 100);
 	}
 
@@ -37,7 +36,7 @@ public class TopLeftColor extends ModuleLED implements Runnable {
 	 *            How many milliseconds the thread should wait before the next
 	 *            refresh. default is 50.
 	 */
-	public TopLeftColor(OutputRGB output, int refreshInterval) {
+	public TopLeftColor(OutputLED output, int refreshInterval) {
 		super(output);
 		this.refreshInterval = refreshInterval;
 	}

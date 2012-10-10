@@ -1,13 +1,13 @@
 package modules;
 
-import device.OutputRGB;
+import device.OutputLED;
 
 public abstract class ModuleLED implements Module {
-	protected OutputRGB output;
+	protected OutputLED output;
 	protected boolean stop;
 	protected boolean pause;
 	
-	public ModuleLED(OutputRGB output){
+	public ModuleLED(OutputLED output){
 		this.output = output;
 		stop = false;
 		pause = false;

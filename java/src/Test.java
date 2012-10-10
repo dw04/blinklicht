@@ -7,7 +7,7 @@ import io.ConnectionManager;
 import java.io.IOException;
 import java.util.Enumeration;
 
-import device.OutputRGB;
+import device.OutputLED;
 import device.Device;
 import device.DeviceLED;
 

@@ -3,7 +3,7 @@ package main;
 import io.ConnectionManager;
 import io.ProtobufInput;
 
-public class Main {
+public class MainProtobuf {
 
 	/**
 	 * @param args

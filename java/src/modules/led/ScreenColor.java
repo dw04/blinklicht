@@ -1,6 +1,5 @@
 package modules.led;
 
-
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -11,7 +10,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
-import device.OutputRGB;
+import device.OutputLED;
 
 import modules.ModuleLED;
 import modules.Module;
@@ -27,7 +26,7 @@ public class ScreenColor extends ModuleLED implements Runnable {
 	 * @param output
 	 *            The object to send the output to.
 	 */
-	public ScreenColor(OutputRGB output) {
+	public ScreenColor(OutputLED output) {
 		this(output, 100);
 	}
 
@@ -40,7 +39,7 @@ public class ScreenColor extends ModuleLED implements Runnable {
 	 *            How many milliseconds the thread should wait before the next
 	 *            refresh. default is 100.
 	 */
-	public ScreenColor(OutputRGB output, int refreshInterval) {
+	public ScreenColor(OutputLED output, int refreshInterval) {
 		super(output);
 		this.refreshInterval = refreshInterval;
 	}

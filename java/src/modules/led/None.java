@@ -1,12 +1,12 @@
 package modules.led;
 
-import device.OutputRGB;
+import device.OutputLED;
 import modules.ModuleLED;
 
 public class None extends ModuleLED implements Runnable {
 
-	public None(OutputRGB output) {
-		super(output);
+	public None(OutputLED out) {
+		super(out);
 		// TODO Auto-generated constructor stub
 	}
 

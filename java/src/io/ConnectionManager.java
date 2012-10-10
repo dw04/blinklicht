@@ -10,9 +10,9 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
+import device.LEDcolor;
 import device.OutputLED;
 import device.OutputOutlet;
-import device.OutputRGB;
 import device.Device;
 import device.DeviceLED;
 
@@ -25,9 +25,11 @@ public class ConnectionManager {
 	public LinkedList<OutputLED> getOutputLEDList() {
 		return outputLEDList;
 	}
-	LinkedList<OutputRGB> outputRGBList;
-	public LinkedList<OutputRGB> getOutputRGBList() {
-		return outputRGBList;
+	public OutputLED getOutputLED(int id) {
+		for(OutputLED outputLED : outputLEDList)
+			if(outputLED.getID()==id)
+				return outputLED;
+		return null;
 	}
 	LinkedList<OutputOutlet> outputOutletList;
 	public LinkedList<OutputOutlet> getOutputOutletList() {
@@ -42,7 +44,6 @@ public class ConnectionManager {
 
 	public ConnectionManager() {
 		outputLEDList = new LinkedList<OutputLED>();
-		outputRGBList = new LinkedList<OutputRGB>();
 		outputOutletList = new LinkedList<OutputOutlet>();
 		allDevices = new LinkedList<Device>();
 	}
@@ -92,10 +93,10 @@ public class ConnectionManager {
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
 			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.D_CODE);
-			outputRGBList.add(new OutputRGB(led, 1));
+			outputLEDList.add(new OutputLED(led, 1, LEDcolor.RGB));
 			allDevices.add(led);
 			return true;
-		}else if(str.startsWith("TCODE")){
+		}else if(str.contains("TCODE")){
 			System.out.println("   found TCODE device");
 			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.T_CODE);
 			allDevices.add(led);
@@ -104,9 +105,9 @@ public class ConnectionManager {
 				int id=Integer.parseInt(output.substring(3,4));
 				String type=output.substring(5);
 				if(type.equals("RGB"))
-					outputRGBList.add(new OutputRGB(led, id));		
+					outputLEDList.add(new OutputLED(led, id, LEDcolor.RGB));		
 				if(type.equals("WHITE"))
-					outputLEDList.add(new OutputLED(led, id));					
+					outputLEDList.add(new OutputLED(led, id, LEDcolor.WHITE));					
 			}
 			return true;
 		}

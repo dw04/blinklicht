@@ -1,5 +1,5 @@
 package modules.led;
-import device.OutputRGB;
+import device.OutputLED;
 import modules.*;
 
 public class Fade extends ModuleLED implements Runnable{
@@ -11,7 +11,7 @@ public class Fade extends ModuleLED implements Runnable{
 	 * @param out
 	 * @param fadeinterval time to fade up in milliseconds
 	 */
-	public Fade(OutputRGB out, int fadeinterval){
+	public Fade(OutputLED out, int fadeinterval){
 		super(out);
 		this.fadeInterval = fadeinterval;
 		stop = false;
