@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import device.LEDcolor;
+import device.OutputLED;
+
 import io.ConnectionManager;
 import io.ProtobufInput;
 
@@ -18,11 +21,26 @@ public class MainSocket {
 		if(conManager.getOutputLEDList().size()>0){
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try {
-				System.out.print("device: ");
-				int id=Integer.parseInt(br.readLine());
-				
-				System.out.print("device");
-				//device=conManager.getOutputLED(id);
+				while(true){
+					System.out.print("device: ");
+					int id=Integer.parseInt(br.readLine());
+					if(id==99)
+						break;
+					OutputLED device=conManager.getOutputLED(id);
+					if(device.getColor()==LEDcolor.RGB){
+						System.out.print("r: ");
+						int r=Integer.parseInt(br.readLine());
+						System.out.print("g: ");
+						int g=Integer.parseInt(br.readLine());
+						System.out.print("b: ");
+						int b=Integer.parseInt(br.readLine());
+						device.sendRGB(r, g, b);
+					}else if(device.getColor()==LEDcolor.WHITE){
+						System.out.print("w: ");
+						int white=Integer.parseInt(br.readLine());
+						device.sendWhite(white);
+					}
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
