@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 
+import device.OutputLED;
+import device.OutputOutlet;
 import device.OutputRGB;
 import device.Device;
 import device.DeviceLED;
@@ -18,34 +20,38 @@ public class ConnectionManager {
 
 	
 	
-	
-	LinkedList<OutputRGB> ledOutputList;
-	private LinkedList<Device> allDevices;
 
+	LinkedList<OutputLED> outputLEDList;
+	public LinkedList<OutputLED> getOutputLEDList() {
+		return outputLEDList;
+	}
+	LinkedList<OutputRGB> outputRGBList;
+	public LinkedList<OutputRGB> getOutputRGBList() {
+		return outputRGBList;
+	}
+	LinkedList<OutputOutlet> outputOutletList;
+	public LinkedList<OutputOutlet> getOutputOutletList() {
+		return outputOutletList;
+	}
+	private LinkedList<Device> allDevices;
+	
 	private static final int DATA_RATE = 115200;
+	public static int getDataRate() {
+		return DATA_RATE;
+	}
 
 	public ConnectionManager() {
-		ledOutputList = new LinkedList<OutputRGB>();
+		outputLEDList = new LinkedList<OutputLED>();
+		outputRGBList = new LinkedList<OutputRGB>();
+		outputOutletList = new LinkedList<OutputOutlet>();
 		allDevices = new LinkedList<Device>();
 	}
-
+	
 	/**
 	 * Connects all devices and creates the socket connection
-	 * @return
-	 */
-	public boolean createConnections(){
-		//connect SerialDevices
-	
-		return connectSerialDevices();
-	}
-	
-	/**
-	 * 
 	 * @return returns true if at least one device is connected 
 	 */
 	public boolean connectSerialDevices() {
-		boolean success = false;
-
 		// determine the port to use
 		String port = null;
 		Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
@@ -90,7 +96,7 @@ public class ConnectionManager {
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
 			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.D_CODE);
-			ledOutputList.add(led);
+			outputRGBList.add(led);
 			allDevices.add(led);
 			return true;
 		}
@@ -102,20 +108,10 @@ public class ConnectionManager {
 			sd.close();
 		}
 	}
-
 	
-	public LinkedList<OutputRGB> getLEDOutputList() {
-		return ledOutputList;
-	}
 
-	public void setSerialLEDDeviceList(
-			LinkedList<OutputRGB> serialLEDOutputList) {
-		this.ledOutputList = serialLEDOutputList;
-	}
 
-	public static int getDataRate() {
-		return DATA_RATE;
-	}
+
 	
 
 }

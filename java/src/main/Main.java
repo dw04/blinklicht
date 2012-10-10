@@ -12,10 +12,10 @@ public class Main {
 	
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
-		conManager.createConnections();
-		System.out.println("...finished." + " result:  leddevices: " + conManager.getLEDOutputList().size());
+		conManager.connectSerialDevices();
+		System.out.println("...finished." + " result:  leddevices: " + conManager.getOutputLEDList().size());
 		
-		if(conManager.getLEDOutputList().size()>0){
+		if(conManager.getOutputLEDList().size()>0){
 			System.out.println("Starting protobuf socket...");
 			new Thread(new ProtobufInput()).start();
 			System.out.println("...finished.");

@@ -28,7 +28,7 @@ public class TaskManager {
 	
 	public TaskManager(ConnectionManager con){
 		conManager = con; 
-		for(OutputRGB out :conManager.getLEDOutputList()){
+		for(OutputRGB out :conManager.getOutputRGBList()){
 			None n = new None(out);
 			n.run();
 		}
@@ -40,8 +40,8 @@ public class TaskManager {
 		System.out.println("execute command: " + c.getAction() + " " + c.getModule());
 		
 		//choose device  //TODO:currently only first device is used
-		if(conManager.getLEDOutputList().size() > 0){
-			OutputRGB out = conManager.getLEDOutputList().getFirst();
+		if(conManager.getOutputRGBList().size() > 0){
+			OutputRGB out = conManager.getOutputRGBList().getFirst();
 			
 			//choose action
 			if(c.getAction() == Command.Action.START){
