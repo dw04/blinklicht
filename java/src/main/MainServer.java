@@ -9,16 +9,19 @@ import device.OutputLED;
 
 import io.ConnectionManager;
 import io.ProtobufInput;
+import io.WebServer;
 
-public class MainSocket {
+public class MainServer {
 	public static void main(String[] args) {
-		
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectSerialDevices();
 		System.out.println("...finished." + " result: RGBdevices: "+conManager.getOutputLEDList().size()+" LEDdevices: "+conManager.getOutputLEDList().size());
 		
 		if(conManager.getOutputLEDList().size()>0){
+			WebServer ws = new WebServer();
+			ws.start(8003);
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try {
 				while(true){
