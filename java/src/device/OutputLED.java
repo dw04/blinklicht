@@ -1,7 +1,17 @@
 package device;
 
-public interface OutputLED {
+public class OutputLED {
 
-	public void sendValue(int x);
+	DeviceLED device;
+	int id;
+	
+	public OutputLED(DeviceLED device, int id) {
+		this.device=device;
+		this.id=id;
+	}
+	
+	public void sendValue(int x){
+		
+	}
 		
 }

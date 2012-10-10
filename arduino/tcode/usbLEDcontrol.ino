@@ -25,7 +25,7 @@ void setup()
   Serial.begin(115200);
   delay(1000);
   //transmit capabilities
-  Serial.println("LED1:RGB;LED2:WHITE");
+  Serial.println("TCODE-LED1:RGB;LED2:WHITE");
 }
 
 int parseHex(char c) {

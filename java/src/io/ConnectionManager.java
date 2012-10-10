@@ -96,8 +96,21 @@ public class ConnectionManager {
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
 			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.D_CODE);
-			outputRGBList.add(led);
+			outputRGBList.add(new OutputRGB(led, 1));
 			allDevices.add(led);
+			return true;
+		}else if(str.startsWith("TCODE")){
+			DeviceLED led = new DeviceLED(sp,DeviceLED.Code.T_CODE);
+			allDevices.add(led);
+			String[] outputs=str.split("-")[1].split(";");
+			for(String output : outputs){
+				int id=Integer.parseInt(output.substring(3,4));
+				String type=output.substring(5);
+				if(type.equals("RGB"))
+					outputRGBList.add(new OutputRGB(led, id));		
+				if(type.equals("WHITE"))
+					outputLEDList.add(new OutputLED(led, id));					
+			}
 			return true;
 		}
 		return false;

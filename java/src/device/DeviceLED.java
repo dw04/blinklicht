@@ -2,7 +2,7 @@ package device;
 
 import java.io.IOException;
 
-public class DeviceLED extends Device implements OutputRGB {
+public class DeviceLED extends Device {
 
 	public enum Code {
 		D_CODE, T_CODE

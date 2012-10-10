@@ -1,7 +1,17 @@
 package device;
 
-public interface OutputRGB {
+public class OutputRGB {
 
-	public void sendRGB(int r, int b, int g);
+	DeviceLED device;
+	int id;
+	
+	public OutputRGB(DeviceLED device, int id) {
+		this.device=device;
+		this.id=id;
+	}
+	
+	public void sendRGB(int r, int b, int g){
+		
+	}
 	
 }
