@@ -14,5 +14,10 @@ public class None extends ModuleLED implements Runnable {
 	public void run() {
 		output.sendRGB(0, 0, 0);
 	}
+	
+	@Override
+	public String getName() {
+		return "none";
+	}
 
 }

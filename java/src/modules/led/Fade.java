@@ -42,4 +42,9 @@ public class Fade extends ModuleLED implements Runnable{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public String getName() {
+		return "fade";
+	}
 }

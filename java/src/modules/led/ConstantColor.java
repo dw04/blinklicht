@@ -51,4 +51,9 @@ public class ConstantColor extends ModuleLED implements Runnable {
 	public void run() {
 		output.sendRGB(red, green, blue);
 	}
+	
+	@Override
+	public String getName() {
+		return "constant";
+	}
 }

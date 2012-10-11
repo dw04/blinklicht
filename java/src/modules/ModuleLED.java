@@ -15,11 +15,7 @@ public abstract class ModuleLED implements Module {
 	
 	@Override
 	public void stop() {
-	
-	
-			stop = true; //important that this is set before sendRGB(0,0,0), so the run method terminates
-
-		
+		stop = true;
 	}
 
 	@Override
@@ -30,5 +26,10 @@ public abstract class ModuleLED implements Module {
 	@Override
 	public void pause() {
 		pause=true;
+	}
+	
+	@Override
+	public String getName() {
+		return "unknown";
 	}
 }

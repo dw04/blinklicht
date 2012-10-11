@@ -52,29 +52,6 @@ public class WebServer {
 		}
 		return result;
 	}
-
-	private void actionConstant(Map<String, Integer> params){		
-		if(params.get("id")==0){
-			for(OutputLED output : manager.getConnectionManager().getOutputLEDList()){
-				if(output.getColor()==LEDcolor.RGB){
-					output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
-				}else if(output.getColor()==LEDcolor.WHITE){
-					output.sendRGB(params.get("d"), 0, 0);
-				}
-			}
-		}else{
-			OutputLED output = manager.getConnectionManager().getOutputLED(params.get("id"));
-			if(output.getColor()==LEDcolor.RGB){
-				output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
-			}else if(output.getColor()==LEDcolor.WHITE){
-				output.sendRGB(params.get("d"), 0, 0);
-			}
-		}
-	}
-	
-	private void actionFade(Map<String, Integer> params){
-		
-	}
 	
 	class Handler implements HttpHandler {
 		@Override
@@ -88,9 +65,8 @@ public class WebServer {
 					module=path.split("\\/")[2].split("\\?")[0];
 				//System.out.println("module: "+module);
 				Map<String, Integer> params = prepareParams(path);
-				if(module.equals("constant")) actionConstant(params);
-				if(module.equals("fade")) actionFade(params);
-				response = "ok";
+				manager.action(params.get("id"), module, params);
+				response = "";
 			}
 			else if (path.startsWith("/stop")) {
 				response = "stopping server";

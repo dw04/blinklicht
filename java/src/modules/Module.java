@@ -6,4 +6,5 @@ public interface Module {
 	public void stop();
 	public void resume();
 	public void pause();
+	public String getName();
 }
