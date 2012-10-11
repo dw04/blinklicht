@@ -114,16 +114,28 @@
 	function changeEffect(id){
 		effectID=id;
 		$('#effectlist').hide();
-		if(id==0)
+		if(id==0){
 			$('#effectbutton').text('Off');
-		if(id==1)
+			$('#constantForm').hide();
+			$.get("/action/constant?id="+outputID+"&r=0&g=0&b=0&d=0");
+		}
+		if(id==1){
 			$('#effectbutton').text('Constant');
-		if(id==2)
+			$('#constantForm').show();
+			updateColorSlider();
+		}
+		if(id==2){
 			$('#effectbutton').text('Fade');
-		if(id==3)
+			$('#constantForm').hide();
+		}
+		if(id==3){
 			$('#effectbutton').text('Jump');
-		if(id==4)
+			$('#constantForm').hide();
+		}
+		if(id==4){
 			$('#effectbutton').text('Mouse');
+			$('#constantForm').hide();
+		}
 		
 	}
 	function hideAddressBar(){
@@ -135,18 +147,18 @@
 		window.addEventListener("orientationchange",function(){hideAddressBar();});
 	}
 	
-	function updateColor(){
+	function updateColorSlider(){
 		var r=$('#slider-r').val();
 		var g=$('#slider-g').val();
 		var b=$('#slider-b').val();
 		var d=$('#slider-d').val();
 		$.get("/action/constant?id="+outputID+"&r="+r+"&g="+g+"&b="+b+"&d="+d);
 	}
-	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColor(); });
-	$( "#control-r" ).bind("change", function(event, ui) { updateColor(); });
-	$( "#control-g" ).on( 'slidestop', function( event ) { updateColor(); });
-	$( "#control-b" ).on( 'slidestop', function( event ) { updateColor(); });
-	$( "#control-d" ).on( 'slidestop', function( event ) { updateColor(); });
+	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColorSlider(); });
+	$( "#control-r" ).bind("change", function(event, ui) { updateColorSlider(); });
+	$( "#control-g" ).on( 'slidestop', function( event ) { updateColorSlider(); });
+	$( "#control-b" ).on( 'slidestop', function( event ) { updateColorSlider(); });
+	$( "#control-d" ).on( 'slidestop', function( event ) { updateColorSlider(); });
 </script>
 
 </body>
