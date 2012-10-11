@@ -55,7 +55,7 @@ public class ModuleManager {
 				mod = new None(conManager.getOutputLED(output));
 				System.out.println("unknown module :"+moduleName);
 			}
-			mod.run();
+			(new Thread(mod)).start();
 			outputOccupation.put(output, mod);
 		}else{//module is allready running
 			System.out.println("output "+output+" allready is "+moduleName);

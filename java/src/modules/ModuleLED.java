@@ -2,7 +2,7 @@ package modules;
 
 import device.OutputLED;
 
-public abstract class ModuleLED implements Module {
+public abstract class ModuleLED implements Module, Runnable {
 	protected OutputLED output;
 	protected boolean stop;
 	protected boolean pause;
