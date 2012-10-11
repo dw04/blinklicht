@@ -2,6 +2,9 @@ package device;
 
 import java.io.IOException;
 
+import modules.ModuleLED;
+import modules.led.ConstantColor;
+
 public class OutputLED {
 
 	private DeviceLED device;

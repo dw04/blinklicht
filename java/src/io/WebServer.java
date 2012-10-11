@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import main.ModuleManager;
+
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
@@ -29,7 +31,7 @@ import device.LEDcolor;
 import device.OutputLED;
 
 public class WebServer {
-	ConnectionManager conManager;
+	ModuleManager manager;
 	HttpServer server;
 	boolean stopServer = false;
 	
@@ -53,7 +55,7 @@ public class WebServer {
 
 	private void actionConstant(Map<String, Integer> params){		
 		if(params.get("id")==0){
-			for(OutputLED output : conManager.getOutputLEDList()){
+			for(OutputLED output : manager.getConnectionManager().getOutputLEDList()){
 				if(output.getColor()==LEDcolor.RGB){
 					output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
 				}else if(output.getColor()==LEDcolor.WHITE){
@@ -61,7 +63,7 @@ public class WebServer {
 				}
 			}
 		}else{
-			OutputLED output = conManager.getOutputLED(params.get("id"));
+			OutputLED output = manager.getConnectionManager().getOutputLED(params.get("id"));
 			if(output.getColor()==LEDcolor.RGB){
 				output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
 			}else if(output.getColor()==LEDcolor.WHITE){
@@ -105,9 +107,9 @@ public class WebServer {
 			    	scanner.close();
 			    }
 				response = text.toString()
-						.replaceAll("<%currentR%>", ((Integer)conManager.getOutputLED(1).getR()).toString())
-						.replaceAll("<%currentG%>", ((Integer)conManager.getOutputLED(1).getG()).toString())
-						.replaceAll("<%currentB%>", ((Integer)conManager.getOutputLED(1).getB()).toString());
+						.replaceAll("<%currentR%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString())
+						.replaceAll("<%currentG%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getG()).toString())
+						.replaceAll("<%currentB%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getB()).toString());
 			}
 			exchange.sendResponseHeaders(200, response.length());
 			OutputStream os = exchange.getResponseBody();
@@ -116,8 +118,8 @@ public class WebServer {
 		}
 	}
 
-	public void start(int port, ConnectionManager conManager) {
-		this.conManager=conManager;
+	public void start(int port, ConnectionManager connection) {
+		manager=new ModuleManager(connection);
 		try {
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 			server.createContext("/", new Handler());
