@@ -66,14 +66,14 @@ public class Device{
 			output = serialPort.getOutputStream();
 			input = serialPort.getInputStream();
 			
-			// listen to device
-			int available = input.available();
-			byte chunk[] = new byte[available];
-			input.read(chunk, 0, available);
+//			// listen to device
+//			int available = input.available();
+//			byte chunk[] = new byte[available];
+//			input.read(chunk, 0, available);
+//			
+//			//serialPort.close();
+//			return new String(chunk);
 			
-			//serialPort.close();
-			return new String(chunk);
-			/*
 			long currentTime = System.currentTimeMillis();
 			byte indata[] = new byte[0];
 			String data = "";
@@ -87,13 +87,13 @@ public class Device{
 			}
 			
 			if(data.length() > 0) {
-				System.out.println("the shitty data:"+data);
+				System.out.println("the data:"+data);
 				return data;
 			}
 			else{
 				return null;
 			}
-			*/
+			
 		} catch (Exception e) {
 			System.err.print(portId.getName() + ": ");
 			System.err.println(e.toString());
