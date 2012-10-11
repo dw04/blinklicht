@@ -32,39 +32,46 @@ public class WebServer {
 	ConnectionManager conManager;
 	HttpServer server;
 	boolean stopServer = false;
-
-	private void actionConstant(String[] params){
-		int id=0;
-		int r=0;
-		int g=0;
-		int b=0;
-		int d=0;
+	
+	Map<String, Integer> prepareParams(String path){
+		String[] params=new String[]{};
+		if(path.split("\\?").length>1)
+			params=path.split("\\?")[1].split("&");
+		Map<String, Integer> result = new HashMap<String, Integer>();
+		result.put("id", 0);
+		result.put("r", 0);
+		result.put("g", 0);
+		result.put("b", 0);
+		result.put("d", 0);
 		for(String param : params){
 			String[] parts = param.split("=");
-			if(parts.length==2){
-				if(parts[0].equals("id"))
-					id=Integer.parseInt(parts[1]);
-				if(parts[0].equals("r"))
-					r=Integer.parseInt(parts[1]);
-				if(parts[0].equals("g"))
-					g=Integer.parseInt(parts[1]);
-				if(parts[0].equals("b"))
-					b=Integer.parseInt(parts[1]);
-				if(parts[0].equals("d"))
-					d=Integer.parseInt(parts[1]);
-			}
+			if(parts.length==2)
+				result.put(parts[0], Integer.parseInt(parts[1]));
 		}
-		if(id==0){
+		return result;
+	}
+
+	private void actionConstant(Map<String, Integer> params){		
+		if(params.get("id")==0){
 			for(OutputLED output : conManager.getOutputLEDList()){
 				if(output.getColor()==LEDcolor.RGB){
-					output.sendRGB(r, g, b);
+					output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
 				}else if(output.getColor()==LEDcolor.WHITE){
-					output.sendRGB(d, 0, 0);
+					output.sendRGB(params.get("d"), 0, 0);
 				}
 			}
 		}else{
-			conManager.getOutputLED(id).sendRGB(r, g, b);
+			OutputLED output = conManager.getOutputLED(params.get("id"));
+			if(output.getColor()==LEDcolor.RGB){
+				output.sendRGB(params.get("r"), params.get("g"), params.get("b"));
+			}else if(output.getColor()==LEDcolor.WHITE){
+				output.sendRGB(params.get("d"), 0, 0);
+			}
 		}
+	}
+	
+	private void actionFade(Map<String, Integer> params){
+		
 	}
 	
 	class Handler implements HttpHandler {
@@ -78,11 +85,9 @@ public class WebServer {
 				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
 					module=path.split("\\/")[2].split("\\?")[0];
 				//System.out.println("module: "+module);
-				String[] params=new String[]{};
-				if(path.split("\\?").length>1)
-					params=path.split("\\?")[1].split("&");
-				if(module.equals("constant"))
-					actionConstant(params);
+				Map<String, Integer> params = prepareParams(path);
+				if(module.equals("constant")) actionConstant(params);
+				if(module.equals("fade")) actionFade(params);
 				response = "ok";
 			}
 			else if (path.startsWith("/stop")) {

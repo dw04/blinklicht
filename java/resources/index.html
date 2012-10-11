@@ -8,6 +8,17 @@
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	<style type="text/css">
+	.ui-page {
+		background:url('');
+		background-repeat:repeat-y;
+		background-position:center center;
+		background-attachment:scroll;
+		background-size:100% 100%;
+		background-color: #222222;
+	}
+	.ui-content{
+	    background: transparent;
+	}
 	div.ui-slider {
 		/*width:80%;*/
 	}
@@ -127,6 +138,7 @@
 		if(id==2){
 			$('#effectbutton').text('Fade');
 			$('#constantForm').hide();
+			$.get("/action/fade?id="+outputID);
 		}
 		if(id==3){
 			$('#effectbutton').text('Jump');
