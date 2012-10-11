@@ -56,7 +56,7 @@
 	<div data-role="header">
 		<div data-role="navbar" data-iconpos="top">
 			<ul>
-				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star">All</a></li>
+				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star"><span id="outputbutton">All</span></a></li>
 				<li><a onClick="$('#effectlist').toggle();$('#outputlist').hide();" data-role="button" data-icon="grid"><span id="effectbutton">Constant</span></a></li>
 				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">Settings</a></li>
 				<li><a onClick="window.location.reload();" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">Refresh</a></li>
@@ -65,20 +65,20 @@
 
 		<div id="outputlist">
             <ul data-role="listview" data-inset="true">
-                <li data-icon="false"><a href="#A1">All</a></li>
-                <li data-icon="false"><a href="#A2">Lamp</a></li>
-                <li data-icon="false"><a href="#A3">Desk</a></li>
-                <li data-icon="false"><a href="#A3">Bed</a></li>
+                <li data-icon="false"><a onClick="changeOutput(0);">All</a></li>
+                <li data-icon="false"><a onClick="changeOutput(1);">Lamp</a></li>
+                <li data-icon="false"><a onClick="changeOutput(2);">Desk</a></li>
+                <li data-icon="false"><a onClick="changeOutput(3);">Bed</a></li>
             </ul>
 		</div>
 
 		<div id="effectlist">
             <ul data-role="listview" data-inset="true">
-                <li data-icon="false"><a onClick="$('#effectlist').hide();$('#constantForm').show();$('#effectbutton').text('Constant');">Constant</a></li>
-                <li data-icon="false"><a onClick="$('#effectlist').hide();$('#constantForm').hide();$('#effectbutton').text('Fade');">Fade</a></li>
-                <li data-icon="false"><a onClick="$('#effectlist').hide();$('#constantForm').hide();$('#effectbutton').text('Jump');">Jump</a></li>
-                <li data-icon="false"><a onClick="$('#effectlist').hide();$('#constantForm').hide();$('#effectbutton').text('Mouse');">Mouse</a></li>
-                <li data-icon="false"><a onClick="$('#effectlist').hide();$('#constantForm').hide();$('#effectbutton').text('Off');">Off</a></li>
+                <li data-icon="false"><a onClick="changeEffect(0);">Off</a></li>
+                <li data-icon="false"><a onClick="changeEffect(1);">Constant</a></li>
+                <li data-icon="false"><a onClick="changeEffect(2);">Fade</a></li>
+                <li data-icon="false"><a onClick="changeEffect(3);">Jump</a></li>
+                <li data-icon="false"><a onClick="changeEffect(4);">Mouse</a></li>
             </ul>
 		</div>
 	</div>
@@ -95,7 +95,37 @@
 	</div>
 </div>
 
-	<script type="text/javascript">
+<script type="text/javascript">
+	outputID=0;
+	effectID=0;
+	function changeOutput(id){
+		outputID=id;
+		$('#outputlist').hide();
+		if(id==0)
+			$('#outputbutton').text('All');
+		if(id==1)
+			$('#outputbutton').text('Lamp');
+		if(id==2)
+			$('#outputbutton').text('Desk');
+		if(id==3)
+			$('#outputbutton').text('Bed');
+		
+	}
+	function changeEffect(id){
+		effectID=id;
+		$('#effectlist').hide();
+		if(id==0)
+			$('#effectbutton').text('Off');
+		if(id==1)
+			$('#effectbutton').text('Constant');
+		if(id==2)
+			$('#effectbutton').text('Fade');
+		if(id==3)
+			$('#effectbutton').text('Jump');
+		if(id==4)
+			$('#effectbutton').text('Mouse');
+		
+	}
 	function hideAddressBar(){
 		if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
 			document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
@@ -110,15 +140,14 @@
 		var g=$('#slider-g').val();
 		var b=$('#slider-b').val();
 		var d=$('#slider-d').val();
-		$.get("/action/constant?id=0&r="+r+"&g="+g+"&b="+b+"&d="+d);
+		$.get("/action/constant?id="+outputID+"&r="+r+"&g="+g+"&b="+b+"&d="+d);
 	}
 	//$( "#control-r" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-r" ).bind("change", function(event, ui) { updateColor(); });
 	$( "#control-g" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-b" ).on( 'slidestop', function( event ) { updateColor(); });
 	$( "#control-d" ).on( 'slidestop', function( event ) { updateColor(); });
-
-	</script>
+</script>
 
 </body>
 </html>
