@@ -72,25 +72,25 @@ public class WebServer {
 			else if (path.startsWith("/stop")) {
 				response = "stopping server";
 				stopServer = true;
-			} else{
+			} else {
 				response = template;
 				if(manager.hasRGBmodule()){
-					response.replaceAll("<%constantForm1%>",
+					response=response.replaceAll("<%constantForm1%>",
 					"				<div id=\"control-r\"><input type=\"range\" name=\"slider\" id=\"slider-r\" value=\"<%currentR%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>"+
 					"				<div id=\"control-g\"><input type=\"range\" name=\"slider\" id=\"slider-g\" value=\"<%currentG%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>"+
 					"				<div id=\"control-b\"><input type=\"range\" name=\"slider\" id=\"slider-b\" value=\"<%currentB%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>");
-					response.replaceAll("<%currentR%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString())
-					response.replaceAll("<%currentG%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getG()).toString())
-					response.replaceAll("<%currentB%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getB()).toString());
+					response=response.replaceAll("<%currentR%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString());
+					response=response.replaceAll("<%currentG%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getG()).toString());
+					response=response.replaceAll("<%currentB%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getB()).toString());
 				}else{
-					response.replaceAll("<%constantForm1%>","");
+					response=response.replaceAll("<%constantForm1%>","");
 				}
 				if(manager.hasWhiteModule()){
-					response.replaceAll("<%constantForm2%>",
+					response=response.replaceAll("<%constantForm2%>",
 					"				<div id=\"control-d\"><input type=\"range\" name=\"slider\" id=\"slider-d\" value=\"255\" min=\"0\" max=\"255\" data-highlight=\"false\" /></div>");
 					//response.replaceAll("<%currentW%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString());
 				}else{
-					response.replaceAll("<%constantForm2%>","");
+					response=response.replaceAll("<%constantForm2%>","");
 				}
 			}
 			exchange.sendResponseHeaders(200, response.length());
