@@ -71,16 +71,7 @@
 
 
 <div data-role="page" id="home">
-	<div data-role="header">
-		<div data-role="navbar" data-iconpos="top">
-			<ul>
-				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star"><span id="outputbutton">All</span></a></li>
-				<li><a onClick="$('#effectlist').toggle();$('#outputlist').hide();" data-role="button" data-icon="grid"><span id="effectbutton">Constant</span></a></li>
-				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">Settings</a></li>
-				<li><a onClick="window.location.reload();" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">Refresh</a></li>
-			</ul>
-		</div>
-
+	<div data-role="content" data-theme="a">
 		<div id="outputlist">
             <ul data-role="listview" data-inset="true">
                 <li data-icon="false"><a onClick="changeOutput(0);">All</a></li>
@@ -91,17 +82,29 @@
 		</div>
 
 		<div id="effectlist">
-            <ul data-role="listview" data-inset="true">
+            <!--<ul data-role="listview" data-inset="true">
                 <li data-icon="false"><a onClick="changeEffect(0);">Off</a></li>
                 <li data-icon="false"><a onClick="changeEffect(1);">Constant</a></li>
                 <li data-icon="false"><a onClick="changeEffect(2);">Fade</a></li>
                 <li data-icon="false"><a onClick="changeEffect(3);">Jump</a></li>
                 <li data-icon="false"><a onClick="changeEffect(4);">Mouse</a></li>
-            </ul>
-		</div>
-	</div>
+            </ul>-->
+			<fieldset data-role="controlgroup">
+				<legend>Choose a module for output $o:</legend>
+				<input onClick="changeEffect(0);" type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked" />
+				<label for="radio-choice-1">&nbsp;<br />Off<br />&nbsp;</label>
+				<input onClick="changeEffect(1);" type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
+				<label for="radio-choice-2">&nbsp;<br />Constant<br />&nbsp;</label>
+				<input onClick="changeEffect(2);" type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
+				<label for="radio-choice-3">&nbsp;<br />Fade<br />&nbsp;</label>
+				<input onClick="changeEffect(3);" type="radio" name="radio-choice" id="radio-choice-4" value="choice-4"  />
+				<label for="radio-choice-4">&nbsp;<br />Jump<br />&nbsp;</label>
+				<input onClick="changeEffect(4);" type="radio" name="radio-choice" id="radio-choice-5" value="choice-5"  />
+				<label for="radio-choice-5">&nbsp;<br />Mouse<br />&nbsp;</label>
+			</fieldset>
 
-	<div data-role="content" data-theme="a">
+		</div>
+
 		<div id="constantForm">
 			<form>
 				<div id="control-r"><input type="range" name="slider" id="slider-r" value="<%currentR%>" min="0" max="255" data-highlight="true" /></div>
@@ -109,6 +112,17 @@
 				<div id="control-b"><input type="range" name="slider" id="slider-b" value="<%currentB%>" min="0" max="255" data-highlight="true" /></div>
 				<div id="control-d"><input type="range" name="slider" id="slider-d" value="255" min="0" max="255" data-highlight="false" /></div>
 			</form>
+		</div>
+	</div>
+
+	<div data-role="footer" data-position="fixed" data-id="mainfooter">
+		<div data-role="navbar" data-iconpos="top">
+			<ul>
+				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star"><span id="outputbutton">All</span></a></li>
+				<li><a onClick="$('#effectlist').toggle();$('#outputlist').hide();" data-role="button" data-icon="grid"><span id="effectbutton">Constant</span></a></li>
+				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">Settings</a></li>
+				<li><a onClick="window.location.reload();" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">Refresh</a></li>
+			</ul>
 		</div>
 	</div>
 </div>
