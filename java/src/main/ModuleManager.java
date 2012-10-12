@@ -79,4 +79,20 @@ public class ModuleManager {
 			}
 		}
 	}
+	
+	public boolean hasRGBmodule(){
+		for(OutputLED out : conManager.getOutputLEDList()){
+			if(out.getColor()==LEDcolor.RGB)
+				return true;
+		}
+		return false;
+	}	
+	
+	public boolean hasWhiteModule(){
+		for(OutputLED out : conManager.getOutputLEDList()){
+			if(out.getColor()==LEDcolor.WHITE)
+				return true;
+		}
+		return false;
+	}
 }
