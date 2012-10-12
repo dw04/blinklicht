@@ -73,24 +73,22 @@
 <div data-role="page" id="home">
 	<div data-role="content" data-theme="a">
 		<div id="outputlist">
-            <ul data-role="listview" data-inset="true">
-                <li data-icon="false"><a onClick="changeOutput(0);">All</a></li>
-                <li data-icon="false"><a onClick="changeOutput(1);">Lamp</a></li>
-                <li data-icon="false"><a onClick="changeOutput(2);">Desk</a></li>
-                <li data-icon="false"><a onClick="changeOutput(3);">Bed</a></li>
-            </ul>
+			<fieldset data-role="controlgroup">
+				<legend>Choose an output:</legend>
+				<input onClick="changeOutput(0);" type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked" />
+				<label for="radio-choice-1">&nbsp;<br />All<br />&nbsp;</label>
+				<input onClick="changeOutput(1);" type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
+				<label for="radio-choice-2">&nbsp;<br />Lamp<br />&nbsp;</label>
+				<input onClick="changeOutput(2);" type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
+				<label for="radio-choice-3">&nbsp;<br />Desk<br />&nbsp;</label>
+				<input onClick="changeOutput(3);" type="radio" name="radio-choice" id="radio-choice-4" value="choice-4"  />
+				<label for="radio-choice-4">&nbsp;<br />Bed<br />&nbsp;</label>
+			</fieldset>
 		</div>
 
 		<div id="effectlist">
-            <!--<ul data-role="listview" data-inset="true">
-                <li data-icon="false"><a onClick="changeEffect(0);">Off</a></li>
-                <li data-icon="false"><a onClick="changeEffect(1);">Constant</a></li>
-                <li data-icon="false"><a onClick="changeEffect(2);">Fade</a></li>
-                <li data-icon="false"><a onClick="changeEffect(3);">Jump</a></li>
-                <li data-icon="false"><a onClick="changeEffect(4);">Mouse</a></li>
-            </ul>-->
 			<fieldset data-role="controlgroup">
-				<legend>Choose a module for output $o:</legend>
+				<legend>Choose a module for output <span class="outputText">All</span>:</legend>
 				<input onClick="changeEffect(0);" type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked" />
 				<label for="radio-choice-1">&nbsp;<br />Off<br />&nbsp;</label>
 				<input onClick="changeEffect(1);" type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
@@ -102,10 +100,9 @@
 				<input onClick="changeEffect(4);" type="radio" name="radio-choice" id="radio-choice-5" value="choice-5"  />
 				<label for="radio-choice-5">&nbsp;<br />Mouse<br />&nbsp;</label>
 			</fieldset>
-
 		</div>
 
-		<div id="constantForm">
+		<div id="constantForm" style="display:none;">
 			<form>
 				<div id="control-r"><input type="range" name="slider" id="slider-r" value="<%currentR%>" min="0" max="255" data-highlight="true" /></div>
 				<div id="control-g"><input type="range" name="slider" id="slider-g" value="<%currentG%>" min="0" max="255" data-highlight="true" /></div>
@@ -118,8 +115,8 @@
 	<div data-role="footer" data-position="fixed" data-id="mainfooter">
 		<div data-role="navbar" data-iconpos="top">
 			<ul>
-				<li><a onClick="$('#outputlist').toggle();$('#effectlist').hide();" data-role="button" data-icon="star"><span id="outputbutton">All</span></a></li>
-				<li><a onClick="$('#effectlist').toggle();$('#outputlist').hide();" data-role="button" data-icon="grid"><span id="effectbutton">Constant</span></a></li>
+				<li><a onClick="viewOutputs();" data-role="button" data-icon="star"><span class="outputText">All</span></a></li>
+				<li><a onClick="viewEffects();" data-role="button" data-icon="grid"><span id="effectbutton">Off</span></a></li>
 				<li><a href="?page=settings" data-role="button" data-mini="true" data-icon="gear" data-iconpos="notext">Settings</a></li>
 				<li><a onClick="window.location.reload();" data-role="button" data-mini="true" data-icon="refresh" data-iconpos="notext">Refresh</a></li>
 			</ul>
@@ -130,18 +127,29 @@
 <script type="text/javascript">
 	outputID=0;
 	effectID=0;
+	function viewOutputs(){
+		$('#outputlist').show();
+		$('#effectlist').hide();
+		$('#constantForm').hide();
+	}
 	function changeOutput(id){
 		outputID=id;
 		$('#outputlist').hide();
 		if(id==0)
-			$('#outputbutton').text('All');
+			$('.outputText').text('All');
 		if(id==1)
-			$('#outputbutton').text('Lamp');
+			$('.outputText').text('Lamp');
 		if(id==2)
-			$('#outputbutton').text('Desk');
+			$('.outputText').text('Desk');
 		if(id==3)
-			$('#outputbutton').text('Bed');
-		
+			$('.outputText').text('Bed');
+		if(effectID==1)
+			$('#constantForm').show();
+	}
+	function viewEffects(){
+		$('#effectlist').show();
+		$('#outputlist').hide();
+		$('#constantForm').hide();
 	}
 	function changeEffect(id){
 		effectID=id;
@@ -179,7 +187,7 @@
 		window.addEventListener("load",function(){hideAddressBar();});
 		window.addEventListener("orientationchange",function(){hideAddressBar();});
 	}
-	
+	//<actions for module constant>
 	function updateColorSlider(){
 		var r=$('#slider-r').val();
 		var g=$('#slider-g').val();
@@ -192,6 +200,7 @@
 	$( "#control-g" ).on( 'slidestop', function( event ) { updateColorSlider(); });
 	$( "#control-b" ).on( 'slidestop', function( event ) { updateColorSlider(); });
 	$( "#control-d" ).on( 'slidestop', function( event ) { updateColorSlider(); });
+	//</actions for module constant>
 </script>
 
 </body>
