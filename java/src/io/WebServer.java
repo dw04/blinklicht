@@ -90,10 +90,13 @@ public class WebServer {
 			int slider0r = 0,slider0g = 0,slider0b = 0,slider0d = 0;
 			for(OutputLED out : manager.getConnectionManager().getOutputLEDList()){
 				int i = out.getID();
-				outputswitch+="<input type=\"checkbox\" name=\"checkbox-"+i+"\" id=\"checkbox-"+i+"\" class=\"custom\" checked=\"checked\" /><label for=\"checkbox-"+i+"\">"+i+"</label>\n";
+				outputswitch+="<input type=\"checkbox\" name=\"checkbox-"+i+"\" id=\"checkbox-"+i+"\" class=\"custom\" checked=\"checked\" /><label for=\"checkbox-"+i+"\">"+i+" ("+manager.getModule(i).getName()+")</label>\n";
 				sliderX+="<div data-content-theme=\"c\" data-role=\"collapsible\"><h3><div class=\"outputdrop\" data-role=\"fieldcontain\">\n";
 				sliderX+="<label class=\"outputdroptext\" for=\"flip-"+i+"\">Output "+i+"</label><select name=\"slider"+i+"\" id=\"flip-"+i+"\" class=\"sliderConstant\" data-role=\"slider\">\n";
-				sliderX+="<option value=\"off\">Off</option><option value=\"on\">On</option></select></div></h3><p>\n";
+				sliderX+="<option value=\"off\">Off</option><option value=\"on\"";
+				if(!manager.getModule(i).getName().equals("none"))
+					sliderX+=" selected=\"selected\"";
+				sliderX+=">On</option></select></div></h3><p>\n";
 				scriptActivateOutput+="if(\\$('#checkbox-"+i+"').attr(\"checked\")==\"checked\") \\$('#flip-"+i+"').val(\\$(this).val()).slider(\"refresh\");\n";
 				if(out.getColor()==LEDcolor.RGB){
 					slider0r=out.getR();

@@ -22,6 +22,9 @@ public class ModuleManager {
 	public ConnectionManager getConnectionManager(){
 		return conManager;
 	}
+	public Module getModule(int outputID){
+		return outputOccupation.get(outputID);
+	}
 	
 	public ModuleManager(ConnectionManager connection){
 		conManager = connection; 
@@ -58,13 +61,15 @@ public class ModuleManager {
 			(new Thread(mod)).start();
 			outputOccupation.put(output, mod);
 		}else{//module is allready running
-			System.out.println("output "+output+" allready is "+moduleName);
 			if(moduleName.equals("constant")){
 				if(parameters.get("id")==0){
 					for(OutputLED out : conManager.getOutputLEDList()){
 						if(out.getColor()==LEDcolor.RGB){
+							System.out.println("output "+output+" allready is "+moduleName+" setting values r="+
+								parameters.get("r")+" g="+parameters.get("g")+" b="+parameters.get("b"));
 							out.sendRGB(parameters.get("r"), parameters.get("g"), parameters.get("b"));
 						}else if(out.getColor()==LEDcolor.WHITE){
+							System.out.println("output "+output+" allready is "+moduleName+" setting values d="+parameters.get("d"));
 							out.sendRGB(parameters.get("d"), 0, 0);
 						}
 					}
