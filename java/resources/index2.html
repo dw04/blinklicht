@@ -100,35 +100,13 @@
 		<div id="moduleConstant">
 			<form><table style="width:100%;">
 				<tr><td><div data-role="fieldcontain"><fieldset data-role="controlgroup" data-type="horizontal">
-					<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" checked="checked" /><label for="checkbox-1">1</label>
-					<input type="checkbox" name="checkbox-2" id="checkbox-2" class="custom" checked="checked" /><label for="checkbox-2">2</label>
-					<input type="checkbox" name="checkbox-3" id="checkbox-3" class="custom" checked="checked" /><label for="checkbox-3">3</label> 
+					<%outputswitch%>
 				</fieldset></div>
 				<label for="flip-0"></label></td><td><select name="slider0" id="flip-0" class="sliderConstant" data-role="slider">
 					<option value="off">Off</option><option value="on">On</option></select></td></tr>
-				<tr><td colspan="2"><div id="constant0rb" class="control-r"><input type="range" name="slider" id="constant0r" class="slider-r" value="100" min="0" max="255" data-highlight="true" /></div></td></tr>
-				<tr><td colspan="2"><div id="constant0gb" class="control-g"><input type="range" name="slider" id="constant0g" class="slider-g" value="100" min="0" max="255" data-highlight="true" /></div></td></tr>
-				<tr><td colspan="2"><div id="constant0bb" class="control-b"><input type="range" name="slider" id="constant0b" class="slider-b" value="100" min="0" max="255" data-highlight="true" /></div></td></tr>
-				<tr><td colspan="2"><div id="constant0db" class="control-d"><input type="range" name="slider" id="constant0d" class="slider-d" value="255" min="0" max="255" data-highlight="false" /></div></td></tr>
+				<%slider0%>
 			</table></form>
-
-			<div data-content-theme="c" data-role="collapsible">
-				<h3><div class="outputdrop" data-role="fieldcontain">
-					<label class="outputdroptext" for="flip-1">Output 1</label><select name="slider1" id="flip-1" class="sliderConstant" data-role="slider">
-					<option value="off">Off</option><option value="on">On</option></select></div></h3>
-				<p>
-					<div id="constant1rb" class="control-r"><input type="range" name="slider" id="constant1r" class="slider-r" value="100" min="0" max="255" data-highlight="true" /></div>
-					<div id="constant1gb" class="control-g"><input type="range" name="slider" id="constant1g" class="slider-g" value="100" min="0" max="255" data-highlight="true" /></div>
-					<div id="constant1bb" class="control-b"><input type="range" name="slider" id="constant1b" class="slider-b" value="100" min="0" max="255" data-highlight="true" /></div>
-				</p>
-			</div>
-
-			<div data-content-theme="c" data-role="collapsible">
-				<h3><div class="outputdrop" data-role="fieldcontain">
-					<label class="outputdroptext" for="flip-2">Output 2</label><select name="slider2" id="flip-2" class="sliderConstant" data-role="slider">
-					<option value="off">Off</option><option value="on">On</option></select></div></h3>
-				<p><div id="constant2db" class="control-d"><input type="range" name="slider" id="constant2d" class="slider-d" value="255" min="0" max="255" data-highlight="false" /></div></p>
-			</div>
+			<%sliderX%>
 		</div>
 	</div>
 </div>
@@ -136,35 +114,28 @@
 <script type="text/javascript">
 
 //---<module color>---
-$(document).on('change', '.sliderConstant', function () {
-    if($(this).attr('id')=='flip-0'){
-    	if($('#checkbox-1').attr("checked")=="checked")
-    		$('#flip-1').val($(this).val()).slider("refresh");
-    	if($('#checkbox-2').attr("checked")=="checked")
-    		$('#flip-2').val($(this).val()).slider("refresh");
-    }
-    if($(this).val()=='off')
-		$.get("/action/none?id="+$(this).attr('id').substring(5));
-});
-
 function updateColorSlider(num){
     //if($('#checkbox-1').attr("checked")=="checked") $("#constant1gb input[type=number]").val($('#constant0g').val()).slider('refresh');
 	var r=$('#constant'+num+'r').val();	if(!r) r=0;
 	var g=$('#constant'+num+'g').val();	if(!g) g=0;
 	var b=$('#constant'+num+'b').val();	if(!b) b=0;
 	var d=$('#constant'+num+'d').val();	if(!d) d=0;
-	$.get("/action/constant?id="+outputID+"&r="+r+"&g="+g+"&b="+b+"&d="+d);
+	$.get("/action/constant?id="+num+"&r="+r+"&g="+g+"&b="+b+"&d="+d);
 }
 
-//$( "#constant0r" ).on( 'slidestop', function( event ) { updateColorSlider(0); });
-$( "#constant0rb" ).bind("change", function(event, ui) { updateColorSlider(0); });
-$( "#constant0gb" ).on( 'slidestop', function( event ) { updateColorSlider(0); });
-$( "#constant0bb" ).on( 'slidestop', function( event ) { updateColorSlider(0); });
-$( "#constant0db" ).on( 'slidestop', function( event ) { updateColorSlider(0); });
-$( "#constant1rb" ).on( 'slidestop', function( event ) { updateColorSlider(1); });
-$( "#constant1gb" ).on( 'slidestop', function( event ) { updateColorSlider(1); });
-$( "#constant1bb" ).on( 'slidestop', function( event ) { updateColorSlider(1); });
-$( "#constant2db" ).on( 'slidestop', function( event ) { updateColorSlider(2); });
+$(document).on('change', '.sliderConstant', function () {
+    if($(this).attr('id')=='flip-0'){
+    	<%scriptActivateOutput%>
+    }
+    if($(this).val()=='off'){
+		$.get("/action/none?id="+$(this).attr('id').substring(5));
+	}else{
+		updateColorSlider($(this).attr('id').substring(5));
+	}
+});
+
+//$( "#constant0rb" ).bind("change", function(event, ui) { updateColorSlider(0); });
+<%scriptColorEvent%>
 //---</module color>---
 
 
@@ -203,7 +174,7 @@ $( "#constant2db" ).on( 'slidestop', function( event ) { updateColorSlider(2); }
 			$.get("/action/none?id="+outputID);
 		}
 		if(id==1){
-			$('#effectbutton').text('Constant');
+			$('#effectbutton').text('Color');
 			$('#constantForm').show();
 			updateColorSlider();
 		}

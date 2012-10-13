@@ -20,7 +20,7 @@ public class MainServer {
 		
 		if(conManager.getOutputLEDList().size()>0){
 			WebServer ws = new WebServer();
-			ws.start(8003, conManager);
+			ws.start(8000, conManager);
 			/*
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try {

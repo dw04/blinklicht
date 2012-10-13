@@ -73,30 +73,63 @@ public class WebServer {
 				response = "stopping server";
 				stopServer = true;
 			} else {
-				response = template;
-				if(manager.hasRGBmodule()){
-					response=response.replaceAll("<%constantForm1%>",
-					"				<div id=\"control-r\"><input type=\"range\" name=\"slider\" id=\"slider-r\" value=\"<%currentR%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>"+
-					"				<div id=\"control-g\"><input type=\"range\" name=\"slider\" id=\"slider-g\" value=\"<%currentG%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>"+
-					"				<div id=\"control-b\"><input type=\"range\" name=\"slider\" id=\"slider-b\" value=\"<%currentB%>\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>");
-					response=response.replaceAll("<%currentR%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString());
-					response=response.replaceAll("<%currentG%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getG()).toString());
-					response=response.replaceAll("<%currentB%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getB()).toString());
-				}else{
-					response=response.replaceAll("<%constantForm1%>","");
-				}
-				if(manager.hasWhiteModule()){
-					response=response.replaceAll("<%constantForm2%>",
-					"				<div id=\"control-d\"><input type=\"range\" name=\"slider\" id=\"slider-d\" value=\"255\" min=\"0\" max=\"255\" data-highlight=\"false\" /></div>");
-					//response.replaceAll("<%currentW%>", ((Integer)manager.getConnectionManager().getOutputLED(1).getR()).toString());
-				}else{
-					response=response.replaceAll("<%constantForm2%>","");
-				}
+				response = replaceTokens(template);
 			}
 			exchange.sendResponseHeaders(200, response.length());
 			OutputStream os = exchange.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
+		}
+
+		private String replaceTokens(String template) {
+			String outputswitch = "";
+			String slider0 = "";
+			String sliderX = "";
+			String scriptActivateOutput = "";
+			String scriptColorEvent = "";
+			int slider0r = 0,slider0g = 0,slider0b = 0,slider0d = 0;
+			for(OutputLED out : manager.getConnectionManager().getOutputLEDList()){
+				int i = out.getID();
+				outputswitch+="<input type=\"checkbox\" name=\"checkbox-"+i+"\" id=\"checkbox-"+i+"\" class=\"custom\" checked=\"checked\" /><label for=\"checkbox-"+i+"\">"+i+"</label>\n";
+				sliderX+="<div data-content-theme=\"c\" data-role=\"collapsible\"><h3><div class=\"outputdrop\" data-role=\"fieldcontain\">\n";
+				sliderX+="<label class=\"outputdroptext\" for=\"flip-"+i+"\">Output "+i+"</label><select name=\"slider"+i+"\" id=\"flip-"+i+"\" class=\"sliderConstant\" data-role=\"slider\">\n";
+				sliderX+="<option value=\"off\">Off</option><option value=\"on\">On</option></select></div></h3><p>\n";
+				scriptActivateOutput+="if(\\$('#checkbox-"+i+"').attr(\"checked\")==\"checked\") \\$('#flip-"+i+"').val(\\$(this).val()).slider(\"refresh\");\n";
+				if(out.getColor()==LEDcolor.RGB){
+					slider0r=out.getR();
+					slider0g=out.getG();
+					slider0b=out.getB();
+					sliderX+="<div id=\"constant"+i+"rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"r\" class=\"slider-r\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>\n";
+					sliderX+="<div id=\"constant"+i+"gb\" class=\"control-g\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"g\" class=\"slider-g\" value=\""+out.getG()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>\n";
+					sliderX+="<div id=\"constant"+i+"bb\" class=\"control-b\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"b\" class=\"slider-b\" value=\""+out.getB()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>\n";
+					scriptColorEvent+="\\$( \"#constant"+i+"rb\" ).on( 'slidestop', function( event ) { updateColorSlider("+i+"); });";
+					scriptColorEvent+="\\$( \"#constant"+i+"gb\" ).on( 'slidestop', function( event ) { updateColorSlider("+i+"); });";
+					scriptColorEvent+="\\$( \"#constant"+i+"bb\" ).on( 'slidestop', function( event ) { updateColorSlider("+i+"); });";
+				}else if(out.getColor()==LEDcolor.WHITE){
+					slider0d=out.getR();
+					sliderX+="<div id=\"constant"+i+"db\" class=\"control-d\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"d\" class=\"slider-d\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"false\" /></div>\n";
+					scriptColorEvent+="\\$( \"#constant"+i+"db\" ).on( 'slidestop', function( event ) { updateColorSlider("+i+"); });";
+				}
+				sliderX+="</p></div>\n";
+			}
+			if(manager.hasRGBmodule()){
+				slider0+="<tr><td colspan=\"2\"><div id=\"constant0rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant0r\" class=\"slider-r\" value=\""+slider0r+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></td></tr>\n";
+				slider0+="<tr><td colspan=\"2\"><div id=\"constant0gb\" class=\"control-g\"><input type=\"range\" name=\"slider\" id=\"constant0g\" class=\"slider-g\" value=\""+slider0g+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></td></tr>\n";
+				slider0+="<tr><td colspan=\"2\"><div id=\"constant0bb\" class=\"control-b\"><input type=\"range\" name=\"slider\" id=\"constant0b\" class=\"slider-b\" value=\""+slider0b+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></td></tr>\n";
+				scriptColorEvent+="\\$( \"#constant0rb\" ).on( 'slidestop', function( event ) { updateColorSlider(0); });";
+				scriptColorEvent+="\\$( \"#constant0gb\" ).on( 'slidestop', function( event ) { updateColorSlider(0); });";
+				scriptColorEvent+="\\$( \"#constant0bb\" ).on( 'slidestop', function( event ) { updateColorSlider(0); });";
+			}
+			if(manager.hasWhiteModule()){
+				slider0+="<tr><td colspan=\"2\"><div id=\"constant0db\" class=\"control-d\"><input type=\"range\" name=\"slider\" id=\"constant0d\" class=\"slider-d\" value=\""+slider0d+"\" min=\"0\" max=\"255\" data-highlight=\"false\" /></div></td></tr>\n";
+				scriptColorEvent+="\\$( \"#constant0db\" ).on( 'slidestop', function( event ) { updateColorSlider(0); });";
+			}
+			template=template.replaceAll("<%outputswitch%>", outputswitch);
+			template=template.replaceAll("<%slider0%>", slider0);
+			template=template.replaceAll("<%sliderX%>", sliderX);
+			template=template.replaceAll("<%scriptActivateOutput%>", scriptActivateOutput);
+			template=template.replaceAll("<%scriptColorEvent%>", scriptColorEvent);
+			return template;
 		}
 	}
 
@@ -105,7 +138,7 @@ public class WebServer {
 		try {
 			StringBuilder text = new StringBuilder();
 		    String nl = System.getProperty("line.separator");
-		    Scanner scanner = new Scanner(new FileInputStream("resources/index.html"), "UTF-8");
+		    Scanner scanner = new Scanner(new FileInputStream("resources/index2.html"), "UTF-8");
 		    try {
 		    	while (scanner.hasNextLine())
 		    		text.append(scanner.nextLine() + nl);
