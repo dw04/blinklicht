@@ -7,9 +7,11 @@ import io.ConnectionManager;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import device.DeviceRadio;
 import device.OutputLED;
 import device.Device;
 import device.DeviceLED;
+import device.OutputRadio;
 
 import modules.led.CursorColor;
 import modules.led.Fade;
@@ -27,7 +29,7 @@ public class Test {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		Test.testClientInput();
+//		Test.testClientInput();
 
 //		ConnectionManager conManager = new ConnectionManager();
 //		conManager.connectSerialDevices();
@@ -106,22 +108,26 @@ public class Test {
 		
 		
 		
-//		SerialConnection con = new SerialConnection("/dev/tty.usbserial-A8008EGb", 115200);
-//		try {
-//			con.connect();
-//			Thread.sleep(2000);
-//			con.send("G254");
-//			
-//			Thread.sleep(5000);
-//			con.close();
-//			
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		Device con = new Device("/dev/tty.usbserial-FTTPRBJH", 19200);
+		try {
+			con.connect();
+			Thread.sleep(2000);
+			
+			
+			OutputRadio r = new OutputRadio(new DeviceRadio(con),"test","1000");
+			r.turnOn();
+			Thread.sleep(5000);
+			r.turnOff();
+			
+			con.close();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		ConnectionManager c = new ConnectionManager();
+//		c.connectSerialDevices();
 		
 	}
 

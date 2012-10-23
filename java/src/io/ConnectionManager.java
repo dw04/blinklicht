@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 
 import device.DeviceCode;
+import device.DeviceRadio;
 import device.LEDcolor;
 import device.OutputLED;
 import device.OutputOutlet;
@@ -20,7 +21,7 @@ import device.DeviceLED;
 public class ConnectionManager {
 
 	
-	
+	DeviceRadio outputRadioDevice;
 
 	LinkedList<OutputLED> outputLEDList;
 	public LinkedList<OutputLED> getOutputLEDList() {
@@ -60,7 +61,12 @@ public class ConnectionManager {
 			System.out.print(currPortId.getName()+": ");
 			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
 				System.out.println("try connect...");
-				Device sd = new Device(currPortId.getName(),DATA_RATE);
+				Device sd;
+				if(currPortId.getName().equals("/dev/tty.usbserial-FTTPRBJH")){ //TODO: remove quick hack
+					 sd = new Device(currPortId.getName(),19200);
+				}else{
+					 sd = new Device(currPortId.getName(),DATA_RATE);
+				}			
 				String s;
 				try {
 					s = sd.connect();
@@ -93,6 +99,7 @@ public class ConnectionManager {
 	private boolean parseInput(String str, Device sp) throws IOException{
 		System.out.println("   input string: " + str );
 		if(str.equals("LED-1-DCODE")){
+			System.out.println("   found DCODE device");
 			DeviceLED led = new DeviceLED(sp,DeviceCode.D_CODE);
 			outputLEDList.add(new OutputLED(led, 1, LEDcolor.RGB));
 			allDevices.add(led);
@@ -110,6 +117,11 @@ public class ConnectionManager {
 				if(type.equals("WHITE"))
 					outputLEDList.add(new OutputLED(led, id, LEDcolor.WHITE));					
 			}
+			return true;
+		}else if(str.equals("radio")){
+			System.out.println("   found RADIO device");
+			outputRadioDevice = new DeviceRadio(sp);
+			allDevices.add(outputRadioDevice);
 			return true;
 		}
 		return false;

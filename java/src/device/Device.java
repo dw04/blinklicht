@@ -78,6 +78,7 @@ public class Device{
 			byte indata[] = new byte[0];
 			String data = "";
 			System.out.println("   waiting for input... ");
+			send("i"); //workaround: radio device does not reset on connection start
 			while ((System.currentTimeMillis() - currentTime)<5000) { //wait 2seconds
 				if(input.available() > 0){
 					indata = new byte[input.available()];
@@ -91,6 +92,7 @@ public class Device{
 				return data;
 			}
 			else{
+				System.out.println("...nothing received");
 				return null;
 			}
 			
