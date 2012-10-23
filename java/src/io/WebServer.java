@@ -1,12 +1,16 @@
 package io;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
@@ -19,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
+
 import main.ModuleManager;
 
 import com.sun.net.httpserver.Filter;
@@ -26,6 +32,7 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import device.LEDcolor;
 import device.OutputLED;
@@ -72,7 +79,26 @@ public class WebServer {
 			else if (path.startsWith("/stop")) {
 				response = "stopping server";
 				stopServer = true;
-			} else {
+			}
+			else if (path.startsWith("/apple-touch-icon.png")) {
+				
+				String url ="resources/apple-touch-icon.png";
+				
+				//FileInputStream image   = new FileInputStream(url);
+				BufferedImage image = ImageIO.read(new File(url));
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(image, "png", baos);
+				
+				byte[] imageInBytes = baos.toByteArray();
+				
+				exchange.sendResponseHeaders(200, imageInBytes.length);
+				OutputStream os = exchange.getResponseBody();
+				os.write(imageInBytes);
+				os.close();
+				
+		        return;
+			}
+			else {
 				response = replaceTokens(template);
 			}
 			exchange.sendResponseHeaders(200, response.length());

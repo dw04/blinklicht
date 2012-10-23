@@ -11,6 +11,7 @@ import io.ConnectionManager;
 import io.ProtobufInput;
 import io.WebServer;
 
+
 public class MainServer {
 	public static void main(String[] args) {
 		System.out.println("Connecting Devices ...");
@@ -18,9 +19,10 @@ public class MainServer {
 		conManager.connectSerialDevices();
 		System.out.println("...finished." + " result: LEDdevices: "+conManager.getOutputLEDList().size());
 		
-		if(conManager.getOutputLEDList().size()>0){
+	//	if(conManager.getOutputLEDList().size()>0){
 			WebServer ws = new WebServer();
 			ws.start(8000, conManager);
+			
 			/*
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			try {
@@ -49,6 +51,6 @@ public class MainServer {
 				e.printStackTrace();
 			}
 			conManager.closeAllDevices();*/
-		}
+	//	}
 	}
 }
