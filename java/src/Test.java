@@ -108,26 +108,26 @@ public class Test {
 		
 		
 		
-		Device con = new Device("/dev/tty.usbserial-FTTPRBJH", 19200);
-		try {
-			con.connect();
-			Thread.sleep(2000);
-			
-			
-			OutputRadio r = new OutputRadio(new DeviceRadio(con),"test","1000");
-			r.turnOn();
-			Thread.sleep(5000);
-			r.turnOff();
-			
-			con.close();
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Device con = new Device("/dev/tty.usbserial-FTTPRBJH", 19200);
+//		try {
+//			con.connect();
+//			Thread.sleep(2000);
+//			
+//			
+//			OutputRadio r = new OutputRadio(new DeviceRadio(con),"test","1000");
+//			r.turnOn();
+//			Thread.sleep(5000);
+//			r.turnOff();
+//			
+//			con.close();
+//			
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
-//		ConnectionManager c = new ConnectionManager();
-//		c.connectSerialDevices();
+		ConnectionManager c = new ConnectionManager();
+		c.connectSerialDevices();
 		
 	}
 

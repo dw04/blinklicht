@@ -5,7 +5,7 @@ import java.io.IOException;
 import modules.ModuleLED;
 import modules.led.ConstantColor;
 
-public class OutputLED {
+public class OutputLED implements OutputOutlet{
 
 	private DeviceLED device;
 	private int id;
@@ -73,5 +73,17 @@ public class OutputLED {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // TODO: check if rgb values are in valid range
+	}
+
+	@Override
+	public void turnOn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void turnOff() {
+		// TODO Auto-generated method stub
+		
 	}
 }

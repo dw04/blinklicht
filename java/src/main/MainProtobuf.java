@@ -13,7 +13,8 @@ public class MainProtobuf {
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectSerialDevices();
-		System.out.println("...finished." + " result: RGBdevices: "+conManager.getOutputLEDList().size()+" LEDdevices: "+conManager.getOutputLEDList().size());
+		conManager.printResult();
+
 		
 		if(conManager.getOutputLEDList().size()>0){
 			System.out.print("Starting protobuf socket...");

@@ -17,7 +17,7 @@ public class MainServer {
 		System.out.println("Connecting Devices ...");
 		ConnectionManager conManager = new ConnectionManager();
 		conManager.connectSerialDevices();
-		System.out.println("...finished." + " result: LEDdevices: "+conManager.getOutputLEDList().size());
+		conManager.printResult();
 		
 	//	if(conManager.getOutputLEDList().size()>0){
 			WebServer ws = new WebServer();
