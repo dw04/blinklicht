@@ -199,8 +199,8 @@ public class ConnectionManager {
 	public void printResult(){
 		System.out.println("...finished." + "\n RESULT: \n LEDOutputs: "+getOutputLEDList().size() + 
 				"\n RadioDevice: " + (getOutputRadioDevice() != null) +
-				"\n TOTAL OUTPUTS: " +getOutputOutletList()+ 
-				"\n TOTAL DEVICES: " + getAllDevices());
+				"\n TOTAL OUTPUTS: " +getOutputOutletList().size()+ 
+				"\n TOTAL DEVICES: " + getAllDevices().size());
 	}
 
 
