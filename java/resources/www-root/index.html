@@ -45,6 +45,20 @@
     //             //    $.get("blink/connection.php", { p: $id , b: $on}, function(data){console.log(data);});									
     //             });              
     //         });
+            
+
+function updateSlider(slideAmount,name) {
+//get the element
+var display = document.getElementById(name);
+//show the amount
+display.innerHTML=slideAmount;
+// //get the element
+// var pic = document.getElementById("pic");
+// //set the dimensions
+// pic.style.width=slideAmount+"%";
+// pic.style.height=slideAmount+"%";
+
+}
 
     
         </script>
@@ -70,16 +84,42 @@
                 font-weight: bold;
                 text-decoration: none;
             }
+
+            #slider-container{
+                display: block;
+            }
+            .slider {
+                margin-top:10px;
+                margin-left:10px;
+                margin-bottom:10px;
+                display: inline-block;
+            }
+            .chosen {
+                margin:10px;
+                border-radius:5px;
+                width:45px !important;
+                padding:5px; 
+               /* background-image: -webkit-linear-gradient(top, #cccccc, #330000);
+                background-image: -o-linear-gradient(top, #cccccc, #330000);
+                background-image: -moz-linear-gradient(top, #cccccc, #330000);*/
+                background-color: #000000;
+                text-align:center;
+                color:#ffffff;
+                font-weight:bold; font-size:large;
+                /*margin-left:40px;*/
+                display:inline-block;
+                
+            }
+            input[type='range'] {
+                -webkit-appearance: none;
+                padding-left:4px; padding-right:4px;
+                -webkit-border-radius: 5px;
+              /*  background-image: -webkit-linear-gradient(top, #000000, #333333, #000000);*/
+                background-image: -webkit-linear-gradient( #202020,#2C2C2C );
+            /*    background-color:#FF0000;*/
+            }
         </style>
-<!-- 
-        <script>
-         $(document).ready(function() {
-          $("#slider").slider();
-          $("#slider1").slider();
-          $("#slider2").slider();
-         });
-        </script>
- -->
+
     </head>
     <body>
 
@@ -93,6 +133,16 @@
                 <form class="scroll">
                     <ul class="edit rounded">
 
+                      <!--   <div id="slider-container">
+                            <div style="background-color: #FF0000" id="chosen" class="chosen">255</div>
+                            <div id="slider" class=slider>
+                              0 <input id="slide" type="range"
+                                min="0" max="255" step="1" value="255"
+                                onchange="updateSlider(this.value)" />
+                              255
+                            </div>
+                        </div> -->
+                        
 
             <!--     <div id="slider"></div> -->
 

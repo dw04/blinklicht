@@ -6,9 +6,9 @@ import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
+import java.util.LinkedList;
 
 import device.OutputLED;
-
 import modules.ModuleLED;
 
 
@@ -45,6 +45,7 @@ public class ConstantColor extends ModuleLED implements Runnable {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+
 	}
 
 	@Override

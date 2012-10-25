@@ -1,5 +1,6 @@
 package io;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,6 +29,7 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 import main.ModuleManager;
+import modules.ModuleLED;
 
 import com.sun.net.httpserver.Filter;
 import com.sun.net.httpserver.HttpContext;
@@ -150,17 +153,13 @@ public class WebServer {
 	            return "text/plain";
 	    }
 		
-		private StringBuffer addModule(StringBuffer template, String name){
-			
-		//	String module =  "<li>"+name+"<span class=\"led_device toggle\" id=\"fade\"><input type=\"checkbox\"></span></li>";
-			//String module =  "<li>"+name+"</li>";
+		private StringBuffer wrapModule(StringBuffer template, String name, String content){
+		
 			String module =  "<li class=\"arrow\">" + "<a href=\"#"+name+"\" style=\"\" class=\"\">"+ name +"</li>";
 			
-			String content= "";
-		
-			if(name.equals("Constant")){
-				content+=addSlider( manager.getConnectionManager().getOutputLEDList().getFirst(), name);
-			}
+//			if(name.equals("Constant")){
+//				content+=addSliders( manager.getConnectionManager().getOutputLEDList().getFirst(), name);
+//			}
 			
 			// <li> <span class=\"toggle\"><input type=\"checkbox\"></span></li>
 			String moduleClass = "<div id=\""+name+"\"><div class=\"toolbar\"> <a class=\"back\" href=\"#\" style=\"\">Home</a></div><div class=\"scroll\"><h2>"+name+"</h2>" +
@@ -174,33 +173,70 @@ public class WebServer {
 		return template;
 		}
 		
-		//for(OutputLED out : manager.getConnectionManager().getOutputLEDList()){
-		private String addSlider(OutputLED out, String moduleName){
+		private String addColorSlider(String moduleName, Color color){
+			String rgb = Integer.toHexString(color.getRGB());
+			rgb = rgb.substring(2, rgb.length());
+	
+			String identifier = moduleName +rgb;
+			String result=  "<div id=\"slider-container\">" +
+					"<div style=\"background-color: #"+rgb+"\" id=\"chosen"+identifier+"\" class=\"chosen\">255</div>" +
+					"<div id=\"slider"+identifier+"\" class=slider>0 <input id=\"slide"+identifier+"\" type=\"range\"min=\"0\" max=\"255\" step=\"1\" value=\"255\"onchange=\"updateSlider(this.value,'chosen"+identifier+"')\" />255" +
+					"</div></div>";
+			
+			return result;
+		}
 		
-			String result = "";
-			int i = out.getID();
-			if(out.getColor() == LEDcolor.RGB){
-//				 result += "<input id=\""+moduleName+"R" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"R" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"R" +"slider"+"','"+moduleName+"R" +"')\"> <br>  ";
-//				 result += "<input id=\""+moduleName+"G" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"G" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"G" +"slider"+"','"+moduleName+"G" +"')\"> <br>  ";
-//				 result += "<input id=\""+moduleName+"B" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"B" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"B" +"slider"+"','"+moduleName+"B" +"')\"> <br>  ";
-				//result +="<div id=\"constant"+i+"rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"r\" class=\"slider-r\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>\n";
-
-				
-			}
-			//String result ="<form><div id=\"constant"+i+"rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"r\" class=\"slider-r\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></form>\n";
-			//String result = "<div id=\"control-r\"><input type=\"number\" data-type=\"range\" name=\"slider\" id=\"slider-r\" value=\"0\" min=\"0\" max=\"255\" data-highlight=\"true\" class=\"ui-input-text ui-body-a ui-corner-all ui-shadow-inset ui-slider-input\"><div role=\"application\" class=\"ui-slider  ui-btn-down-a ui-btn-corner-all\"><div class=\"ui-slider-bg ui-btn-active ui-btn-corner-all\" style=\"width: 36.07843137254902%; \"></div><a href=\"#\" class=\"ui-slider-handle ui-btn ui-shadow ui-btn-corner-all ui-btn-up-a\" data-corners=\"true\" data-shadow=\"true\" data-iconshadow=\"true\" data-wrapperels=\"span\" data-theme=\"a\" role=\"slider\" aria-valuemin=\"0\" aria-valuemax=\"255\" aria-valuenow=\"92\" aria-valuetext=\"92\" title=\"92\" aria-labelledby=\"slider-r-label\" style=\"left: 36.07843137254902%; \"><span class=\"ui-btn-inner ui-btn-corner-all\"><span class=\"ui-btn-text\"></span></span></a></div></div>";
+		private String addIntervalSlider(String moduleName, int min, int max){
+			String identifier = moduleName;
+			String result=  "<div id=\"slider-container\">" +
+					"<div style=\"background-color: #000000\" id=\"chosen"+identifier+"\" class=\"chosen\">"+min+"</div>" +
+					"<div id=\"slider"+identifier+"\" class=slider>"+min+" <input id=\"slide"+identifier+"\" type=\"range\"min=\""+min+"\" max=\""+max+"\" step=\"1\" value=\"0\"onchange=\"updateSlider(this.value,'chosen"+identifier+"')\" />"+max+"   in ms"+
+					"</div></div>";
+			return result;
+		}
+		
+		
+		private StringBuffer addConstantColor(StringBuffer buffer){
+			String name = "Constant";
+			String content = "";
 			
+			content+=addColorSlider(name, Color.RED);
+			content+=addColorSlider(name, Color.GREEN);
+			content+=addColorSlider(name, Color.BLUE);
 			
-			String container = "<div class=\""+ moduleName +"A" +"\">" +result +  "</div>";
+			wrapModule(buffer, name, content);
+			return buffer;
+		}
+		
+		private StringBuffer addFade(StringBuffer buffer){
+			String name = "Fade";
+			String content = "";
 			
-			return container;
+			content+=addIntervalSlider(name, 500, 10000);
+			
+			wrapModule(buffer, "Fade", content);
+			return buffer;
+		}
+		
+		private StringBuffer addRandom(StringBuffer buffer){
+			String name = "Random";
+			String content = "";
+			
+			content+=addIntervalSlider(name, 500, 20000);
+			
+			wrapModule(buffer, "Random", content);
+			return buffer;
 		}
 		
 		private String replaceTokens2(String template){
 			StringBuffer buffer = new StringBuffer(template);
-			addModule(buffer, "Constant");
-			addModule(buffer,"Fade");
-			addModule(buffer,"test2");
+			
+			//generate Module list  - this is just a temporary workaround to list all modules
+			LinkedList<ModuleLED> moduleList= new LinkedList<ModuleLED>();
+		
+			addConstantColor(buffer);
+			addFade(buffer);
+			addRandom(buffer);
 			
 			
 			//template=template.replaceAll("<%modules%>", addModule(template,"Constant")+addModule(template,"Fade")+addModule(template,"test2"));

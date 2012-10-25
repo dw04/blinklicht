@@ -15,6 +15,7 @@ public class Random extends ModuleLED implements Runnable{
 	public Random(OutputLED out, int interval){
 		super(out);
 		this.interval = interval;
+		
 	}
 	
 	@Override

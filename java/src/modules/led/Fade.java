@@ -16,6 +16,7 @@ public class Fade extends ModuleLED implements Runnable{
 		this.fadeInterval = fadeinterval;
 		stop = false;
 		pause = false;
+		
 	}
 	
 	@Override
