@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,29 @@ public class WebServer {
 			String path = exchange.getRequestURI().toASCIIString();
 			//System.out.print("new req: " + path + " -> ");
 			String response;
+			System.out.println("Request: "+path);
+			
+			//check if a file is requested
+			File f = new File("resources/www-root/"+ path.substring(1, path.length()));
+			if(!path.contains("..") && !path.contains("//") && f.exists() && f.isFile()){
+				InputStream file = new FileInputStream(f);
+				
+				OutputStream os = exchange.getResponseBody();
+				
+				exchange.sendResponseHeaders(200, f.length());
+			
+				try {
+		            byte[] buffer = new byte[1000];
+		            while (file.available()>0) 
+		                os.write(buffer, 0, file.read(buffer));
+		        } catch (IOException e) { System.err.println(e); }
+				
+				os.close();
+				
+				return;
+			}
+			
+			
 			if (path.startsWith("/action")){
 				String module="constant";
 				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
@@ -84,8 +108,9 @@ public class WebServer {
 				
 				String url ="resources/apple-touch-icon.png";
 				
+				
 				//FileInputStream image   = new FileInputStream(url);
-				BufferedImage image = ImageIO.read(new File(url));
+				BufferedImage image = ImageIO.read(new File(url));   //better just send file here
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				ImageIO.write(image, "png", baos);
 				
@@ -99,7 +124,7 @@ public class WebServer {
 		        return;
 			}
 			else {
-				response = replaceTokens(template);
+				response = replaceTokens2(template);
 			}
 			exchange.sendResponseHeaders(200, response.length());
 			OutputStream os = exchange.getResponseBody();
@@ -107,6 +132,86 @@ public class WebServer {
 			os.close();
 		}
 
+		private String guessContentType(String path)
+	    {
+	        if (path.endsWith(".html") || path.endsWith(".htm")) 
+	            return "text/html";
+	        else if (path.endsWith(".txt") || path.endsWith(".java")) 
+	            return "text/plain";
+	        else if (path.endsWith(".gif")) 
+	            return "image/gif";
+	        else if (path.endsWith(".class"))
+	            return "application/octet-stream";
+	        else if (path.endsWith(".jpg") || path.endsWith(".jpeg"))
+	            return "image/jpeg";
+	        else if (path.endsWith(".js"))
+	            return "text/javascript";
+	        else    
+	            return "text/plain";
+	    }
+		
+		private StringBuffer addModule(StringBuffer template, String name){
+			
+		//	String module =  "<li>"+name+"<span class=\"led_device toggle\" id=\"fade\"><input type=\"checkbox\"></span></li>";
+			//String module =  "<li>"+name+"</li>";
+			String module =  "<li class=\"arrow\">" + "<a href=\"#"+name+"\" style=\"\" class=\"\">"+ name +"</li>";
+			
+			String content= "";
+		
+			if(name.equals("Constant")){
+				content+=addSlider( manager.getConnectionManager().getOutputLEDList().getFirst(), name);
+			}
+			
+			// <li> <span class=\"toggle\"><input type=\"checkbox\"></span></li>
+			String moduleClass = "<div id=\""+name+"\"><div class=\"toolbar\"> <a class=\"back\" href=\"#\" style=\"\">Home</a></div><div class=\"scroll\"><h2>"+name+"</h2>" +
+					"<ul class=\"edit rounded\">"+content+"</ul>"+
+					"</div></div>";
+			
+			//template=template.replaceAll("<%modules%>", module);
+			template.insert(template.indexOf("<%modules%>"),module);
+			template.insert(template.indexOf("<%moduleclasses%>"),moduleClass);
+			
+		return template;
+		}
+		
+		//for(OutputLED out : manager.getConnectionManager().getOutputLEDList()){
+		private String addSlider(OutputLED out, String moduleName){
+		
+			String result = "";
+			int i = out.getID();
+			if(out.getColor() == LEDcolor.RGB){
+//				 result += "<input id=\""+moduleName+"R" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"R" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"R" +"slider"+"','"+moduleName+"R" +"')\"> <br>  ";
+//				 result += "<input id=\""+moduleName+"G" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"G" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"G" +"slider"+"','"+moduleName+"G" +"')\"> <br>  ";
+//				 result += "<input id=\""+moduleName+"B" +"\" type=\"text\" size=\"2\"><input id=\""+moduleName+"B" +"slider"+"\" type=\"range\" min=\"0\" max=\"255\" step=\"1\" onchange=\"printValue('"+moduleName+"B" +"slider"+"','"+moduleName+"B" +"')\"> <br>  ";
+				//result +="<div id=\"constant"+i+"rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"r\" class=\"slider-r\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div>\n";
+
+				
+			}
+			//String result ="<form><div id=\"constant"+i+"rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant"+i+"r\" class=\"slider-r\" value=\""+out.getR()+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></form>\n";
+			//String result = "<div id=\"control-r\"><input type=\"number\" data-type=\"range\" name=\"slider\" id=\"slider-r\" value=\"0\" min=\"0\" max=\"255\" data-highlight=\"true\" class=\"ui-input-text ui-body-a ui-corner-all ui-shadow-inset ui-slider-input\"><div role=\"application\" class=\"ui-slider  ui-btn-down-a ui-btn-corner-all\"><div class=\"ui-slider-bg ui-btn-active ui-btn-corner-all\" style=\"width: 36.07843137254902%; \"></div><a href=\"#\" class=\"ui-slider-handle ui-btn ui-shadow ui-btn-corner-all ui-btn-up-a\" data-corners=\"true\" data-shadow=\"true\" data-iconshadow=\"true\" data-wrapperels=\"span\" data-theme=\"a\" role=\"slider\" aria-valuemin=\"0\" aria-valuemax=\"255\" aria-valuenow=\"92\" aria-valuetext=\"92\" title=\"92\" aria-labelledby=\"slider-r-label\" style=\"left: 36.07843137254902%; \"><span class=\"ui-btn-inner ui-btn-corner-all\"><span class=\"ui-btn-text\"></span></span></a></div></div>";
+			
+			
+			String container = "<div class=\""+ moduleName +"A" +"\">" +result +  "</div>";
+			
+			return container;
+		}
+		
+		private String replaceTokens2(String template){
+			StringBuffer buffer = new StringBuffer(template);
+			addModule(buffer, "Constant");
+			addModule(buffer,"Fade");
+			addModule(buffer,"test2");
+			
+			
+			//template=template.replaceAll("<%modules%>", addModule(template,"Constant")+addModule(template,"Fade")+addModule(template,"test2"));
+			//template=template.replaceAll("<%outputswitch%>", outputswitch);
+			String newTemplate = buffer.toString();
+			newTemplate=newTemplate.replaceAll("<%modules%>", "");
+			newTemplate=newTemplate.replaceAll("<%moduleclasses%>", "");
+			
+			return newTemplate;
+		}
+		
 		private String replaceTokens(String template) {
 			String outputswitch = "";
 			String slider0 = "";
@@ -114,6 +219,7 @@ public class WebServer {
 			String scriptActivateOutput = "";
 			String scriptColorEvent = "";
 			int slider0r = 0,slider0g = 0,slider0b = 0,slider0d = 0;
+		
 			for(OutputLED out : manager.getConnectionManager().getOutputLEDList()){
 				int i = out.getID();
 				outputswitch+="<input type=\"checkbox\" name=\"checkbox-"+i+"\" id=\"checkbox-"+i+"\" class=\"custom\" checked=\"checked\" /><label for=\"checkbox-"+i+"\">"+i+" ("+manager.getModule(i).getName()+")</label>\n";
@@ -141,6 +247,7 @@ public class WebServer {
 				}
 				sliderX+="</p></div>\n";
 			}
+			
 			if(manager.hasRGBmodule()){
 				slider0+="<tr><td colspan=\"2\"><div id=\"constant0rb\" class=\"control-r\"><input type=\"range\" name=\"slider\" id=\"constant0r\" class=\"slider-r\" value=\""+slider0r+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></td></tr>\n";
 				slider0+="<tr><td colspan=\"2\"><div id=\"constant0gb\" class=\"control-g\"><input type=\"range\" name=\"slider\" id=\"constant0g\" class=\"slider-g\" value=\""+slider0g+"\" min=\"0\" max=\"255\" data-highlight=\"true\" /></div></td></tr>\n";
@@ -167,7 +274,7 @@ public class WebServer {
 		try {
 			StringBuilder text = new StringBuilder();
 		    String nl = System.getProperty("line.separator");
-		    Scanner scanner = new Scanner(new FileInputStream("resources/index2.html"), "UTF-8");
+		    Scanner scanner = new Scanner(new FileInputStream("resources/www-root/index.html"), "UTF-8");
 		    try {
 		    	while (scanner.hasNextLine())
 		    		text.append(scanner.nextLine() + nl);
