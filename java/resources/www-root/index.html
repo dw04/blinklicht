@@ -6,15 +6,11 @@
         <meta charset="UTF-8" />
         <title>blinklicht</title>
 
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <link rel="stylesheet" href="themes/css/jqtouch.css" title="jQTouch"> 
-    
-        <script src="src/jqtouch.js" type="text/javascript" charset="utf-8"></script>        
-        <script src="src/jqtouch-jquery.js" type="application/x-javascript" charset="utf-8"></script> 
- 
 
- 
-
+        <script src="src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+        <style type="text/css"></style>
+        <script src="src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>       
 
         <script type="text/javascript" charset="utf-8">
 
@@ -28,38 +24,33 @@
                 preloadImages: []
             });
 
-    //         $(function(){				
-				// $('.execute_event').click(function(){
-				// 	$id = $(this).attr('id');
-				// //	$.get("blink/connection.php", { e: $id }, function(data){console.log(data);});				
-				// });
-				// $('.led_device').change(function(evt, data) {
-				// 	$id = $(this).attr('id');
-				// 	if($(this).children('input').attr('checked') == 'checked'){
-				// 	 $on = 1;
-				// 	}
-    //                 else{
-    //                  $on = 0;   
-    //                 }	
-    //             //    $.get("blink/connection.php", { p: $id , b: $on}, function(data){console.log(data);});									
-    //             });              
-    //         });
-            
 
-function updateSlider(slideAmount,name) {
-//get the element
-var display = document.getElementById(name);
-//show the amount
-display.innerHTML=slideAmount;
-// //get the element
-// var pic = document.getElementById("pic");
-// //set the dimensions
-// pic.style.width=slideAmount+"%";
-// pic.style.height=slideAmount+"%";
 
-}
+            function updateSlider(slideAmount,name) {
+            //get the element
+            var display = document.getElementById(name);
+            //show the amount
+            display.innerHTML=slideAmount;
+            }
 
-    
+
+            $(function(){               
+                // $('.execute_event').click(function(){
+                //     $id = $(this).attr('id');
+                //     $.get("blink/connection.php", { e: $id });              
+                // });
+                $('.device').change(function(evt, data) {
+                    $id = $(this).attr('id');
+                    if($(this).children('input').attr('checked')){
+                     $on = "1";
+                    }
+                    else{
+                     $on = "0";   
+                    }   
+                    $.get("radio-action/"+$id+$on);                                  
+                });              
+            });
+           
         </script>
 
 
@@ -121,84 +112,42 @@ display.innerHTML=slideAmount;
 
     </head>
     <body>
-
-      
+        <div id="jqt" class="supports3d portraits" style="min-height: 705px;" >
 
             <div id="home" class="current">
                 <div class="toolbar">
                     <h1>blinklicht</h1>
                 </div><br>
 
-                <form class="scroll">
-                    <ul class="edit rounded">
-
-                      <!--   <div id="slider-container">
-                            <div style="background-color: #FF0000" id="chosen" class="chosen">255</div>
-                            <div id="slider" class=slider>
-                              0 <input id="slide" type="range"
-                                min="0" max="255" step="1" value="255"
-                                onchange="updateSlider(this.value)" />
-                              255
-                            </div>
-                        </div> -->
-                        
-
-            <!--     <div id="slider"></div> -->
-
-
-<!--                         <div class="canvas_demo">
-                            <p>
-                          Minimum = 100, Maximum = 500, Step = 10
-                         </p>
-                         <input id="rangeValue1" type="text" size="2">
-                         <input id="slider1" type="range" min="0" max="255" step="1" onchange="printValue('slider1','rangeValue1')">      
-                        </div> -->
-
-                         <%modules%>
-                        <!-- <li>Fade<span class="led_device toggle" id="fade"><input type="checkbox"/></span></li>   
-                        <li>Random<span class="led_device toggle"  id="random"><input type="checkbox" /></span></li> 
-                        <li>Constant<span class="led_device toggle"  id="constant"><input type="checkbox" /></span></li>  -->
+                <div class="scroll">
+                    <ul class="rounded">
+                         <-modules->
                     </ul>
-                </form>
-				
-
-
-
-                  
+                    <ul class="rounded">
+                         <li class="arrow"><a href="#radio">Devices</li>
+                    </ul>
+                </div>
+   
 
 			</div>
-		</div>
-            </div>
            
-        
 
-           <%moduleclasses%>
+           <-moduleclasses->
 
-
-
-<!-- 
-            <div id="ui">
-                <div class="toolbar">           
+            <div id="radio">
+                <div class="toolbar"> 
                     <a class="back" href="#" style="">Home</a>
                 </div>
                 <div class="scroll">
-                    <h2>Lists</h2>
+                    <h2>Radio</h2>
                     <ul class="rounded">
-                        <li class="arrow"><a href="#edge" style="">Edge to Edge</a></li>
-                        <li class="arrow"><a href="#plastic" style="">Plastic</a></li>
-                        <li class="arrow"><a href="#metal" style="">Metal</a></li>
-                    </ul>
-                    <h2>Buttons</h2>
-                    <ul class="rounded">
-                        <li class="arrow"><a href="#buttons" style="">Buttons</a></li>
-                    </ul>
-                    <h2>Forms</h2>
-                    <ul class="rounded">
-                        <li class="arrow"><a href="#forms" style="">Forms</a></li>
+                        <-radiodevices->
+                
                     </ul>
                 </div>
-            </div> -->
-            
+            </div>
+
+         </div>   
     </body>
 </html>
 
