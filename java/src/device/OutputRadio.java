@@ -3,6 +3,22 @@ package device;
 public class OutputRadio implements OutputOutlet{
 
 	private String identifier;
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public String getUnitCode() {
+		return unitCode;
+	}
+
+	public void setUnitCode(String unitCode) {
+		this.unitCode = unitCode;
+	}
+
 	private String unitCode;
 	private DeviceRadio device;
 	

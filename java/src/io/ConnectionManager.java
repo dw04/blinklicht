@@ -49,6 +49,12 @@ public class ConnectionManager {
 	public LinkedList<OutputOutlet> getOutputOutletList() {
 		return outputOutletList;
 	}
+	
+	LinkedList<OutputRadio> outputRadioList;
+	public LinkedList<OutputRadio> getOutputRadioList() {
+		return outputRadioList;
+	}
+	
 	private LinkedList<Device> allDevices;
 	
 	private static final int DEFAULT_DATA_RATE = 115200;
@@ -60,6 +66,7 @@ public class ConnectionManager {
 		outputLEDList = new LinkedList<OutputLED>();
 		outputOutletList = new LinkedList<OutputOutlet>();
 		allDevices = new LinkedList<Device>();
+		outputRadioList = new LinkedList<OutputRadio>();
 		
 		idBaudMap = new HashMap<String,Integer>();
 		
@@ -179,8 +186,9 @@ public class ConnectionManager {
 			outputRadioDevice = new DeviceRadio(sp);
 			allDevices.add(outputRadioDevice);
 			
-			OutputRadio r = new OutputRadio(outputRadioDevice,"test","1000"); //
-			
+			OutputRadio r = new OutputRadio(outputRadioDevice,"Lampe","1000"); //
+		
+			outputRadioList.add(r);	
 			outputOutletList.add( r);
 			return true;
 		}

@@ -40,6 +40,8 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import device.LEDcolor;
 import device.OutputLED;
+import device.OutputOutlet;
+import device.OutputRadio;
 
 public class WebServer {
 	private ModuleManager manager;
@@ -153,24 +155,28 @@ public class WebServer {
 	            return "text/plain";
 	    }
 		
-		private StringBuffer wrapModule(StringBuffer template, String name, String content){
+		private StringBuffer wrapModule(StringBuffer buffer, String name, String content){
 		
-			String module =  "<li class=\"arrow\">" + "<a href=\"#"+name+"\" style=\"\" class=\"\">"+ name +"</li>";
+			//this is the module representation on the home screen
+			String module =  "<li class=\"arrow\">" + "<a href=\"#"+name+"\" style>"+ name +"</a></li>";
 			
-//			if(name.equals("Constant")){
-//				content+=addSliders( manager.getConnectionManager().getOutputLEDList().getFirst(), name);
-//			}
 			
-			// <li> <span class=\"toggle\"><input type=\"checkbox\"></span></li>
-			String moduleClass = "<div id=\""+name+"\"><div class=\"toolbar\"> <a class=\"back\" href=\"#\" style=\"\">Home</a></div><div class=\"scroll\"><h2>"+name+"</h2>" +
-					"<ul class=\"edit rounded\">"+content+"</ul>"+
-					"</div></div>";
+			//this is the div for the specific page
+			String moduleClass = "<div id=\""+name+"\">" +
+									"<div class=\"toolbar\"> " +
+										"<a class=\"back\" href=\"#\" style=\"\">Home</a>" +
+									"</div>" +
+									"<div class=\"scroll\">" +
+										"<h2>"+name+"</h2>" +
+										"<ul class=\"edit rounded\">"+content+"</ul>"+
+									"</div>" +
+								"</div>";
 			
 			//template=template.replaceAll("<%modules%>", module);
-			template.insert(template.indexOf("<%modules%>"),module);
-			template.insert(template.indexOf("<%moduleclasses%>"),moduleClass);
+			buffer.insert(buffer.indexOf("<-modules->"),module);
+			buffer.insert(buffer.indexOf("<-moduleclasses->"),moduleClass);
 			
-		return template;
+		return buffer;
 		}
 		
 		private String addColorSlider(String moduleName, Color color){
@@ -228,22 +234,51 @@ public class WebServer {
 			return buffer;
 		}
 		
+		private StringBuffer addRadioDevices(StringBuffer buffer){
+			
+			String switchTemplate = "";
+			
+			for(OutputRadio o: manager.getConnectionManager().getOutputRadioList() ){
+				
+				switchTemplate = "<li>"+o.getIdentifier()+"<span class=\"device toggle\" id=\""+o.getIdentifier()+"\"><input type=\"checkbox\"></span></li>";
+				int i = buffer.indexOf("<-radiodevices->");
+				buffer.insert(i,switchTemplate);
+				
+			}
+			
+			return buffer;
+			
+		}
+		
+		
+		
 		private String replaceTokens2(String template){
 			StringBuffer buffer = new StringBuffer(template);
 			
-			//generate Module list  - this is just a temporary workaround to list all modules
-			LinkedList<ModuleLED> moduleList= new LinkedList<ModuleLED>();
+//		
+			buffer=addConstantColor(buffer);
+			buffer=addFade(buffer);
+			buffer=addRandom(buffer);	
+			buffer=addRadioDevices(buffer);
+			
 		
-			addConstantColor(buffer);
-			addFade(buffer);
-			addRandom(buffer);
-			
-			
-			//template=template.replaceAll("<%modules%>", addModule(template,"Constant")+addModule(template,"Fade")+addModule(template,"test2"));
-			//template=template.replaceAll("<%outputswitch%>", outputswitch);
 			String newTemplate = buffer.toString();
-			newTemplate=newTemplate.replaceAll("<%modules%>", "");
-			newTemplate=newTemplate.replaceAll("<%moduleclasses%>", "");
+			
+//			LinkedList<String> temp = new LinkedList<String>();
+//			temp.add("<-radiodevices->");
+//			temp.add("<-modules->");
+//			temp.add("<-moduleclasses->");
+//			
+//			for(String s: temp){
+//				buffer.delete(buffer.indexOf(s), s.length());
+//			}
+		
+			
+			
+			newTemplate=newTemplate.replaceAll("<-modules->", "");
+			newTemplate=newTemplate.replaceAll("<-moduleclasses->", "");
+			newTemplate=newTemplate.replaceAll("<-radiodevices->", "");
+			
 			
 			return newTemplate;
 		}

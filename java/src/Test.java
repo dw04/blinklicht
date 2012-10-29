@@ -106,7 +106,7 @@ public class Test {
 //			e.printStackTrace();
 //		} 
 		
-		
+		//System.out.println("<%4%>");
 		
 		Device con = new Device("/dev/tty.usbserial-FTTPRBJH", 19200);
 		try {
