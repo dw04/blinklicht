@@ -186,10 +186,29 @@ public class ConnectionManager {
 			outputRadioDevice = new DeviceRadio(sp);
 			allDevices.add(outputRadioDevice);
 			
-			OutputRadio r = new OutputRadio(outputRadioDevice,"Lampe","1000"); //
+			//OutputRadio r = new OutputRadio(outputRadioDevice,"Lampe","1000"); 
+			
+			//Read property file
+			Properties p = new Properties();
+			try {
+				p.load(new FileInputStream("radio.properties"));
+				for(Enumeration<?> e = p.propertyNames(); e.hasMoreElements();){
+					Object o = e.nextElement();
+					
+					OutputRadio r = new OutputRadio(outputRadioDevice,o.toString(),p.get(o).toString()); 
+					outputRadioList.add(r);	
+					outputOutletList.add( r);
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		
-			outputRadioList.add(r);	
-			outputOutletList.add( r);
+			
 			return true;
 		}
 		return false;
