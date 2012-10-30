@@ -8,6 +8,7 @@ import java.util.Map;
 
 import device.LEDcolor;
 import device.OutputLED;
+import device.OutputRadio;
 
 import modules.Module;
 import modules.ModuleLED;
@@ -37,6 +38,20 @@ public class ModuleManager {
 	
 	public void action(int output, String module){
 		action(output, module, new HashMap<String, Integer>());
+	}
+	
+	public void radioAction(String device, String todo){
+		
+		for(OutputRadio o :conManager.getOutputRadioList()){
+			if(o.getIdentifier().equals(device)){
+				if(todo.equals("1")){
+					o.turnOn();
+				}
+				else if(todo.equals("0")){
+					o.turnOff();
+				}
+			}
+		}
 	}
 	
 	public void action(int output, String moduleName, Map<String, Integer> parameters){

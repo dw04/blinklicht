@@ -196,6 +196,7 @@ public class ConnectionManager {
 					Object o = e.nextElement();
 					
 					OutputRadio r = new OutputRadio(outputRadioDevice,o.toString(),p.get(o).toString()); 
+					System.out.println(r.getUnitCode());
 					outputRadioList.add(r);	
 					outputOutletList.add( r);
 				}

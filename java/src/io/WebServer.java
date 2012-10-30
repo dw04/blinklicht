@@ -95,8 +95,15 @@ public class WebServer {
 				return;
 			}
 			
-			
-			if (path.startsWith("/action")){
+			if(path.startsWith("/radio-action/")){ 
+				String[] split = path.split("\\=");
+				String todo = split[1];
+				String device = split[0].split("\\/")[2];		
+				System.out.println("device:" + device + " todo:" + todo);
+				manager.radioAction(device,todo);
+				response = "";
+			}	
+			else if (path.startsWith("/action")){
 				String module="constant";
 				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
 					module=path.split("\\/")[2].split("\\?")[0];
