@@ -162,11 +162,21 @@ public class WebServer {
 	            return "text/plain";
 	    }
 		
-		private StringBuffer wrapModule(StringBuffer buffer, String name, String content){
+		private StringBuffer wrapLEDModule(StringBuffer buffer, String name, String content, LEDcolor[] c){
 		
 			//this is the module representation on the home screen
 			String module =  "<li class=\"arrow\">" + "<a href=\"#"+name+"\" style>"+ name +"</a></li>";
 			
+			String output = ""; //= "<li><input type=\"checkbox\" name=\"food\" value=\"pie\" checked=\"checked\" title=\"Pie\"></li>";
+			for(LEDcolor col : c){
+				for(OutputLED o : manager.getConnectionManager().outputLEDList){
+					if(o.getColor().equals(col)){
+						output+= "<li><input type=\"checkbox\" name=\""+o.getID()+"\" value=\""+o.getID()+"\" checked=\"checked\" title=\""+o.getID()+"\"></li>";
+					}
+					
+				}
+			}
+				
 			
 			//this is the div for the specific page
 			String moduleClass = "<div id=\""+name+"\">" +
@@ -176,6 +186,7 @@ public class WebServer {
 									"<div class=\"scroll\">" +
 										"<h2>"+name+"</h2>" +
 										"<ul class=\"edit rounded\">"+content+"</ul>"+
+										"<ul class=\"edit rounded\">"+output+"</ul>"+
 									"</div>" +
 								"</div>";
 			
@@ -217,7 +228,8 @@ public class WebServer {
 			content+=addColorSlider(name, Color.GREEN);
 			content+=addColorSlider(name, Color.BLUE);
 			
-			wrapModule(buffer, name, content);
+			LEDcolor[] supported = {LEDcolor.RGB};
+			wrapLEDModule(buffer, name, content, supported);
 			return buffer;
 		}
 		
@@ -227,7 +239,8 @@ public class WebServer {
 			
 			content+=addIntervalSlider(name, 500, 10000);
 			
-			wrapModule(buffer, "Fade", content);
+			LEDcolor[] supported = {LEDcolor.RGB,LEDcolor.WHITE};
+			wrapLEDModule(buffer, "Fade", content, supported);
 			return buffer;
 		}
 		
@@ -237,7 +250,8 @@ public class WebServer {
 			
 			content+=addIntervalSlider(name, 500, 20000);
 			
-			wrapModule(buffer, "Random", content);
+			LEDcolor[] supported = {LEDcolor.RGB};
+			wrapLEDModule(buffer, "Random", content,supported);
 			return buffer;
 		}
 		
