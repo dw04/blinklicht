@@ -5,7 +5,14 @@ import io.ProtobufInput;
 import io.ConnectionManager;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
+
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+
+import protobuf.Commands.Command;
 
 import device.DeviceRadio;
 import device.OutputLED;
@@ -126,12 +133,47 @@ public class Test {
 //			e.printStackTrace();
 //		}
 		
-		ConnectionManager c = new ConnectionManager();
-		c.connectSerialDevices();
-		c.getOutputRadioList().getFirst().turnOff();
+//		ConnectionManager c = new ConnectionManager();
+//		c.connectSerialDevices();
+//		c.getOutputRadioList().getFirst().turnOff();
+		
+		Command c = Command.newBuilder().setModule(Command.Module.FADE).setAction(Command.Action.START).build();
+		System.out.println(c.toByteArray());
+		
+		String s = Arrays.toString(c.toByteArray());
+		System.out.println(s);
+		
+		String s2 = getHexString(c.toByteArray());
+		System.out.println("to be send:" + s2);
+		System.out.println(Arrays.toString(hexToBytes(s2)));
+		
+		
+		try {
+			Command in = Command.parseFrom(hexToBytes(s2));
+			System.out.println(in.getAction());
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		
 	}
+	
+	
+	public static byte[] hexToBytes(String hexString) {
+	     HexBinaryAdapter adapter = new HexBinaryAdapter();
+	     byte[] bytes = adapter.unmarshal(hexString);
+	     return bytes;
+	}
 
+	public static String getHexString(byte[] b) {
+		   StringBuffer sb = new StringBuffer();
+		   for (int i = 0; i < b.length; i++){
+		      sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
+		   }
+		   return sb.toString();
+	}
+	
 	
 	public static void testClientInput(){
 		

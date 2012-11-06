@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,6 +28,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+
+import protobuf.Commands.Command;
+import protobuf.Commands.Command.Builder;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import main.ModuleManager;
 import modules.ModuleLED;
@@ -68,6 +75,13 @@ public class WebServer {
 	}
 	
 	class Handler implements HttpHandler {
+		
+		public byte[] hexToBytes(String hexString) {
+		     HexBinaryAdapter adapter = new HexBinaryAdapter();
+		     byte[] bytes = adapter.unmarshal(hexString);
+		     return bytes;
+		}
+		
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			String path = exchange.getRequestURI().toASCIIString();
@@ -103,6 +117,21 @@ public class WebServer {
 				manager.radioAction(device,todo);
 				response = "";
 			}	
+			else if(path.startsWith("/command")){
+				String command = path.split("\\/")[2];
+				String value = path.split("\\/")[3];
+				//System.out.println(command+ " " + value);
+							
+				byte[] bytes2 = new BASE64Decoder().decodeBuffer( command ); 
+				Command in = Command.parseFrom(bytes2);
+				
+				System.out.println(in.toString());
+				
+//				byte[] bytes3 = hexToBytes(command);
+//				System.out.println(Arrays.toString(bytes3));
+				
+				response = "";
+			}
 			else if (path.startsWith("/action")){
 				String module="constant";
 				if(path.split("\\/").length>2 && path.split("\\/")[2].split("\\?").length>0)
@@ -197,17 +226,44 @@ public class WebServer {
 		return buffer;
 		}
 		
-		private String addColorSlider(String moduleName, Color color){
+		private String addColorSlider(Command.Module moduleName, Color color){
 			String rgb = Integer.toHexString(color.getRGB());
 			rgb = rgb.substring(2, rgb.length());
 	
-			String identifier = moduleName +rgb;
+			String identifier = moduleName.name() +"_"+rgb;
+			
+			
+			Builder b = Command.newBuilder().setModule(moduleName);
+			//Builder b = Command.newBuilder();
+			if(color == Color.RED){ //setting the value indicates that the color is available
+				b.setRed(0);
+			}
+			else if (color == Color.BLUE){
+				b.setBlue(0);
+			}
+			else if (color == Color.GREEN){
+				b.setGreen(0);
+			}
+			
+			Command c = b.build();
+			//String command = getHexString(c.toByteArray());	
+			String command = new BASE64Encoder().encode( c.toByteArray() ); 
+			
 			String result=  "<div id=\"slider-container\">" +
 					"<div style=\"background-color: #"+rgb+"\" id=\"chosen"+identifier+"\" class=\"chosen\">255</div>" +
-					"<div id=\"slider"+identifier+"\" class=slider>0 <input id=\"slide"+identifier+"\" type=\"range\"min=\"0\" max=\"255\" step=\"1\" value=\"255\"onchange=\"updateSlider(this.value,'chosen"+identifier+"')\" />255" +
+					"<div id=\"slider"+identifier+"\" class=slider>0 <input id=\"slide"+identifier+"\" type=\"range\"min=\"0\" max=\"255\" step=\"1\" value=\"255\"onchange=\"updateSlider(this.value,'chosen"+identifier+"','"+command+"')\" />255" +
 					"</div></div>";
 			
 			return result;
+		}
+		
+		//for testing
+		public String getHexString(byte[] b) {
+			   StringBuffer sb = new StringBuffer();
+			   for (int i = 0; i < b.length; i++){
+			      sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
+			   }
+			   return sb.toString();
 		}
 		
 		private String addIntervalSlider(String moduleName, int min, int max){
@@ -224,9 +280,9 @@ public class WebServer {
 			String name = "Constant";
 			String content = "";
 			
-			content+=addColorSlider(name, Color.RED);
-			content+=addColorSlider(name, Color.GREEN);
-			content+=addColorSlider(name, Color.BLUE);
+			content+=addColorSlider(Command.Module.CONSTANT, Color.RED);
+			content+=addColorSlider(Command.Module.CONSTANT, Color.GREEN);
+			content+=addColorSlider(Command.Module.CONSTANT, Color.BLUE);
 			
 			LEDcolor[] supported = {LEDcolor.RGB};
 			wrapLEDModule(buffer, name, content, supported);

@@ -37,10 +37,11 @@ public class DeviceRadio extends Device {
 			System.err.println("unitCode invaild currently only up to 9 devices are supported");
 			return;
 		}
-		String code = new StringBuffer(unitCode).reverse().toString();;
-		Integer i = Integer.parseInt(code, 2);
+	//	String code = new StringBuffer(unitCode).reverse().toString();;
+	//	Integer i = Integer.parseInt(code, 2);
 
-		switchableDevices.put(identifier, i.toString());
+	//	switchableDevices.put(identifier, i.toString());
+		switchableDevices.put(identifier,unitCode);
 	}
 
 

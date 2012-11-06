@@ -22,6 +22,18 @@ public final class Commands {
     // optional int32 interval = 3;
     boolean hasInterval();
     int getInterval();
+    
+    // optional int32 red = 4;
+    boolean hasRed();
+    int getRed();
+    
+    // optional int32 green = 5;
+    boolean hasGreen();
+    int getGreen();
+    
+    // optional int32 blue = 6;
+    boolean hasBlue();
+    int getBlue();
   }
   public static final class Command extends
       com.google.protobuf.GeneratedMessage
@@ -207,458 +219,6 @@ public final class Commands {
       // @@protoc_insertion_point(enum_scope:protobuf.Command.Action)
     }
     
-    public interface ColorOrBuilder
-        extends com.google.protobuf.MessageOrBuilder {
-      
-      // optional int32 red = 1;
-      boolean hasRed();
-      int getRed();
-      
-      // optional int32 green = 2;
-      boolean hasGreen();
-      int getGreen();
-      
-      // optional int32 blue = 3;
-      boolean hasBlue();
-      int getBlue();
-    }
-    public static final class Color extends
-        com.google.protobuf.GeneratedMessage
-        implements ColorOrBuilder {
-      // Use Color.newBuilder() to construct.
-      private Color(Builder builder) {
-        super(builder);
-      }
-      private Color(boolean noInit) {}
-      
-      private static final Color defaultInstance;
-      public static Color getDefaultInstance() {
-        return defaultInstance;
-      }
-      
-      public Color getDefaultInstanceForType() {
-        return defaultInstance;
-      }
-      
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return protobuf.Commands.internal_static_protobuf_Command_Color_descriptor;
-      }
-      
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return protobuf.Commands.internal_static_protobuf_Command_Color_fieldAccessorTable;
-      }
-      
-      private int bitField0_;
-      // optional int32 red = 1;
-      public static final int RED_FIELD_NUMBER = 1;
-      private int red_;
-      public boolean hasRed() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      public int getRed() {
-        return red_;
-      }
-      
-      // optional int32 green = 2;
-      public static final int GREEN_FIELD_NUMBER = 2;
-      private int green_;
-      public boolean hasGreen() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      public int getGreen() {
-        return green_;
-      }
-      
-      // optional int32 blue = 3;
-      public static final int BLUE_FIELD_NUMBER = 3;
-      private int blue_;
-      public boolean hasBlue() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      public int getBlue() {
-        return blue_;
-      }
-      
-      private void initFields() {
-        red_ = 0;
-        green_ = 0;
-        blue_ = 0;
-      }
-      private byte memoizedIsInitialized = -1;
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized != -1) return isInitialized == 1;
-        
-        memoizedIsInitialized = 1;
-        return true;
-      }
-      
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        getSerializedSize();
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeInt32(1, red_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeInt32(2, green_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeInt32(3, blue_);
-        }
-        getUnknownFields().writeTo(output);
-      }
-      
-      private int memoizedSerializedSize = -1;
-      public int getSerializedSize() {
-        int size = memoizedSerializedSize;
-        if (size != -1) return size;
-      
-        size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(1, red_);
-        }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(2, green_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(3, blue_);
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSerializedSize = size;
-        return size;
-      }
-      
-      private static final long serialVersionUID = 0L;
-      @java.lang.Override
-      protected java.lang.Object writeReplace()
-          throws java.io.ObjectStreamException {
-        return super.writeReplace();
-      }
-      
-      public static protobuf.Commands.Command.Color parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return newBuilder().mergeFrom(data).buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return newBuilder().mergeFrom(data, extensionRegistry)
-                 .buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return newBuilder().mergeFrom(data).buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return newBuilder().mergeFrom(data, extensionRegistry)
-                 .buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return newBuilder().mergeFrom(input).buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return newBuilder().mergeFrom(input, extensionRegistry)
-                 .buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        Builder builder = newBuilder();
-        if (builder.mergeDelimitedFrom(input)) {
-          return builder.buildParsed();
-        } else {
-          return null;
-        }
-      }
-      public static protobuf.Commands.Command.Color parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        Builder builder = newBuilder();
-        if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
-          return builder.buildParsed();
-        } else {
-          return null;
-        }
-      }
-      public static protobuf.Commands.Command.Color parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return newBuilder().mergeFrom(input).buildParsed();
-      }
-      public static protobuf.Commands.Command.Color parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return newBuilder().mergeFrom(input, extensionRegistry)
-                 .buildParsed();
-      }
-      
-      public static Builder newBuilder() { return Builder.create(); }
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(protobuf.Commands.Command.Color prototype) {
-        return newBuilder().mergeFrom(prototype);
-      }
-      public Builder toBuilder() { return newBuilder(this); }
-      
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements protobuf.Commands.Command.ColorOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return protobuf.Commands.internal_static_protobuf_Command_Color_descriptor;
-        }
-        
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return protobuf.Commands.internal_static_protobuf_Command_Color_fieldAccessorTable;
-        }
-        
-        // Construct using protobuf.Commands.Command.Color.newBuilder()
-        private Builder() {
-          maybeForceBuilderInitialization();
-        }
-        
-        private Builder(BuilderParent parent) {
-          super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          }
-        }
-        private static Builder create() {
-          return new Builder();
-        }
-        
-        public Builder clear() {
-          super.clear();
-          red_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000001);
-          green_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000002);
-          blue_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000004);
-          return this;
-        }
-        
-        public Builder clone() {
-          return create().mergeFrom(buildPartial());
-        }
-        
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return protobuf.Commands.Command.Color.getDescriptor();
-        }
-        
-        public protobuf.Commands.Command.Color getDefaultInstanceForType() {
-          return protobuf.Commands.Command.Color.getDefaultInstance();
-        }
-        
-        public protobuf.Commands.Command.Color build() {
-          protobuf.Commands.Command.Color result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-        
-        private protobuf.Commands.Command.Color buildParsed()
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          protobuf.Commands.Command.Color result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(
-              result).asInvalidProtocolBufferException();
-          }
-          return result;
-        }
-        
-        public protobuf.Commands.Command.Color buildPartial() {
-          protobuf.Commands.Command.Color result = new protobuf.Commands.Command.Color(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-            to_bitField0_ |= 0x00000001;
-          }
-          result.red_ = red_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-            to_bitField0_ |= 0x00000002;
-          }
-          result.green_ = green_;
-          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-            to_bitField0_ |= 0x00000004;
-          }
-          result.blue_ = blue_;
-          result.bitField0_ = to_bitField0_;
-          onBuilt();
-          return result;
-        }
-        
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof protobuf.Commands.Command.Color) {
-            return mergeFrom((protobuf.Commands.Command.Color)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-        
-        public Builder mergeFrom(protobuf.Commands.Command.Color other) {
-          if (other == protobuf.Commands.Command.Color.getDefaultInstance()) return this;
-          if (other.hasRed()) {
-            setRed(other.getRed());
-          }
-          if (other.hasGreen()) {
-            setGreen(other.getGreen());
-          }
-          if (other.hasBlue()) {
-            setBlue(other.getBlue());
-          }
-          this.mergeUnknownFields(other.getUnknownFields());
-          return this;
-        }
-        
-        public final boolean isInitialized() {
-          return true;
-        }
-        
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder(
-              this.getUnknownFields());
-          while (true) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                this.setUnknownFields(unknownFields.build());
-                onChanged();
-                return this;
-              default: {
-                if (!parseUnknownField(input, unknownFields,
-                                       extensionRegistry, tag)) {
-                  this.setUnknownFields(unknownFields.build());
-                  onChanged();
-                  return this;
-                }
-                break;
-              }
-              case 8: {
-                bitField0_ |= 0x00000001;
-                red_ = input.readInt32();
-                break;
-              }
-              case 16: {
-                bitField0_ |= 0x00000002;
-                green_ = input.readInt32();
-                break;
-              }
-              case 24: {
-                bitField0_ |= 0x00000004;
-                blue_ = input.readInt32();
-                break;
-              }
-            }
-          }
-        }
-        
-        private int bitField0_;
-        
-        // optional int32 red = 1;
-        private int red_ ;
-        public boolean hasRed() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
-        }
-        public int getRed() {
-          return red_;
-        }
-        public Builder setRed(int value) {
-          bitField0_ |= 0x00000001;
-          red_ = value;
-          onChanged();
-          return this;
-        }
-        public Builder clearRed() {
-          bitField0_ = (bitField0_ & ~0x00000001);
-          red_ = 0;
-          onChanged();
-          return this;
-        }
-        
-        // optional int32 green = 2;
-        private int green_ ;
-        public boolean hasGreen() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
-        }
-        public int getGreen() {
-          return green_;
-        }
-        public Builder setGreen(int value) {
-          bitField0_ |= 0x00000002;
-          green_ = value;
-          onChanged();
-          return this;
-        }
-        public Builder clearGreen() {
-          bitField0_ = (bitField0_ & ~0x00000002);
-          green_ = 0;
-          onChanged();
-          return this;
-        }
-        
-        // optional int32 blue = 3;
-        private int blue_ ;
-        public boolean hasBlue() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
-        }
-        public int getBlue() {
-          return blue_;
-        }
-        public Builder setBlue(int value) {
-          bitField0_ |= 0x00000004;
-          blue_ = value;
-          onChanged();
-          return this;
-        }
-        public Builder clearBlue() {
-          bitField0_ = (bitField0_ & ~0x00000004);
-          blue_ = 0;
-          onChanged();
-          return this;
-        }
-        
-        // @@protoc_insertion_point(builder_scope:protobuf.Command.Color)
-      }
-      
-      static {
-        defaultInstance = new Color(true);
-        defaultInstance.initFields();
-      }
-      
-      // @@protoc_insertion_point(class_scope:protobuf.Command.Color)
-    }
-    
     private int bitField0_;
     // optional .protobuf.Command.Module module = 1;
     public static final int MODULE_FIELD_NUMBER = 1;
@@ -690,10 +250,43 @@ public final class Commands {
       return interval_;
     }
     
+    // optional int32 red = 4;
+    public static final int RED_FIELD_NUMBER = 4;
+    private int red_;
+    public boolean hasRed() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public int getRed() {
+      return red_;
+    }
+    
+    // optional int32 green = 5;
+    public static final int GREEN_FIELD_NUMBER = 5;
+    private int green_;
+    public boolean hasGreen() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public int getGreen() {
+      return green_;
+    }
+    
+    // optional int32 blue = 6;
+    public static final int BLUE_FIELD_NUMBER = 6;
+    private int blue_;
+    public boolean hasBlue() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    public int getBlue() {
+      return blue_;
+    }
+    
     private void initFields() {
       module_ = protobuf.Commands.Command.Module.NONE;
       action_ = protobuf.Commands.Command.Action.START;
       interval_ = 0;
+      red_ = 0;
+      green_ = 0;
+      blue_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -716,6 +309,15 @@ public final class Commands {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, interval_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, red_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, green_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, blue_);
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -736,6 +338,18 @@ public final class Commands {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, interval_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, red_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, green_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, blue_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -867,6 +481,12 @@ public final class Commands {
         bitField0_ = (bitField0_ & ~0x00000002);
         interval_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        red_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        green_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        blue_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       
@@ -917,6 +537,18 @@ public final class Commands {
           to_bitField0_ |= 0x00000004;
         }
         result.interval_ = interval_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.red_ = red_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.green_ = green_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.blue_ = blue_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -941,6 +573,15 @@ public final class Commands {
         }
         if (other.hasInterval()) {
           setInterval(other.getInterval());
+        }
+        if (other.hasRed()) {
+          setRed(other.getRed());
+        }
+        if (other.hasGreen()) {
+          setGreen(other.getGreen());
+        }
+        if (other.hasBlue()) {
+          setBlue(other.getBlue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -998,6 +639,21 @@ public final class Commands {
             case 24: {
               bitField0_ |= 0x00000004;
               interval_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              red_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              green_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              blue_ = input.readInt32();
               break;
             }
           }
@@ -1075,6 +731,69 @@ public final class Commands {
         return this;
       }
       
+      // optional int32 red = 4;
+      private int red_ ;
+      public boolean hasRed() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public int getRed() {
+        return red_;
+      }
+      public Builder setRed(int value) {
+        bitField0_ |= 0x00000008;
+        red_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRed() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        red_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 green = 5;
+      private int green_ ;
+      public boolean hasGreen() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      public int getGreen() {
+        return green_;
+      }
+      public Builder setGreen(int value) {
+        bitField0_ |= 0x00000010;
+        green_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearGreen() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        green_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 blue = 6;
+      private int blue_ ;
+      public boolean hasBlue() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public int getBlue() {
+        return blue_;
+      }
+      public Builder setBlue(int value) {
+        bitField0_ |= 0x00000020;
+        blue_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearBlue() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        blue_ = 0;
+        onChanged();
+        return this;
+      }
+      
       // @@protoc_insertion_point(builder_scope:protobuf.Command)
     }
     
@@ -1091,11 +810,6 @@ public final class Commands {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_protobuf_Command_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_protobuf_Command_Color_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_protobuf_Command_Color_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1105,15 +819,14 @@ public final class Commands {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016commands.proto\022\010protobuf\"\250\002\n\007Command\022(" +
+      "\n\016commands.proto\022\010protobuf\"\237\002\n\007Command\022(" +
       "\n\006module\030\001 \001(\0162\030.protobuf.Command.Module" +
       "\022(\n\006action\030\002 \001(\0162\030.protobuf.Command.Acti" +
-      "on\022\020\n\010interval\030\003 \001(\005\0321\n\005Color\022\013\n\003red\030\001 \001" +
-      "(\005\022\r\n\005green\030\002 \001(\005\022\014\n\004blue\030\003 \001(\005\"N\n\006Modul" +
-      "e\022\010\n\004NONE\020\001\022\014\n\010CONSTANT\020\002\022\n\n\006CURSOR\020\003\022\010\n" +
-      "\004FADE\020\004\022\n\n\006RANDOM\020\005\022\n\n\006SCREEN\020\006\"4\n\006Actio" +
-      "n\022\t\n\005START\020\001\022\010\n\004STOP\020\002\022\t\n\005PAUSE\020\003\022\n\n\006RES" +
-      "UME\020\004"
+      "on\022\020\n\010interval\030\003 \001(\005\022\013\n\003red\030\004 \001(\005\022\r\n\005gre" +
+      "en\030\005 \001(\005\022\014\n\004blue\030\006 \001(\005\"N\n\006Module\022\010\n\004NONE" +
+      "\020\001\022\014\n\010CONSTANT\020\002\022\n\n\006CURSOR\020\003\022\010\n\004FADE\020\004\022\n" +
+      "\n\006RANDOM\020\005\022\n\n\006SCREEN\020\006\"4\n\006Action\022\t\n\005STAR" +
+      "T\020\001\022\010\n\004STOP\020\002\022\t\n\005PAUSE\020\003\022\n\n\006RESUME\020\004"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1125,17 +838,9 @@ public final class Commands {
           internal_static_protobuf_Command_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_protobuf_Command_descriptor,
-              new java.lang.String[] { "Module", "Action", "Interval", },
+              new java.lang.String[] { "Module", "Action", "Interval", "Red", "Green", "Blue", },
               protobuf.Commands.Command.class,
               protobuf.Commands.Command.Builder.class);
-          internal_static_protobuf_Command_Color_descriptor =
-            internal_static_protobuf_Command_descriptor.getNestedTypes().get(0);
-          internal_static_protobuf_Command_Color_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_protobuf_Command_Color_descriptor,
-              new java.lang.String[] { "Red", "Green", "Blue", },
-              protobuf.Commands.Command.Color.class,
-              protobuf.Commands.Command.Color.Builder.class);
           return null;
         }
       };

@@ -12,6 +12,12 @@
         <style type="text/css"></style>
         <script src="src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>       
 
+        <script type="text/javascript" src="protojs/protobuf.js"></script>
+        <script type="text/javascript" src="protojs/pbj.js"></script>
+        <script type="text/javascript" src="protojs/output/commands.proto.js"></script>
+
+
+
         <script type="text/javascript" charset="utf-8">
 
             var jQT = new $.jQTouch({
@@ -26,11 +32,27 @@
 
 
 
-            function updateSlider(slideAmount,name) {
-            //get the element
-            var display = document.getElementById(name);
-            //show the amount
-            display.innerHTML=slideAmount;
+            function updateSlider(slideAmount,name,command) {
+
+
+                var decoded64msg = new protobuf.Command();
+                decoded64msg.ParseFromStream(new PROTO.Base64Stream(command));
+
+                // var mymsg = new protobuf.Command();
+                // mymsg.red=230;
+                decoded64msg.red = slideAmount;
+
+                var serialized = new PROTO.Base64Stream;
+                decoded64msg.SerializeToStream(serialized);
+
+                //get the element
+                var display = document.getElementById(name);
+                //show the amount
+                display.innerHTML=slideAmount;
+               // $.get("command/"+command+"/"+slideAmount);
+               $.get("command/"+serialized.getString()+"/"+slideAmount);
+                
+                //$.get("action2/"+name+"-"+slideAmount);   
             }
 
 
