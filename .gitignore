@@ -4,3 +4,5 @@
 *.class
 
 php/v1/.DS_Store
+
+java/resources/www-root/protojs
