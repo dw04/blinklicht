@@ -1,0 +1,24 @@
+package protobuf;
+message Command {
+	enum Module{
+		NONE = 1;
+		CONSTANT= 2;
+		CURSOR= 3;
+		FADE = 4;
+		RANDOM = 5;
+		SCREEN= 6;
+	}
+	optional Module module = 1;
+	enum Action{
+		START = 1;
+		STOP = 2;
+		PAUSE = 3;
+		RESUME = 4;
+	}
+	optional Action action = 2;
+	optional int32 interval = 3;
+	optional int32 red = 4;
+	optional int32 green = 5;
+	optional int32 blue = 6;
+}
+
