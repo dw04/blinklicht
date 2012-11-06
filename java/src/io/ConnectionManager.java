@@ -110,7 +110,8 @@ public class ConnectionManager {
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();	
 			System.out.print(currPortId.getName()+": ");
 			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
-				System.out.println("\n try connect...");
+				System.out.println("");
+				System.out.println("try connect...");
 				Device sd;
 				if(idBaudMap.containsKey(currPortId.getName())){
 					sd = new Device(currPortId.getName(),idBaudMap.get(currPortId.getName()));
