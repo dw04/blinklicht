@@ -110,7 +110,7 @@ public class ConnectionManager {
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();	
 			System.out.print(currPortId.getName()+": ");
 			if (currPortId.getName().contains("tty") && !currPortId.getName().contains("ttyS0")) {
-				System.out.println("try connect...");
+				System.out.println("\n try connect...");
 				Device sd;
 				if(idBaudMap.containsKey(currPortId.getName())){
 					sd = new Device(currPortId.getName(),idBaudMap.get(currPortId.getName()));
@@ -120,7 +120,8 @@ public class ConnectionManager {
 //				}
 				else{
 					 sd = new Device(currPortId.getName(),DEFAULT_DATA_RATE);
-				}			
+				}		
+				System.out.println("...baud rate: " + sd.getBAUD());
 				String s;
 				try {
 					s = sd.connect();

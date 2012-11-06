@@ -22,6 +22,14 @@ public class Device{
 	 int TIMEOUT = 2000;
 	 int BAUD; // = 115200;
 	
+	public int getBAUD() {
+		return BAUD;
+	}
+
+	public void setBAUD(int bAUD) {
+		BAUD = bAUD;
+	}
+
 	public Device(String port, int baud){
 		BAUD = baud;
 		PORT = port;
