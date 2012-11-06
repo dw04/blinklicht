@@ -40,7 +40,16 @@
 
                 // var mymsg = new protobuf.Command();
                 // mymsg.red=230;
-                decoded64msg.red = slideAmount;
+                if (typeof decoded64msg.red != 'undefined') {
+                    decoded64msg.red = slideAmount;
+                }
+                if (typeof decoded64msg.blue != 'undefined') {
+                    decoded64msg.blue = slideAmount;
+                }
+                if (typeof decoded64msg.green != 'undefined') {
+                    decoded64msg.green = slideAmount;
+                }
+                
 
                 var serialized = new PROTO.Base64Stream;
                 decoded64msg.SerializeToStream(serialized);
