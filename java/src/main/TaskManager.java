@@ -1,6 +1,7 @@
 package main;
 import io.ConnectionManager;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -10,6 +11,7 @@ import protobuf.Commands;
 import protobuf.Commands.Command;
 
 import modules.Module;
+import modules.ModuleLED;
 import modules.led.*;
 
 /**
@@ -21,10 +23,11 @@ import modules.led.*;
 public class TaskManager {
 
 	//static ConcurrentLinkedQueue<Command> jobs = new ConcurrentLinkedQueue<Command>();
-	static LinkedList<Module> moduleList = new LinkedList<Module>();
+	LinkedList<Module> moduleList = new LinkedList<Module>();
 	
+	HashMap<Command.Module,Class> classMap = new HashMap<Command.Module,Class>();
 	
-	static ConnectionManager conManager;
+    ConnectionManager conManager;
 	
 	public TaskManager(ConnectionManager con){
 		conManager = con; 
@@ -33,87 +36,123 @@ public class TaskManager {
 			n.run();
 		}
 		
+		classMap.put(Command.Module.CONSTANT, ConstantColor.class);
+		classMap.put(Command.Module.CURSOR, CursorColor.class);
+		classMap.put(Command.Module.FADE, Fade.class);
+		classMap.put(Command.Module.NONE, None.class);
+		classMap.put(Command.Module.RANDOM, Random.class);
+		classMap.put(Command.Module.SCREEN, ScreenColor.class);
+		
+		
 	}
 	
-	public static void executeCommand(Command c){
+	private void manageThreadAndModule(ModuleLED m){
+		Thread t = new Thread(m);
+		t.start();
+		m.setModuleThread(t);
+		moduleList.add(m);
+	}
+	
+	public void executeCommand(Command c){
 		//jobs.add(c);
 		System.out.println("execute command: " + c.getAction() + " " + c.getModule());
 		
 		//choose device  //TODO:currently only first device is used
-		if(conManager.getOutputLEDList().size() > 0){
-			OutputLED out = conManager.getOutputLEDList().getFirst();
+		if(conManager.getOutputLEDList().size() == 0) return;
+	
+		OutputLED out = conManager.getOutputLEDList().getFirst();
+		
+		if(c.hasModule()){
 			
-			//choose action
-			//if(c.hasAction() && c.getAction() == Command.Action.START){
-			if(c.hasModule()){
-				switch (c.getModule()){
-					case NONE:	
-						break;
-					case FADE:
-						Fade fade = new Fade(out,1000);
-						new Thread(fade).start();
-						moduleList.add(fade);
-						break;
-					case CONSTANT:
-						//check if module exists for specified output, only create new if not existing
-						//System.out.println(out.getCurrentModule().getClass());
-						if(out.getCurrentModule() == null || out.getCurrentModule().getClass() != ConstantColor.class ){
-							//stop running module
-							if(out.getCurrentModule() != null) out.getCurrentModule().stop();
-							
-							//start constant
-							ConstantColor cons;
-							if(c.hasBlue() || c.hasRed() || c.hasGreen()  ){
-								cons = new ConstantColor(out,c.getRed(),c.getGreen(),c.getBlue());
-							}else{
-								cons = new ConstantColor(out);
-							}
-							out.setCurrentModule(cons);
-							Thread t = new Thread(cons);
-							t.start();
-							cons.setModuleThread(t);
-							moduleList.add(cons);
-						}else{ //module for out is constantcolor
-							ConstantColor cons = (ConstantColor) out.getCurrentModule();
-							if(c.hasRed()) cons.setRed(c.getRed());
-							if(c.hasGreen()) cons.setGreen(c.getGreen());
-							if(c.hasBlue()) cons.setBlue(c.getBlue());
-							
-							try{
-								synchronized(cons.getModuleThread()){
-									cons.getModuleThread().notify();
-								}					
-							}
-							catch(Exception e){
-								e.printStackTrace(System.err);
-							}
-							
-							
-							
-						}
+			boolean moduleExists = false;
+			if(out.getCurrentModule() == null || out.getCurrentModule().getClass() != classMap.get(c.getModule()) ){
+				if(out.getCurrentModule() != null) out.getCurrentModule().stop();
+				moduleList.remove(out.getCurrentModule());
+				moduleExists = false;
+			}
+			else{
+				moduleExists = true;
+			}
+			
+			switch (c.getModule()){
+				case NONE:	
+					break;
+				case FADE:{
+					Fade fade;
+					if(!moduleExists){ //create module			
 						
-						break;
-					case RANDOM:
-						Random random = new Random(out,1000);
-						new Thread(random).start();
-						moduleList.add(random);
-						break;
+						if(c.hasInterval() ){
+							fade = new Fade(out,c.getInterval());;
+						}else{
+							fade = new Fade(out); //with default color
+						}
+						out.setCurrentModule(fade);
+						manageThreadAndModule(fade);
+						
+					}else{ //only change existing module
+						fade = (Fade) out.getCurrentModule();
+						if(c.hasInterval()) fade.setFadeInterval(c.getInterval());								
+					}
+					
+					break;}
+				case CONSTANT:{
+					//check if module exists for specified output, only create new if not existing
+					ConstantColor cons;
+					if(!moduleExists){ //create module			
+						
+						if(c.hasBlue() || c.hasRed() || c.hasGreen()  ){
+							cons = new ConstantColor(out,c.getRed(),c.getGreen(),c.getBlue());
+						}else{
+							cons = new ConstantColor(out); //with default color
+						}
+						out.setCurrentModule(cons);
+						manageThreadAndModule(cons);
+						
+					}else{ //only change existing module
+						cons = (ConstantColor) out.getCurrentModule();
+						if(c.hasRed()) cons.setRed(c.getRed());
+						if(c.hasGreen()) cons.setGreen(c.getGreen());
+						if(c.hasBlue()) cons.setBlue(c.getBlue());
+						
+						synchronized(cons.getModuleThread()){
+							cons.getModuleThread().notify();
+						}					
+								
+					}
+					
+					break;}
+				case RANDOM:{
+					Random random;
+					if(!moduleExists){ //create module			
+						
+						if(c.hasInterval() ){
+							random = new Random(out,c.getInterval());;
+						}else{
+							random = new Random(out); //with default color
+						}
+						out.setCurrentModule(random);
+						manageThreadAndModule(random);
+						
+					}else{ //only change existing module
+						random = (Random) out.getCurrentModule();
+						if(c.hasInterval()) random.setInterval(c.getInterval());								
+					}
+					break;}
+		}
+		}
+		else if (c.hasAction() && c.getAction() == Command.Action.STOP){
+		
+			for(Module m : moduleList){ //currently just for testing
+				m.stop();
 			}
-			}
-			else if (c.hasAction() && c.getAction() == Command.Action.STOP){
 			
-				for(Module m : moduleList){ //currently just for testing
-					m.stop();
-				}
-				
-				None n = new None(out);
-				n.run();
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			None n = new None(out);
+			n.run();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	

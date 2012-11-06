@@ -20,6 +20,10 @@ public class Move extends ModuleLED implements Runnable{
 		pause = false;
 	}
 	
+	public Move(List<OutputLED> outs){
+		this(outs,1000);
+	}
+	
 	@Override
 	public void run() {
 		try {

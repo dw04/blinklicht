@@ -78,12 +78,6 @@ public class WebServer {
 	
 	class Handler implements HttpHandler {
 		
-		public byte[] hexToBytes(String hexString) {
-		     HexBinaryAdapter adapter = new HexBinaryAdapter();
-		     byte[] bytes = adapter.unmarshal(hexString);
-		     return bytes;
-		}
-		
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			String path = exchange.getRequestURI().toASCIIString();
@@ -129,7 +123,7 @@ public class WebServer {
 					byte[] bytes2 = new BASE64Decoder().decodeBuffer( command ); 
 					Command in = Command.parseFrom(bytes2);
 					
-					TaskManager.executeCommand(in);
+					taskmanager.executeCommand(in);
 					//System.out.println(in.toString());
 				}
 				catch(Exception e){
@@ -268,20 +262,16 @@ public class WebServer {
 			return result;
 		}
 		
-		//for testing
-		public String getHexString(byte[] b) {
-			   StringBuffer sb = new StringBuffer();
-			   for (int i = 0; i < b.length; i++){
-			      sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
-			   }
-			   return sb.toString();
-		}
 		
-		private String addIntervalSlider(String moduleName, int min, int max){
-			String identifier = moduleName;
+		private String addIntervalSlider(Command.Module moduleName, int min, int max){
+			String identifier = moduleName.name();
+			
+			Command c =  Command.newBuilder().setModule(moduleName).setInterval(0).build(); 
+			String command = new BASE64Encoder().encode( c.toByteArray() ); 
+			
 			String result=  "<div id=\"slider-container\">" +
 					"<div style=\"background-color: #000000\" id=\"chosen"+identifier+"\" class=\"chosen\">"+min+"</div>" +
-					"<div id=\"slider"+identifier+"\" class=slider>"+min+" <input id=\"slide"+identifier+"\" type=\"range\"min=\""+min+"\" max=\""+max+"\" step=\"1\" value=\"0\"onchange=\"updateSlider(this.value,'chosen"+identifier+"')\" />"+max+"   in ms"+
+					"<div id=\"slider"+identifier+"\" class=slider>"+min+" <input id=\"slide"+identifier+"\" type=\"range\"min=\""+min+"\" max=\""+max+"\" step=\"1\" value=\"0\"onchange=\"updateSlider(this.value,'chosen"+identifier+"','"+command +"')\" />"+max+"   in ms"+
 					"</div></div>";
 			return result;
 		}
@@ -304,7 +294,7 @@ public class WebServer {
 			String name = "Fade";
 			String content = "";
 			
-			content+=addIntervalSlider(name, 500, 10000);
+			content+=addIntervalSlider(Command.Module.FADE, 100, 5000);
 			
 			LEDcolor[] supported = {LEDcolor.RGB,LEDcolor.WHITE};
 			wrapLEDModule(buffer, "Fade", content, supported);
@@ -315,7 +305,7 @@ public class WebServer {
 			String name = "Random";
 			String content = "";
 			
-			content+=addIntervalSlider(name, 500, 20000);
+			content+=addIntervalSlider(Command.Module.RANDOM, 100, 5000);
 			
 			LEDcolor[] supported = {LEDcolor.RGB};
 			wrapLEDModule(buffer, "Random", content,supported);

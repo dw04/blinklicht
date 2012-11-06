@@ -49,6 +49,10 @@
                 if (typeof decoded64msg.green != 'undefined') {
                     decoded64msg.green = slideAmount;
                 }
+                if (typeof decoded64msg.interval != 'undefined') {
+                    decoded64msg.interval = slideAmount;
+                }
+
                 
 
                 var serialized = new PROTO.Base64Stream;

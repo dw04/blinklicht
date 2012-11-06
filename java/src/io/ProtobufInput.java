@@ -40,7 +40,8 @@ class Connection implements Runnable{
 				if(socket.getInputStream().available() > 0){
 					CodedInputStream inStream = CodedInputStream.newInstance(socket.getInputStream());
 					Command in = Command.parseFrom(inStream); 
-					TaskManager.executeCommand(in);
+				//	TaskManager.executeCommand(in);
+					System.err.println("Currently socket input does nothing");
 					//System.out.println("Protobuf input: " + in.getAction() + " " + in.getModule());
 					socket.close();
 					break;

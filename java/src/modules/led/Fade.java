@@ -6,6 +6,14 @@ public class Fade extends ModuleLED implements Runnable{
 
 	private int fadeInterval; // in milliseconds
 	
+	public int getFadeInterval() {
+		return fadeInterval;
+	}
+
+	public void setFadeInterval(int fadeInterval) {
+		this.fadeInterval = fadeInterval;
+	}
+
 	/**
 	 * 
 	 * @param out
@@ -19,6 +27,12 @@ public class Fade extends ModuleLED implements Runnable{
 		
 	}
 	
+	public Fade(OutputLED out){
+		this(out,1000);
+	}
+	
+
+
 	@Override
 	public void run() {
 		try {

@@ -7,6 +7,14 @@ public class Random extends ModuleLED implements Runnable{
 
 	private int interval;
 	
+	public int getInterval() {
+		return interval;
+	}
+
+	public void setInterval(int interval) {
+		this.interval = interval;
+	}
+
 	/**
 	 * 
 	 * @param out
@@ -16,6 +24,10 @@ public class Random extends ModuleLED implements Runnable{
 		super(out);
 		this.interval = interval;
 		
+	}
+	
+	public Random(OutputLED out){
+		this(out,1000);
 	}
 	
 	@Override
