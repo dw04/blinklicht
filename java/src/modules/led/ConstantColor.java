@@ -50,11 +50,46 @@ public class ConstantColor extends ModuleLED implements Runnable {
 
 	@Override
 	public void run() {
-		output.sendRGB(red, green, blue);
+		while(!stop){
+			output.sendRGB(red, green, blue);	
+			try {
+				synchronized(this.getModuleThread()){
+					this.getModuleThread().wait();
+				}
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
 	public String getName() {
 		return "constant";
+	}
+	
+	public int getRed() {
+		return red;
+	}
+
+	public void setRed(int red) {
+		this.red = red;
+	}
+
+	public int getGreen() {
+		return green;
+	}
+
+	public void setGreen(int green) {
+		this.green = green;
+	}
+
+	public int getBlue() {
+		return blue;
+	}
+
+	public void setBlue(int blue) {
+		this.blue = blue;
 	}
 }

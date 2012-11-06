@@ -7,6 +7,15 @@ import modules.led.ConstantColor;
 
 public class OutputLED implements OutputOutlet{
 
+	private ModuleLED currentModule;
+	public ModuleLED getCurrentModule() {
+		return currentModule;
+	}
+
+	public void setCurrentModule(ModuleLED currentModule) {
+		this.currentModule = currentModule;
+	}
+	
 	private DeviceLED device;
 	private int id;
 	LEDcolor color;
@@ -60,6 +69,9 @@ public class OutputLED implements OutputOutlet{
 		this.b=b;
 		try {
 			if (device.getCodeType() == DeviceCode.D_CODE) {
+				if(r==255)r=254; //quickfix
+				if(g==255)g=254;
+				if(b==255)b=254;
 				device.send("R" + r);
 				device.send("G" + g);
 				device.send("B" + b);

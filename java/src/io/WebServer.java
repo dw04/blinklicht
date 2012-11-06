@@ -36,6 +36,7 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import main.ModuleManager;
+import main.TaskManager;
 import modules.ModuleLED;
 
 import com.sun.net.httpserver.Filter;
@@ -52,6 +53,7 @@ import device.OutputRadio;
 
 public class WebServer {
 	private ModuleManager manager;
+	private TaskManager taskmanager;
 	private HttpServer server;
 	private String template;
 	private boolean stopServer = false;
@@ -118,14 +120,23 @@ public class WebServer {
 				response = "";
 			}	
 			else if(path.startsWith("/command")){
-				String command = path.split("\\/")[2];
-				String value = path.split("\\/")[3];
-				//System.out.println(command+ " " + value);
-							
-				byte[] bytes2 = new BASE64Decoder().decodeBuffer( command ); 
-				Command in = Command.parseFrom(bytes2);
+				//String command = path.split("\\/")[2];
+				String command = path.substring(path.indexOf("/", 1)+1);
+			//	String value = path.split("\\/")[3];
+				//System.out.println(command);
+		
+				try{
+					byte[] bytes2 = new BASE64Decoder().decodeBuffer( command ); 
+					Command in = Command.parseFrom(bytes2);
+					
+					TaskManager.executeCommand(in);
+					//System.out.println(in.toString());
+				}
+				catch(Exception e){
+					e.printStackTrace(System.err);
+				}
 				
-				System.out.println(in.toString());
+				
 				
 //				byte[] bytes3 = hexToBytes(command);
 //				System.out.println(Arrays.toString(bytes3));
@@ -251,7 +262,7 @@ public class WebServer {
 			
 			String result=  "<div id=\"slider-container\">" +
 					"<div style=\"background-color: #"+rgb+"\" id=\"chosen"+identifier+"\" class=\"chosen\">255</div>" +
-					"<div id=\"slider"+identifier+"\" class=slider>0 <input id=\"slide"+identifier+"\" type=\"range\"min=\"0\" max=\"255\" step=\"1\" value=\"255\"onchange=\"updateSlider(this.value,'chosen"+identifier+"','"+command+"')\" />255" +
+					"<div id=\"slider"+identifier+"\" class=slider>0 <input id=\"slide"+identifier+"\" type=\"range\"min=\"0\" max=\"255\" step=\"1\" value=\"0\"onchange=\"updateSlider(this.value,'chosen"+identifier+"','"+command+"')\" />255" +
 					"</div></div>";
 			
 			return result;
@@ -419,6 +430,7 @@ public class WebServer {
 
 	public void start(int port, ConnectionManager connection) {
 		manager=new ModuleManager(connection);
+		taskmanager = new TaskManager(connection);
 		try {
 			StringBuilder text = new StringBuilder();
 		    String nl = System.getProperty("line.separator");

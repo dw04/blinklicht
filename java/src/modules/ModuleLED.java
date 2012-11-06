@@ -4,6 +4,15 @@ import device.OutputLED;
 
 public abstract class ModuleLED implements Module, Runnable {
 	
+	private Thread moduleThread;
+	public Thread getModuleThread() {
+		return moduleThread;
+	}
+
+	public void setModuleThread(Thread moduleThread) {
+		this.moduleThread = moduleThread;
+	}
+	
 	protected OutputLED output;
 	protected boolean stop;
 	protected boolean pause;

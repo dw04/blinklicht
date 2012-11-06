@@ -44,7 +44,8 @@ public class TaskManager {
 			OutputLED out = conManager.getOutputLEDList().getFirst();
 			
 			//choose action
-			if(c.getAction() == Command.Action.START){
+			//if(c.hasAction() && c.getAction() == Command.Action.START){
+			if(c.hasModule()){
 				switch (c.getModule()){
 					case NONE:	
 						break;
@@ -54,9 +55,43 @@ public class TaskManager {
 						moduleList.add(fade);
 						break;
 					case CONSTANT:
-						ConstantColor cons = new ConstantColor(out);
-						new Thread(cons).start();
-						moduleList.add(cons);
+						//check if module exists for specified output, only create new if not existing
+						//System.out.println(out.getCurrentModule().getClass());
+						if(out.getCurrentModule() == null || out.getCurrentModule().getClass() != ConstantColor.class ){
+							//stop running module
+							if(out.getCurrentModule() != null) out.getCurrentModule().stop();
+							
+							//start constant
+							ConstantColor cons;
+							if(c.hasBlue() || c.hasRed() || c.hasGreen()  ){
+								cons = new ConstantColor(out,c.getRed(),c.getGreen(),c.getBlue());
+							}else{
+								cons = new ConstantColor(out);
+							}
+							out.setCurrentModule(cons);
+							Thread t = new Thread(cons);
+							t.start();
+							cons.setModuleThread(t);
+							moduleList.add(cons);
+						}else{ //module for out is constantcolor
+							ConstantColor cons = (ConstantColor) out.getCurrentModule();
+							if(c.hasRed()) cons.setRed(c.getRed());
+							if(c.hasGreen()) cons.setGreen(c.getGreen());
+							if(c.hasBlue()) cons.setBlue(c.getBlue());
+							
+							try{
+								synchronized(cons.getModuleThread()){
+									cons.getModuleThread().notify();
+								}					
+							}
+							catch(Exception e){
+								e.printStackTrace(System.err);
+							}
+							
+							
+							
+						}
+						
 						break;
 					case RANDOM:
 						Random random = new Random(out,1000);
@@ -65,7 +100,7 @@ public class TaskManager {
 						break;
 			}
 			}
-			else if (c.getAction() == Command.Action.STOP){
+			else if (c.hasAction() && c.getAction() == Command.Action.STOP){
 			
 				for(Module m : moduleList){ //currently just for testing
 					m.stop();
